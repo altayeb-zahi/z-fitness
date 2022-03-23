@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "725086250534",
+    "project_id": "z-fitness",
+    "storage_bucket": "z-fitness.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725086250534:android:9512881a21e5a8386828e7",
+        "android_client_info": {
+          "package_name": "com.example.z_fitness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725086250534-6j4tf9l1dj9b3f7op0eeerc7arqkbsoc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6aq1rQXeHvCbL7yXwgnw_jEbOm0NimSw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725086250534-6j4tf9l1dj9b3f7op0eeerc7arqkbsoc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
