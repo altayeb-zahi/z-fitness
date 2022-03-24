@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:z_fitness/models/food_consumed.dart';
 import 'package:z_fitness/ui/views/diary/diary_view_model.dart';
 
 import '../shared/ui_helpers.dart';
@@ -67,12 +68,25 @@ class FoodLayout extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
-                  final _food =
-                      snapshot.data?.docs[index].data() as Map<String, dynamic>;
+                  final FoodConsumed _food = FoodConsumed.fromMap(
+                      snapshot.data?.docs[index].data()
+                          as Map<String, dynamic>);
+
+                  if (_food.foodType == 'food') {
+                    final _foodDetail = _food.nutritientsDetail!.foods![0];
+                    return ListTile(
+                      title: Text(_foodDetail!.foodName ?? ''),
+                      subtitle:  Text( _foodDetail.servingQty.toString() +
+                                ' ' +
+                                _foodDetail.servingUnit!,),
+                      trailing: Text(_foodDetail.nfCalories.toString()),
+                    );
+                  }
+
                   return ListTile(
-                    title: Text(_food['name']),
-                    subtitle: const Text('amount'),
-                    trailing: Text(_food['calories']),
+                    title: Text(_food.recipeDetails!.title?? ''),
+                    subtitle:  Text(_food.recipeDetails!.servings.toString() + ' servings'),
+                    trailing: const Text('0'), //TODO change the recipe details model to include nutrition by setting includeNutrition to true so i can get the calories
                   );
                 },
               );
@@ -80,7 +94,7 @@ class FoodLayout extends StatelessWidget {
         GestureDetector(
           onTap: onAddPressed,
           child: Row(
-            children:  [
+            children: [
               verticalSpaceSmall,
               const Icon(Icons.add),
               Text(addButtonTitle)
