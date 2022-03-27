@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:z_fitness/app/router.dart';
+import 'package:z_fitness/enums/meal_type.dart';
 import 'package:z_fitness/models/calories_details.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
 
 import '../../../api/firestore_api.dart';
 import '../../../app/locator.dart';
 import '../../../models/user.dart';
-// import '../../../services/navigation_service.dart';
+import '../../../services/navigation_service.dart';
 import '../../../services/user_service.dart';
 
 class DiaryViewModel extends BaseViewModel {
   final _firestoreApi = locator<FirestoreApi>();
 
-  // final _navigationService = locator<NavigationService>();
+  final _navigationService = locator<NavigationService>();
 
   String _formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
@@ -79,5 +81,9 @@ class DiaryViewModel extends BaseViewModel {
     getSnacks();
     getExercises();
     getWater();
+  }
+
+  void navigateToAddFood({required MealType mealType}) {
+    _navigationService.navigateTo(Routes.addFoodView, arguments: mealType);
   }
 }

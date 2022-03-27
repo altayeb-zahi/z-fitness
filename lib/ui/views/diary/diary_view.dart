@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:z_fitness/enums/meal_type.dart';
 import 'package:z_fitness/ui/views/diary/diary_view_model.dart';
 import '../../dumb_widgets/calories_counter_layout.dart';
 import '../../dumb_widgets/food_layout.dart';
@@ -90,25 +91,25 @@ class _DiaryViewState extends State<DiaryView> {
   Widget _breakfast() => FoodLayout(
         title: 'Breakfast',
         stream: model.getBreakfastMeals(),
-        onAddPressed: () {},
+        onAddPressed:()=> model.navigateToAddFood(mealType: MealType.breakfast),
       );
 
   Widget _lunch() => FoodLayout(
         title: 'Lunch',
         stream: model.getLunchMeals(),
-        onAddPressed: () {},
+        onAddPressed: () => model.navigateToAddFood(mealType: MealType.launch),
       );
 
   Widget _dinner() => FoodLayout(
         title: 'Dinner',
         stream: model.getDinnerMeals(),
-        onAddPressed: () {},
+        onAddPressed: () => model.navigateToAddFood(mealType: MealType.dinner),
       );
 
   Widget _snaks() => FoodLayout(
         title: 'Snacks',
         stream: model.getSnacks(),
-        onAddPressed: () {},
+        onAddPressed: ()=> model.navigateToAddFood(mealType: MealType.snacks),
       );
 
 

@@ -1,8 +1,8 @@
 
 
 import 'package:get_it/get_it.dart';
+import 'package:z_fitness/api/food_api.dart';
 import 'package:z_fitness/services/calories_service.dart';
-
 import '../api/firestore_api.dart';
 import '../services/firebase_authentication_service.dart';
 import '../services/local_notifications_service.dart';
@@ -22,6 +22,5 @@ void setupLocator() {
   locator.registerLazySingleton<PushNotificationService>(() => PushNotificationService());
   locator.registerLazySingleton<LocalNotificationService>(() => LocalNotificationService());
   locator.registerLazySingleton<CaloriesService>(() => CaloriesService());
-
-
+  locator.registerLazySingleton<FoodApi>(() => FoodApi());
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:z_fitness/models/food_consumed.dart';
+import 'package:z_fitness/ui/dumb_widgets/food_list_tile.dart';
 import 'package:z_fitness/ui/views/diary/diary_view_model.dart';
 
 import '../shared/ui_helpers.dart';
@@ -34,6 +35,8 @@ class FoodLayout extends StatelessWidget {
             trailing:
                 Consumer<DiaryViewModel>(builder: (context, model, child) {
               int _calories = 0;
+
+              //TODO think about it first.. instead of all the if statment pass the calories value in the consturctor
 
               if (title == 'Breakfast') {
                 _calories = model.caloriesDetails.totalBreakfastCalories;
@@ -72,22 +75,7 @@ class FoodLayout extends StatelessWidget {
                       snapshot.data?.docs[index].data()
                           as Map<String, dynamic>);
 
-                  if (_food.foodType == 'food') {
-                    final _foodDetail = _food.nutritientsDetail!.foods![0];
-                    return ListTile(
-                      title: Text(_foodDetail!.foodName ?? ''),
-                      subtitle:  Text( _foodDetail.servingQty.toString() +
-                                ' ' +
-                                _foodDetail.servingUnit!,),
-                      trailing: Text(_foodDetail.nfCalories.toString()),
-                    );
-                  }
-
-                  return ListTile(
-                    title: Text(_food.recipeDetails!.title?? ''),
-                    subtitle:  Text(_food.recipeDetails!.servings.toString() + ' servings'),
-                    trailing: const Text('0'), //TODO change the recipe details model to include nutrition by setting includeNutrition to true so i can get the calories
-                  );
+                  return FoodListTile(food: _food);
                 },
               );
             }),
