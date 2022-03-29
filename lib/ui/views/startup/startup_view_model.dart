@@ -1,8 +1,10 @@
+import 'package:stacked_services/stacked_services.dart';
+
 import '../../../app/locator.dart';
 import '../../../app/logger.dart';
 import '../../../app/router.dart';
 import '../../../services/local_notifications_service.dart';
-import '../../../services/navigation_service.dart';
+// import '../../../services/navigation_service.dart';
 import '../../../services/push_notifications_service.dart';
 import '../../../services/user_service.dart';
 import '../../base/base_view_model.dart';

@@ -1,7 +1,9 @@
 //TODO change the name to  SearchedFoodType
-enum FoodType { common, branded }
+enum FoodType { commonFood, brandedFood, recipe }
 
-const Map<FoodType, String> FoodTypeString = {
-  FoodType.common: "common",
-  FoodType.branded: "branded",
+const Map<FoodType, String> foodTypeToString = {
+  FoodType.commonFood: "commonFood",
+  FoodType.brandedFood: "brandedFood",
+  FoodType.recipe: "recipe",
+
 };

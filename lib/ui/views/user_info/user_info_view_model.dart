@@ -1,9 +1,9 @@
+import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/services/calories_service.dart';
 
 import '../../../app/locator.dart';
 import '../../../app/router.dart';
 import '../../../models/user.dart';
-import '../../../services/navigation_service.dart';
 import '../../../services/user_service.dart';
 import '../../base/base_view_model.dart';
 
@@ -63,7 +63,7 @@ class UserInfoViewModel extends BaseViewModel {
 
     if (_isEditing) {
       // user updating his info from me view
-      _navigationService.goBack();
+      _navigationService.back();
     } else {
       // user adding his info first time while creating account
       _navigationService.clearStackAndShow(Routes.homeView);

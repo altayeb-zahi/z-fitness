@@ -47,6 +47,7 @@ dependencies:
   logger: ^1.1.0
   provider: ^6.0.2
   sign_in_with_apple: ^3.3.0
+  stacked_services: ^0.8.17
   table_calendar: ^3.0.4
 
 dev_dependencies:

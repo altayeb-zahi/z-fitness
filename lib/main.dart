@@ -4,9 +4,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:z_fitness/services/navigation_service.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/services/push_notifications_service.dart';
 import 'package:z_fitness/app/router.dart' as router;
+import 'package:z_fitness/ui/shared/setup_dialog.dart';
 import 'app/locator.dart';
 import 'app/router.dart';
 import 'firebase_options.dart';
@@ -29,6 +30,7 @@ void main() async {
   }
 
   setupLocator();
+  setupDialogUi();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
   runApp(const MyApp());
@@ -60,12 +62,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      navigatorKey: locator<NavigationService>().navigatorKey,
+      navigatorKey: StackedService.navigatorKey,
       onGenerateRoute: router.generateRoute,
       initialRoute: Routes.startupView,
-      theme: ThemeData(
-        primarySwatch: Colors.purple
-      ),
+      theme: ThemeData(primarySwatch: Colors.purple),
     );
   }
 }

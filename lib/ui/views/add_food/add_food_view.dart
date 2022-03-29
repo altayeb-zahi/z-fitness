@@ -36,7 +36,7 @@ class _AddFoodViewState extends State<AddFoodView> {
               backgroundColor: Colors.white,
               elevation: 0,
               title:  Text(
-                MealTypeString[widget.mealType]!,
+                mealTypeToString[widget.mealType]!,
                 style: const TextStyle(color: Colors.black),
               ),
             ),

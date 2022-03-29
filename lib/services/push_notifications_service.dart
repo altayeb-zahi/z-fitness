@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:stacked_services/stacked_services.dart';
 import '../app/locator.dart';
 import '../app/logger.dart';
 import 'local_notifications_service.dart';
-import 'navigation_service.dart';
+// import 'navigation_service.dart';
 
 ///Receives the message when app is in background ( its a solution for on message which work only in forground )
 ///this function need to be top level (not inside class or something)

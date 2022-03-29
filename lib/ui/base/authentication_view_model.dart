@@ -1,10 +1,11 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../../app/locator.dart';
 import '../../app/logger.dart';
 import '../../models/user.dart';
 import '../../services/firebase_authentication_service.dart';
-import '../../services/navigation_service.dart';
+// import '../../services/navigation_service.dart';
 import '../../services/user_service.dart';
 import 'base_view_model.dart';
 

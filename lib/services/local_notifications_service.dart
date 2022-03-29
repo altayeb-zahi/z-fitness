@@ -1,8 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:stacked_services/stacked_services.dart';
 import '../app/locator.dart';
 import '../app/logger.dart';
-import 'navigation_service.dart';
+// import 'navigation_service.dart';
 
 class LocalNotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =

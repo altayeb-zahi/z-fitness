@@ -5,7 +5,7 @@ enum MealType {
   snacks,
 }
 
-const Map<MealType, String> MealTypeString = {
+const Map<MealType, String> mealTypeToString = {
   MealType.breakfast: "breakfast",
   MealType.launch: "launch",
   MealType.dinner: "dinner",
