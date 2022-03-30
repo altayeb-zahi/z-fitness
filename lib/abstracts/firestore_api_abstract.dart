@@ -1,3 +1,5 @@
+import 'package:z_fitness/models/food_consumed.dart';
+
 import '../models/user.dart';
 
 abstract class FirestoreApiAbstract {
@@ -6,4 +8,11 @@ abstract class FirestoreApiAbstract {
   Future<void> createUser({required User user});
 
   Future<void> updateUser({required User user});
+
+  Future addFoodConsumed( {
+    required String userId,
+    required FoodConsumed foodConsumed,
+          required String date,
+          required String meal});
+
 }

@@ -1,8 +1,11 @@
 import 'package:stacked_services/stacked_services.dart';
+import 'package:z_fitness/api/firestore_api.dart';
 import 'package:z_fitness/api/food_api.dart';
 import 'package:z_fitness/app/locator.dart';
 import 'package:z_fitness/enums/food_type.dart';
+import 'package:z_fitness/enums/meal_type.dart';
 import 'package:z_fitness/models/arguments_models.dart';
+import 'package:z_fitness/models/food_consumed.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
 
 import '../../../app/logger.dart';
@@ -10,11 +13,14 @@ import '../../../enums/dialog_type.dart';
 import '../../../models/food_details.dart';
 import '../../../models/food_details_dialog_custom_data.dart';
 import '../../../models/food_details_dialog_response.dart';
+import '../../../services/user_service.dart';
 import '../../../utils/calculate_food_serving_values.dart';
 
 class FoodDetailsViewModel extends BaseViewModel {
   final _foodApi = locator<FoodApi>();
   final _dialogService = locator<DialogService>();
+  final _firestoreApi = locator<FirestoreApi>();
+  final _currentUser = locator<UserService>().currentUser;
 
   NutritientsDetail? _nutritientsDetail;
   NutritientsDetail? get nutritienstDetail => _nutritientsDetail;
@@ -56,17 +62,30 @@ class FoodDetailsViewModel extends BaseViewModel {
     setBusy(false);
   }
 
+  Future addFoodToDatabase() async {
+    await _firestoreApi.addFoodConsumed(
+        userId: _currentUser!.id!,
+        foodConsumed: FoodConsumed(
+            foodType: foodTypeToString[foodDetailsArgument.foodType]!,
+            calories: _nutritientsDetail!.foods![0]!.nfCalories!,
+            foodConsumed: nutritientsDetailsToJson(_nutritientsDetail!)),
+        date: foodDetailsArgument.date,
+        meal: mealTypeToString[foodDetailsArgument.mealType]!);
+
+        //TODO handle exeption
+  }
+
   Future setNumberOfServing() async {
     var _foodDetails = _nutritientsDetail!.foods![0]!;
     var _response = await _showServingsDialog(_foodDetails);
-  
+
     if (_response?.responseData != null &&
         _response?.responseData is DialogResponseData) {
       _updateNutrientsValues(_response?.responseData);
     }
   }
 
- Future  _showServingsDialog(Food foodDetails) async {
+  Future _showServingsDialog(Food foodDetails) async {
     return await _dialogService.showCustomDialog(
       variant: DialogType.form,
       title: 'how much?',
@@ -85,8 +104,8 @@ class FoodDetailsViewModel extends BaseViewModel {
     if (nutritionResult is String) {
       //TODO handle the exeption
       log.e('error to get nutrition details');
-    } 
-    
+    }
+
     if (nutritionResult is NutritientsDetail) {
       _nutritientsDetail = nutritionResult;
       _originalNutrientsDetail = nutritionResult;

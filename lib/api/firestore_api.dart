@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
+import 'package:z_fitness/models/food_consumed.dart';
 
 import '../abstracts/firestore_api_abstract.dart';
 import '../exceptions/firestore_api_exceptions.dart';
@@ -12,7 +13,6 @@ class FirestoreApi implements FirestoreApiAbstract {
 
   final CollectionReference _usersCollection =
       FirebaseFirestore.instance.collection('users');
-
 
   @override
   Future<void> createUser({required User user}) async {
@@ -59,20 +59,20 @@ class FirestoreApi implements FirestoreApiAbstract {
           .collection(meal)
           .snapshots();
 
-
-   Stream<DocumentSnapshot<Map<String, dynamic>>> getCaloriesDetailsForSpecificDay(
-          {required String userId,
-          required String date,
-          }) =>
-      _usersCollection
-          .doc(userId)
-          .collection('foods')
-          .doc(date)
-          .snapshots();
+  Stream<DocumentSnapshot<Map<String, dynamic>>>
+      getCaloriesDetailsForSpecificDay({
+    required String userId,
+    required String date,
+  }) =>
+          _usersCollection
+              .doc(userId)
+              .collection('foods')
+              .doc(date)
+              .snapshots();
 
   @override
-  Future<void> updateUser({required User user})async {
-      log.i('user:$user');
+  Future<void> updateUser({required User user}) async {
+    log.i('user:$user');
 
     try {
       final userDocument = _usersCollection.doc(user.id);
@@ -84,5 +84,23 @@ class FirestoreApi implements FirestoreApiAbstract {
         devDetails: '$error',
       );
     }
-  }        
+  }
+
+  @override
+  Future addFoodConsumed(
+      {required String userId,
+      required FoodConsumed foodConsumed,
+      required String date,
+      required String meal}) async {
+      log.i('FirestoreApi - UserUpdated');
+
+    try {
+     await _usersCollection
+          .doc(userId)
+          .collection('foods')
+          .doc(date)
+          .collection(meal)
+          .add(foodConsumed.toMap());
+    } catch (e) {}
+  }
 }
