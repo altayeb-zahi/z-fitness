@@ -3,13 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/app/router.dart';
 import 'package:z_fitness/enums/meal_type.dart';
+import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/models/calories_details.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
-
 import '../../../api/firestore_api.dart';
 import '../../../app/locator.dart';
 import '../../../models/user.dart';
-// import '../../../services/navigation_service.dart';
 import '../../../services/user_service.dart';
 
 class DiaryViewModel extends BaseViewModel {
@@ -85,6 +84,7 @@ class DiaryViewModel extends BaseViewModel {
   }
 
   void navigateToAddFood({required MealType mealType}) {
-    _navigationService.navigateTo(Routes.addFoodView, arguments: mealType);
+    _navigationService.navigateTo(Routes.addFoodView,
+        arguments: AddFoodArgument(mealType: mealType, date: _formattedDate));
   }
 }

@@ -3,6 +3,16 @@ import 'package:z_fitness/models/food_details.dart';
 import '../enums/food_type.dart';
 import '../enums/meal_type.dart';
 
+class AddFoodArgument {
+  MealType mealType;
+  String date;
+  AddFoodArgument({
+    required this.mealType,
+    required this.date,
+  });
+}
+
+
 class FoodDetailsArgument {
   final String date;
 
@@ -17,12 +27,12 @@ class FoodDetailsArgument {
   /// store the food nutrition details when user tap on the food from diaryView or from the history in addFoodView
   NutritientsDetail? nutritientsDetail;
 
-
-  FoodDetailsArgument(
-      {required this.date,
-      required this.foodType,
-      required this.mealType,
-      this.selectedFoodId,
-      this.nutritientsDetail,
-      });
+  FoodDetailsArgument({
+    required this.date,
+    required this.foodType,
+    required this.mealType,
+    this.selectedFoodId,
+    this.nutritientsDetail,
+  });
 }
+

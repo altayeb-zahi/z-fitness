@@ -1,4 +1,7 @@
+import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/api/food_api.dart';
+import 'package:z_fitness/app/router.dart';
+import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/models/food_consumed.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
 
@@ -7,6 +10,7 @@ import '../../../models/food_search.dart';
 
 class AddFoodViewModel extends BaseViewModel {
   final _foodApi = locator<FoodApi>();
+  final _navigationService = locator<NavigationService>();
 
   final List<FoodConsumed> _foodHistory = [];
   List<FoodConsumed> get foodHistory => _foodHistory;
@@ -34,5 +38,10 @@ class AddFoodViewModel extends BaseViewModel {
   void clearSearchResult() {
     _searchedFood.clear();
     notifyListeners();
+  }
+
+  navigateToFoodDetails(FoodDetailsArgument foodDetailsArgument) {
+    _navigationService.navigateTo(Routes.foodDetailsView,
+        arguments: foodDetailsArgument);
   }
 }

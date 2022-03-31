@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/ui/dumb_widgets/add_food_view_widgets/searched_food_history.dart';
 import 'package:z_fitness/ui/views/add_food/add_food_view_model.dart';
 
@@ -10,10 +11,10 @@ import '../../dumb_widgets/add_food_view_widgets/search_bar.dart';
 import '../../dumb_widgets/add_food_view_widgets/searched_food_list_view.dart';
 
 class AddFoodView extends StatefulWidget {
-  final MealType mealType;
+  final AddFoodArgument addFoodArgument;
   const AddFoodView({
     Key? key,
-    required this.mealType,
+    required this.addFoodArgument,
   }) : super(key: key);
 
   @override
@@ -36,7 +37,7 @@ class _AddFoodViewState extends State<AddFoodView> {
               backgroundColor: Colors.white,
               elevation: 0,
               title:  Text(
-                mealTypeToString[widget.mealType]!,
+                mealTypeToString[widget.addFoodArgument.mealType]!,
                 style: const TextStyle(color: Colors.black),
               ),
             ),
@@ -52,7 +53,9 @@ class _AddFoodViewState extends State<AddFoodView> {
                      child: const CircularProgressIndicator())),
 
                   if (model.searchedFood.isNotEmpty && !model.isBusy)
-                    SearchedFoodListView(searchedFood: model.searchedFood),
+                    SearchedFoodListView(searchedFood: model.searchedFood,
+                    onFoodPressed: (foodType,selectedFoodId) => model.navigateToFoodDetails(FoodDetailsArgument(date:widget.addFoodArgument.date , foodType: foodType,selectedFoodId: selectedFoodId, mealType: widget.addFoodArgument.mealType)),
+                    ),
                   if (model.searchedFood.isEmpty && !model.isBusy)
                     // show barcode scanner quick add and search history
                     Expanded(

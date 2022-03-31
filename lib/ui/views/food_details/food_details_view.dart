@@ -71,8 +71,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
           _servingWeight(model, context),
           const Divider(),
           _caloriesProtienCarbFat(model, context),
-          const Divider(),
-          _fullNutrients(model, context),
+        
         ],
       ),
     );
@@ -111,7 +110,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
               )),
               Text(
                 model.nutritienstDetail!.foods![0]!.servingQty.toString(),
-                style: theme.textTheme.headline2,
+                // style: theme.textTheme.headline2,
               ),
               const SizedBox(
                 width: 10,
@@ -127,7 +126,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
       onTap: () => model.setNumberOfServing(),
       child: Container(
           height: 40,
-          margin: EdgeInsets.all(5),
+          margin: const EdgeInsets.all(5),
           alignment: Alignment.centerLeft,
           child: Row(
             children: [
@@ -144,7 +143,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                 model.nutritienstDetail!.foods![0]!.servingQty.toString() +
                     ' ' +
                     model.nutritienstDetail!.foods![0]!.servingUnit.toString(),
-                style: theme.textTheme.headline2,
+                // style: theme.textTheme.headline2,
               ),
               const SizedBox(
                 width: 10,
@@ -162,9 +161,9 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
         Expanded(
           child: Column(
             children: [
-              Text(
+              const Text(
                 'calories',
-                style: theme.textTheme.bodyText1,
+                // style: theme.textTheme.bodyText1,
               ),
               verticalSpaceRegular,
               Text(
@@ -173,7 +172,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                         .toString() +
                     ' ' +
                     'kcal',
-                style: theme.textTheme.headline2,
+                // style: theme.textTheme.headline2,
               )
             ],
           ),
@@ -181,9 +180,9 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
         Expanded(
           child: Column(
             children: [
-              Text(
+              const Text(
                 'protien',
-                style: theme.textTheme.bodyText1,
+                // style: theme.textTheme.bodyText1,
               ),
               verticalSpaceRegular,
               Text(
@@ -191,7 +190,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                         .round()
                         .toString() +
                     '',
-                style: theme.textTheme.headline2,
+                // style: theme.textTheme.headline2,
               )
             ],
           ),
@@ -209,7 +208,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                         .round()
                         .toString() +
                     '',
-                style: theme.textTheme.headline2,
+                // style: theme.textTheme.headline2,
               )
             ],
           ),
@@ -217,9 +216,9 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
         Expanded(
           child: Column(
             children: [
-              Text(
+              const Text(
                 'fat',
-                style: theme.textTheme.bodyText1,
+                // style: theme.textTheme.bodyText1,
               ),
               verticalSpaceRegular,
               Text(
@@ -227,7 +226,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                         .round()
                         .toString() +
                     '',
-                style: theme.textTheme.headline2,
+                // style: theme.textTheme.headline2,
               )
             ],
           ),
@@ -259,7 +258,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                 model.nutritienstDetail!.foods![0]!.servingWeightGrams
                         .toString() +
                     ' g',
-                style: theme.textTheme.headline2,
+                // style: theme.textTheme.headline2,
               ),
               const SizedBox(
                 width: 10,
@@ -269,31 +268,4 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
     );
   }
 
-  _fullNutrients(FoodDetailsViewModel model, BuildContext context) {
-    var theme = Theme.of(context);
-    final _scrollController = ScrollController();
-    return ExpansionTile(
-      title: Text(
-        'full nutrients',
-        style: theme.textTheme.headline1,
-      ),
-      children: [
-        ListView.builder(
-            controller: _scrollController,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, index) => ListTile(
-                  title: Text(model.nutritienstDetail!.foods![0]!
-                      .fullNutrients![index].attrId
-                      .toString()),
-                  trailing: Text(model
-                      .nutritienstDetail!.foods![0]!.fullNutrients![index].value
-                      .toString()),
-                ),
-            itemCount: 0
-            // model.nutritienstDetail!.foods![0]!.fullNutrients!.length,
-            )
-      ],
-    );
-  }
 }

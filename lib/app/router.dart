@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:z_fitness/enums/meal_type.dart';
+import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/ui/views/add_food/add_food_view.dart';
+import 'package:z_fitness/ui/views/food_details/food_details_view.dart';
 import 'package:z_fitness/ui/views/user_info/user_info_view.dart';
 
 import '../ui/views/create_account/create_account_view.dart';
@@ -16,6 +17,8 @@ class Routes {
   static const String activitiesView = 'Activities';
   static const String userInfoView = 'UserInfo';
   static const String addFoodView = 'AddFood';
+  static const String foodDetailsView = 'foodDetails';
+
 }
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -36,8 +39,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const UserInfoView());
 
     case Routes.addFoodView:
-      final mealType = settings.arguments as MealType;
-      return MaterialPageRoute(builder: (context) =>  AddFoodView(mealType: mealType,));
+      final addFoodArgument = settings.arguments as AddFoodArgument;
+      return MaterialPageRoute(builder: (context) =>  AddFoodView(addFoodArgument: addFoodArgument,));
+
+ case Routes.foodDetailsView:
+      final foodDetailsArgument = settings.arguments as FoodDetailsArgument;
+      return MaterialPageRoute(builder: (context) =>  FoodDetailsView(foodDetailsArgument: foodDetailsArgument,));
 
     default:
       return MaterialPageRoute(

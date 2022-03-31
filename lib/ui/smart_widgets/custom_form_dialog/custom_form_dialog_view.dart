@@ -20,8 +20,14 @@ class _FormDialogState extends State<FormDialog> {
   final model = CustomFormDialogViewModel();
 
   @override
+  void initState() {
+    model.initialiseValues(widget.request!.data as CustomData);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final _customData = widget.request!.customData as CustomData;
+    final _customData = widget.request!.data as CustomData;
     final TextEditingController? servingSiseController =
         TextEditingController(text: _customData.numberOfServing.toString());
 

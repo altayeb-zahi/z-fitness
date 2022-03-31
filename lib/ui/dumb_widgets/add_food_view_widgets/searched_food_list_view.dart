@@ -1,13 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:z_fitness/enums/food_type.dart';
 
 import '../../../models/food_search.dart';
 
-
 class SearchedFoodListView extends StatelessWidget {
   final List<dynamic> searchedFood;
+  final void Function(FoodType foodType, String selectedFoodId) onFoodPressed;
 
-  const SearchedFoodListView({Key? key, required this.searchedFood})
+  const SearchedFoodListView(
+      {Key? key, required this.searchedFood, required this.onFoodPressed})
       : super(key: key);
 
   @override
@@ -21,8 +23,7 @@ class SearchedFoodListView extends StatelessWidget {
             // Branded food title
             if (searchedFood[index] is String) {
               return Container(
-                  color: Colors.white,
-
+                color: Colors.white,
                 child: const ListTile(
                   title: Text(
                     'Branded',
@@ -36,10 +37,9 @@ class SearchedFoodListView extends StatelessWidget {
               );
             }
 
-             if (searchedFood[index] is int) {
+            if (searchedFood[index] is int) {
               return Container(
-                  color: Colors.white,
-
+                color: Colors.white,
                 child: const ListTile(
                   title: Text(
                     'Common',
@@ -56,7 +56,8 @@ class SearchedFoodListView extends StatelessWidget {
             // branded food
             if (searchedFood[index] is Branded) {
               return GestureDetector(
-                onTap: () {},
+                onTap: () => onFoodPressed(
+                    FoodType.brandedFood, searchedFood[index].nixItemId),
                 child: Container(
                   color: Colors.white,
                   margin: const EdgeInsets.all(3),
@@ -82,10 +83,10 @@ class SearchedFoodListView extends StatelessWidget {
 
             // common food (not branded)
             return GestureDetector(
-              onTap: () {},
+              onTap: () => onFoodPressed(
+                  FoodType.commonFood, searchedFood[index].foodName),
               child: Container(
-                  color: Colors.white,
-
+                color: Colors.white,
                 margin: const EdgeInsets.all(3),
                 child: ListTile(
                   leading: CachedNetworkImage(
