@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../models/food_consumed.dart';
+import '../../../models/food_models/food_consumed.dart';
 import '../../shared/ui_helpers.dart';
 import '../food_list_tile.dart';
 

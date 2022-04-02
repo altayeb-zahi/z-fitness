@@ -1,4 +1,4 @@
-import 'package:z_fitness/models/food_details.dart';
+import 'package:z_fitness/models/food_models/food_details.dart';
 
 import '../enums/food_type.dart';
 import '../enums/meal_type.dart';

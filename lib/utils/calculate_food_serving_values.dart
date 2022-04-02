@@ -1,5 +1,5 @@
-import '../models/food_details.dart';
-import '../models/food_details_dialog_response.dart';
+import '../models/food_models/food_details.dart';
+import '../models/food_models/food_details_dialog_response.dart';
 
 /// Using the serving_weight parameter value from the alt_measure array,
 /// you can derive the nutrients in each serving by dividing that serving weight by

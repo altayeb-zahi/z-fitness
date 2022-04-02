@@ -1,4 +1,4 @@
-import 'package:z_fitness/models/food_consumed.dart';
+import 'package:z_fitness/models/food_models/food_consumed.dart';
 
 import '../models/user.dart';
 

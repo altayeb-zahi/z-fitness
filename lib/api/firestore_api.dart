@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logger/logger.dart';
-import 'package:z_fitness/models/food_consumed.dart';
+import 'package:z_fitness/models/food_models/food_consumed.dart';
 
 import '../abstracts/firestore_api_abstract.dart';
 import '../exceptions/firestore_api_exceptions.dart';

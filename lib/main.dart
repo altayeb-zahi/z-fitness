@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/services/push_notifications_service.dart';
 import 'package:z_fitness/app/router.dart' as router;
+import 'package:z_fitness/ui/shared/setup_bottom_sheet.dart';
 import 'package:z_fitness/ui/shared/setup_dialog.dart';
 import 'app/locator.dart';
 import 'app/router.dart';
@@ -31,6 +32,7 @@ void main() async {
 
   setupLocator();
   setupDialogUi();
+  setupBottomSheetUi();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
   runApp(const MyApp());

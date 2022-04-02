@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import '../app/logger.dart';
 import '../constants/http_constants.dart';
 import '../enums/food_type.dart';
-import '../models/food_details.dart';
-import '../models/food_search.dart';
+import '../models/food_models/food_details.dart';
+import '../models/food_models/food_search.dart';
 
 class FoodApi {
   Future getSearchedFood({required String searchText}) async {

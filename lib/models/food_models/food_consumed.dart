@@ -1,5 +1,6 @@
-import 'package:z_fitness/models/food_details.dart';
-import 'package:z_fitness/models/recipe_details.dart';
+import 'package:z_fitness/enums/food_type.dart';
+import 'package:z_fitness/models/food_models/food_details.dart';
+import 'package:z_fitness/models/recipes_models/recipe_details.dart';
 
 class FoodConsumed {
   String? id;
@@ -37,10 +38,10 @@ class FoodConsumed {
         foodType: map['foodType'] ?? '',
         calories: map['calories'],
         foodConsumed: map['foodConsumed'] ?? '',
-        nutritientsDetail: map['foodType'] == 'food'
-            ? NutritientsDetail.fromJson(map['foodConsumed'])
+        nutritientsDetail: map['foodType'] == foodTypeToString[FoodType.brandedFood] || map['foodType'] == foodTypeToString[FoodType.commonFood]
+            ? nutritientsDetailsFromJson(map['foodConsumed'] )
             : null,
-        recipeDetails: map['foodType'] == 'recipe'
+        recipeDetails: map['foodType'] == foodTypeToString[FoodType.recipe]
             ? RecipeDetails.fromJson(map['foodConsumed'])
             : null);
   }

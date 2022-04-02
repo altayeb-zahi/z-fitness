@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:z_fitness/enums/food_type.dart';
 
-import 'package:z_fitness/models/food_consumed.dart';
+import 'package:z_fitness/models/food_models/food_consumed.dart';
 
 class FoodListTile extends StatelessWidget {
   final FoodConsumed food;
@@ -18,7 +18,7 @@ class FoodListTile extends StatelessWidget {
       return ListTile(
         title: Text(food.recipeDetails!.title ?? ''),
         subtitle: Text(food.recipeDetails!.servings.toString() + ' servings'),
-        trailing: Text(food.calories.toString()),
+        trailing: Text(food.calories.round().toString()),
       );
     }
 
@@ -29,7 +29,7 @@ class FoodListTile extends StatelessWidget {
       subtitle: Text(
         _foodDetail.servingQty.toString() + ' ' + _foodDetail.servingUnit!,
       ),
-      trailing: Text(food.calories.toString()),
+      trailing: Text(food.calories.round().toString()),
     );
   }
 }

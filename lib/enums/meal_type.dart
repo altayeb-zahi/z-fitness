@@ -7,7 +7,7 @@ enum MealType {
 
 const Map<MealType, String> mealTypeToString = {
   MealType.breakfast: "breakfast",
-  MealType.launch: "launch",
+  MealType.launch: "lunch",
   MealType.dinner: "dinner",
   MealType.snacks: "snacks",
 };

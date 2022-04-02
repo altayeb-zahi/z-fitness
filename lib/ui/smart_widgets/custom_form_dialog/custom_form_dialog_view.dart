@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/ui/smart_widgets/custom_form_dialog/custom_form_dialog_view_model.dart';
 
-import '../../../models/food_details.dart';
-import '../../../models/food_details_dialog_custom_data.dart';
-import '../../../models/food_details_dialog_response.dart';
+import '../../../models/food_models/food_details.dart';
+import '../../../models/food_models/food_details_dialog_custom_data.dart';
+import '../../../models/food_models/food_details_dialog_response.dart';
 
 class FormDialog extends StatefulWidget {
   final DialogRequest? request;

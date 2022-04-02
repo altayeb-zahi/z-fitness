@@ -56,16 +56,27 @@ class DiaryViewModel extends BaseViewModel {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getBreakfastMeals() =>
       _firestoreApi.getFood(
-          userId: currentUser.id!, date: _formattedDate, meal: 'breakfast');
+          userId: currentUser.id!,
+          date: _formattedDate,
+          meal: mealTypeToString[MealType.breakfast]!);
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getLunchMeals() => _firestoreApi
-      .getFood(userId: currentUser.id!, date: _formattedDate, meal: 'lunch');
+  Stream<QuerySnapshot<Map<String, dynamic>>> getLunchMeals() =>
+      _firestoreApi.getFood(
+          userId: currentUser.id!,
+          date: _formattedDate,
+          meal: mealTypeToString[MealType.launch]!);
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getDinnerMeals() => _firestoreApi
-      .getFood(userId: currentUser.id!, date: _formattedDate, meal: 'dinner');
+  Stream<QuerySnapshot<Map<String, dynamic>>> getDinnerMeals() =>
+      _firestoreApi.getFood(
+          userId: currentUser.id!,
+          date: _formattedDate,
+          meal: mealTypeToString[MealType.dinner]!);
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getSnacks() => _firestoreApi
-      .getFood(userId: currentUser.id!, date: _formattedDate, meal: 'snacks');
+  Stream<QuerySnapshot<Map<String, dynamic>>> getSnacks() =>
+      _firestoreApi.getFood(
+          userId: currentUser.id!,
+          date: _formattedDate,
+          meal: mealTypeToString[MealType.snacks]!);
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getExercises() =>
       _firestoreApi.getFood(

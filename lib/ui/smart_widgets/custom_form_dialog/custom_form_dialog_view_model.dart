@@ -1,5 +1,5 @@
-import '../../../models/food_details.dart';
-import '../../../models/food_details_dialog_custom_data.dart';
+import '../../../models/food_models/food_details.dart';
+import '../../../models/food_models/food_details_dialog_custom_data.dart';
 import '../../base/base_view_model.dart';
 
 class CustomFormDialogViewModel extends BaseViewModel {

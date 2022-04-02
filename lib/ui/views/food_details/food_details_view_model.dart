@@ -5,14 +5,14 @@ import 'package:z_fitness/app/locator.dart';
 import 'package:z_fitness/enums/food_type.dart';
 import 'package:z_fitness/enums/meal_type.dart';
 import 'package:z_fitness/models/arguments_models.dart';
-import 'package:z_fitness/models/food_consumed.dart';
+import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
 
 import '../../../app/logger.dart';
 import '../../../enums/dialog_type.dart';
-import '../../../models/food_details.dart';
-import '../../../models/food_details_dialog_custom_data.dart';
-import '../../../models/food_details_dialog_response.dart';
+import '../../../models/food_models/food_details.dart';
+import '../../../models/food_models/food_details_dialog_custom_data.dart';
+import '../../../models/food_models/food_details_dialog_response.dart';
 import '../../../services/user_service.dart';
 import '../../../utils/calculate_food_serving_values.dart';
 
@@ -21,6 +21,7 @@ class FoodDetailsViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _firestoreApi = locator<FirestoreApi>();
   final _currentUser = locator<UserService>().currentUser;
+  final _navigationService = locator<NavigationService>();
 
   NutritientsDetail? _nutritientsDetail;
   NutritientsDetail? get nutritienstDetail => _nutritientsDetail;
@@ -72,16 +73,16 @@ class FoodDetailsViewModel extends BaseViewModel {
         date: foodDetailsArgument.date,
         meal: mealTypeToString[foodDetailsArgument.mealType]!);
 
-        //TODO handle exeption
+    //TODO handle exeption
+    _navigationService.popUntil((route) => route.isFirst);
   }
 
   Future setNumberOfServing() async {
     var _foodDetails = _nutritientsDetail!.foods![0]!;
     var _response = await _showServingsDialog(_foodDetails);
 
-    if (_response?.responseData != null &&
-        _response?.responseData is DialogResponseData) {
-      _updateNutrientsValues(_response?.responseData);
+    if (_response?.data != null && _response?.data is DialogResponseData) {
+      _updateNutrientsValues(_response?.data);
     }
   }
 

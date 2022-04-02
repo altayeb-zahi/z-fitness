@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:z_fitness/models/food_consumed.dart';
+import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/ui/dumb_widgets/food_list_tile.dart';
 import 'package:z_fitness/ui/views/diary/diary_view_model.dart';
 
+import '../../app/logger.dart';
 import '../shared/ui_helpers.dart';
 
 class FoodLayout extends StatelessWidget {
@@ -28,6 +29,7 @@ class FoodLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log.i('food layout is built for $title');
     return Column(
       children: [
         ListTile(

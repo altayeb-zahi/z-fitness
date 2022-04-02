@@ -59,8 +59,8 @@ class RecipeDetails {
     final String? gaps;
     final bool? lowFodmap;
     final int? aggregateLikes;
-    final int? spoonacularScore;
-    final int? healthScore;
+    final double? spoonacularScore;
+    final double? healthScore;
     final String? creditsText;
     final String? license;
     final String? sourceName;

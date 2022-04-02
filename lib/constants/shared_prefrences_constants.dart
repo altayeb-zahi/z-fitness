@@ -1,0 +1,1 @@
+const recipeFiltersSettingsKey = 'recipeFiltersSettings';
