@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/ui/dumb_widgets/food_list_tile.dart';
-import 'package:z_fitness/ui/views/diary/diary_view_model.dart';
 
+import '../../app/diary_view_model.dart';
 import '../../app/logger.dart';
 import '../shared/ui_helpers.dart';
 

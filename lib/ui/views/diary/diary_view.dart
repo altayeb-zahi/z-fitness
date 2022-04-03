@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:z_fitness/enums/meal_type.dart';
-import 'package:z_fitness/ui/views/diary/diary_view_model.dart';
+import '../../../app/diary_view_model.dart';
 import '../../dumb_widgets/calories_counter_layout.dart';
 import '../../dumb_widgets/food_layout.dart';
 import '../../shared/ui_helpers.dart';

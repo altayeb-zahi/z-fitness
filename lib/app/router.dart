@@ -4,6 +4,7 @@ import 'package:z_fitness/models/recipes_models/recipe_search.dart';
 import 'package:z_fitness/ui/views/add_food/add_food_view.dart';
 import 'package:z_fitness/ui/views/food_details/food_details_view.dart';
 import 'package:z_fitness/ui/views/recipe_details/recipe_details_view.dart';
+import 'package:z_fitness/ui/views/recipe_insturctions/recipe_instructions_steps_view_model.dart';
 import 'package:z_fitness/ui/views/user_info/user_info_view.dart';
 
 import '../ui/views/create_account/create_account_view.dart';
@@ -21,6 +22,8 @@ class Routes {
   static const String addFoodView = 'AddFood';
   static const String foodDetailsView = 'foodDetails';
   static const String recipeDetailsView = 'recipeDetails';
+  static const String recipeInstructionsView = 'recipeInstructions';
+
 
 
 }
@@ -53,6 +56,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       case Routes.recipeDetailsView:
       final recipeResult = settings.arguments as RecipeResult;
       return MaterialPageRoute(builder: (context) =>  RecipeDetailsView(result: recipeResult,));
+
+       case Routes.recipeInstructionsView:
+      final recipeId = settings.arguments as int;
+      return MaterialPageRoute(builder: (context) =>  RecipeInstructionsView(id: recipeId,));
 
     default:
       return MaterialPageRoute(

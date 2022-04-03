@@ -1,5 +1,6 @@
 
 import '../enums/recipes_related_enums.dart';
+import '../models/recipes_models/recipe_intolerance.dart';
 
 const List<RecipeMealType> recipeMealTypesList = [
   RecipeMealType.all,
@@ -118,3 +119,19 @@ const List<RecipeSortBy> recipeSortByList = [
   RecipeSortBy.sugar,
   RecipeSortBy.zinc,
 ];
+
+
+ List<IntoleranceModel> defaultIntoleranceTypeList = [
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.dairy], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.egg], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.gluten], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.grain], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.peanut], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.seafood], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.sesame], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.shellfish], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.soy], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.sulfite], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.treeNut], false),
+    IntoleranceModel(intoleranceTypesToString[IntoleranceTypes.wheat], false)
+  ];

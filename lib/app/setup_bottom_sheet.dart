@@ -2,9 +2,9 @@ import 'package:stacked_services/stacked_services.dart';
 
 import '../../app/locator.dart';
 import '../../enums/bottom_sheet_type.dart';
-import '../../enums/dialog_type.dart';
-import '../smart_widgets/custom_form_dialog/custom_form_dialog_view.dart';
-import '../smart_widgets/recipes_filters_bottom_sheet/recipes_filters_bottom_sheet_view.dart';
+import '../enums/dialog_type.dart';
+import '../ui/smart_widgets/custom_form_dialog/custom_form_dialog_view.dart';
+import '../ui/smart_widgets/recipes_filters_bottom_sheet/recipes_filters_bottom_sheet_view.dart';
 
 void setupBottomSheetUi() {
   final bottomSheetService = locator<BottomSheetService>();

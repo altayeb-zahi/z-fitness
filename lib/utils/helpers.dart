@@ -1,3 +1,13 @@
+
+import 'package:html/parser.dart';
+
 T convertToEnum<T>(List<T> values, String value) {
   return values.firstWhere((e) => e.toString() == value);
+}
+
+String parseHtmlString(String htmlString) {
+final document = parse(htmlString);
+final String parsedString = parse(document.body!.text).documentElement!.text;
+
+return parsedString;
 }

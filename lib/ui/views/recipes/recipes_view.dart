@@ -166,6 +166,11 @@ class _RecipesViewState extends State<RecipesView> {
                   );
                 }),
           ),
+           if(model.isLoading)
+          Container(
+            alignment: Alignment.center,
+            width: double.infinity,
+            child: const CircularProgressIndicator(color: Colors.purple,))
         ],
       ),
     );
@@ -174,6 +179,7 @@ class _RecipesViewState extends State<RecipesView> {
   recipesBody(RecipesViewModel model, BuildContext context) {
     // var theme = Theme.of(context);
     return Expanded(
+      
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -229,6 +235,11 @@ class _RecipesViewState extends State<RecipesView> {
                   );
                 }),
           ),
+          if(model.isLoading)
+          Container(
+            alignment: Alignment.center,
+            width: double.infinity,
+            child: const CircularProgressIndicator(color: Colors.purple,))
         ],
       ),
     );

@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 import '../models/recipes_models/recipe_search.dart';
 import '../models/recipes_models/recipe_steps.dart';
 
-
 class RecipesApi {
   Future getCustomRecipesearch(
       {
@@ -19,15 +18,19 @@ class RecipesApi {
       String searchText = '',
       String? cuisine = '',
       String? diet = '',
-      required List<IntoleranceModel> intolerances,
+      List<IntoleranceModel>? intolerances,
       String? type = '',
       String? sort = '',
       int offset = 0,
       int pageSize = 0}) async {
-    List<IntoleranceModel> selectedIntolerances =
-        await getSelectedIntolerance(intolerances);
-    String converetedToOneLineStringIntolerances =
-        await _convertIntolerancesListToOneString(selectedIntolerances);
+    String? converetedToOneLineStringIntolerances;
+
+    if (intolerances != null) {
+      List<IntoleranceModel> selectedIntolerances =
+          await getSelectedIntolerance(intolerances);
+       converetedToOneLineStringIntolerances =
+          await _convertIntolerancesListToOneString(selectedIntolerances);
+    }
 
     var _response = await http.get(
         Uri.parse(searchRecipeEndPoint +

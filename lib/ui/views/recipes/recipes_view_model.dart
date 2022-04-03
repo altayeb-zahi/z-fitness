@@ -47,6 +47,14 @@ class RecipesViewModel extends BaseViewModel {
   int _currentPage = 1;
   int _searchCurrentPage = 1;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void setLoading(bool loadingState) {
+    _isLoading = loadingState;
+    notifyListeners();
+  }
+
   Future initialiseRecipes() async {
     var recipesSettingsResult =
         await _preferencesService.getRecipesFiltersSettings();
@@ -85,7 +93,6 @@ class RecipesViewModel extends BaseViewModel {
   }
 
   Future handlePagenation(int index) async {
-    //TODO the pagination is not woriking properly check why and change the circut indicator to show under the grid when model is busy
     var itemPosition = index + 1;
     var requestMoreData = itemPosition % pageSize == 0 && itemPosition != 0;
     var pageToRequest = (itemPosition ~/ pageSize) + 1;
@@ -94,9 +101,11 @@ class RecipesViewModel extends BaseViewModel {
       _offset = _offset + pageSize;
       _currentPage = pageToRequest;
 
-      _showLoadingIndicator();
+      setLoading(true);
+
       await _getMoreRecipes();
-      _removeLoadingIndicator();
+
+      setLoading(false);
     }
   }
 
@@ -109,9 +118,11 @@ class RecipesViewModel extends BaseViewModel {
       _searchOffset = _searchOffset + pageSize;
       _searchCurrentPage = pageToRequest;
 
-      _showLoadingIndicator(search: true);
+      setLoading(true);
+
       await _getMoreRecipes(searchText: searchText);
-      _removeLoadingIndicator(search: true);
+
+      setLoading(false);
     }
   }
 
@@ -121,9 +132,7 @@ class RecipesViewModel extends BaseViewModel {
         cuisine:
             _cuisine == CuisineType.all ? '' : cuisineTypeToString[_cuisine],
         diet: _diet == DietType.all ? '' : dietTypeToString[_diet],
-        intolerances: _intolerances!.isEmpty
-            ? '' as List<IntoleranceModel>
-            : _intolerances!,
+        intolerances: _intolerances!,
         type: _mealType == RecipeMealType.all
             ? ''
             : recipeMealTypeToString[_mealType],
@@ -140,23 +149,7 @@ class RecipesViewModel extends BaseViewModel {
     }
   }
 
-  void _showLoadingIndicator({bool search = false}) {
-    if (search) {
-      _searchedRecipes!.add(RecipeResult(carbs: '^'));
-    } else {
-      _recipesList!.add(RecipeResult(carbs: '^'));
-    }
-    notifyListeners();
-  }
-
-  void _removeLoadingIndicator({bool search = false}) {
-    if (search) {
-      _searchedRecipes!.removeWhere((element) => element.carbs == '^');
-    } else {
-      _recipesList!.removeWhere((element) => element.carbs == '^');
-    }
-    notifyListeners();
-  }
+  
 
   Future showBottomSheet() async {
     var confirmationResponse = await (_bottomSheetService.showCustomSheet(

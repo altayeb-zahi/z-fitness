@@ -11,6 +11,8 @@ import '../../../app/locator.dart';
 import '../../../models/user.dart';
 import '../../../services/user_service.dart';
 
+//TODO when upload recipe to firestore and navigate back the currentIndex shoud go back to 0
+
 class DiaryViewModel extends BaseViewModel {
   final _firestoreApi = locator<FirestoreApi>();
 
