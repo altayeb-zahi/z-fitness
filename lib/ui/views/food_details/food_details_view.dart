@@ -81,7 +81,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
     var theme = Theme.of(context);
     return Container(
         height: 40,
-        margin: EdgeInsets.all(5),
+        margin: const EdgeInsets.all(5),
         alignment: Alignment.centerLeft,
         child: Text(
           model.nutritienstDetail!.foods![0]!.foodName ?? '',

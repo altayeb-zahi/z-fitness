@@ -1,7 +1,7 @@
 
 import 'package:html/parser.dart';
 
-T convertToEnum<T>(List<T> values, String value) {
+T convertStringToEnum<T>(List<T> values, String value) {
   return values.firstWhere((e) => e.toString() == value);
 }
 

@@ -20,7 +20,6 @@ const bool useEmulator = false;
 const String ipAdress = '192.168.0.110';
 
 void main() async {
-  // TODO add onBackground message
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

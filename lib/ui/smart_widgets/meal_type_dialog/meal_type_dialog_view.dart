@@ -45,7 +45,7 @@ class _MealTypeDialogViewState extends State<MealTypeDialogView> {
                     itemBuilder: (context, index) => GestureDetector(
                         onTap: () => widget. completer!(DialogResponse(
                             data:
-                                mealTypeToString[model.mealTypeList[index]])),
+                                model.mealTypeList[index])),
                         child: ListTile(
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

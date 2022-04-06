@@ -330,7 +330,7 @@ packages:
       name: get_it
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.2.0"
+    version: "6.1.1"
   google_fonts:
     dependency: transitive
     description:
@@ -673,7 +673,7 @@ packages:
     source: hosted
     version: "1.8.1"
   sqflite:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqflite
       url: "https://pub.dartlang.org"
@@ -686,6 +686,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
+  sqflite_migration_service:
+    dependency: "direct main"
+    description:
+      name: sqflite_migration_service
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   stack_trace:
     dependency: transitive
     description:

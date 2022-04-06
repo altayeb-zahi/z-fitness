@@ -1,10 +1,13 @@
 import 'package:z_fitness/enums/food_type.dart';
+import 'package:z_fitness/enums/meal_type.dart';
 import 'package:z_fitness/models/food_models/food_details.dart';
 import 'package:z_fitness/models/recipes_models/recipe_details.dart';
+import 'package:z_fitness/utils/helpers.dart';
 
 class FoodConsumed {
   String? id;
-  String foodType;
+  FoodType foodType;
+  MealType mealType;
   double calories;
   String foodConsumed;
   //TODO find better name for NutritientsDetail
@@ -14,6 +17,7 @@ class FoodConsumed {
   FoodConsumed(
       {this.id,
       required this.foodType,
+      required this.mealType,
       required this.calories,
       required this.foodConsumed,
       this.nutritientsDetail,
@@ -22,7 +26,8 @@ class FoodConsumed {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'foodType': foodType,
+      'foodType': foodTypeToString[foodType],
+      'mealType': mealTypeToString[mealType],
       'calories': calories,
       'foodConsumed': foodConsumed,
       'nutritientsDetail': nutritientsDetail != null
@@ -35,12 +40,15 @@ class FoodConsumed {
   factory FoodConsumed.fromMap(Map<String, dynamic> map) {
     return FoodConsumed(
         id: map['id'],
-        foodType: map['foodType'] ?? '',
+        foodType: convertStringToEnum(FoodType.values, map['foodType']),
+        mealType: convertStringToEnum(MealType.values, map['mealType']),
         calories: map['calories'],
-        foodConsumed: map['foodConsumed'] ?? '',
-        nutritientsDetail: map['foodType'] == foodTypeToString[FoodType.brandedFood] || map['foodType'] == foodTypeToString[FoodType.commonFood]
-            ? nutritientsDetailsFromJson(map['foodConsumed'] )
-            : null,
+        foodConsumed: map['foodConsumed'],
+        nutritientsDetail:
+            map['foodType'] == foodTypeToString[FoodType.brandedFood] ||
+                    map['foodType'] == foodTypeToString[FoodType.commonFood]
+                ? nutritientsDetailsFromJson(map['foodConsumed'])
+                : null,
         recipeDetails: map['foodType'] == foodTypeToString[FoodType.recipe]
             ? RecipeDetails.fromJson(map['foodConsumed'])
             : null);

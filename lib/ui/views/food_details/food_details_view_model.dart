@@ -67,11 +67,12 @@ class FoodDetailsViewModel extends BaseViewModel {
     await _firestoreApi.addFoodConsumed(
         userId: _currentUser!.id!,
         foodConsumed: FoodConsumed(
-            foodType: foodTypeToString[foodDetailsArgument.foodType]!,
+            foodType: foodDetailsArgument.foodType,
+            mealType: foodDetailsArgument.mealType ,
             calories: _nutritientsDetail!.foods![0]!.nfCalories!,
             foodConsumed: nutritientsDetailsToJson(_nutritientsDetail!)),
         date: foodDetailsArgument.date,
-        meal: mealTypeToString[foodDetailsArgument.mealType]!);
+        mealType: mealTypeToString[foodDetailsArgument.mealType]!);
 
     //TODO handle exeption
     _navigationService.popUntil((route) => route.isFirst);

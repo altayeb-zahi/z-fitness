@@ -4,6 +4,7 @@ class User {
   String? id;
   String? name;
   String? email;
+  String? profilePic;
   String? token;
   String? gender;
   String? activityLevel;
@@ -15,21 +16,21 @@ class User {
   double? bmr;
   int? age;
 
-  User({
-    this.id,
-    this.name,
-    this.email,
-    this.token,
-    this.gender,
-    this.activityLevel,
-    this.dateOfBirth,
-    this.height,
-    this.currentWeight,
-    this.desiredWeight,
-    this.dailyCaloriesGoal,
-    this.bmr,
-    this.age
-  });
+  User(
+      {this.id,
+      this.name,
+      this.email,
+      this.profilePic,
+      this.token,
+      this.gender,
+      this.activityLevel,
+      this.dateOfBirth,
+      this.height,
+      this.currentWeight,
+      this.desiredWeight,
+      this.dailyCaloriesGoal,
+      this.bmr,
+      this.age});
 
   bool get hasWeightInfo => dateOfBirth?.isNotEmpty ?? false;
 
@@ -38,6 +39,7 @@ class User {
       'id': id,
       'name': name,
       'email': email,
+      'profilePic':profilePic,
       'token': token,
       'gender': gender,
       'activityLevel': activityLevel,
@@ -56,6 +58,7 @@ class User {
       id: map['id'],
       name: map['name'],
       email: map['email'],
+      profilePic:map['profilePic'],
       token: map['token'],
       gender: map['gender'],
       activityLevel: map['activityLevel'],

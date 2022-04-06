@@ -21,10 +21,10 @@ class CaloriesService {
   Future syncCaloriesGoal(User? currentUser) async {
     log.i('caloriesService - syncCaloriesGoal');
 
-    var gender = convertToEnum(Gender.values, currentUser!.gender!);
+    var gender = convertStringToEnum(Gender.values, currentUser!.gender!);
 
     _activityLevel =
-        convertToEnum(ActivityLevel.values, currentUser.activityLevel!);
+        convertStringToEnum(ActivityLevel.values, currentUser.activityLevel!);
 
     _age = await _getUserAge(dateOfBirth: currentUser.dateOfBirth!);
 

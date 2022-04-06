@@ -13,7 +13,7 @@ class FoodListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (food.foodType == foodTypeToString[FoodType.recipe]) {
+    if (foodTypeToString[food.foodType] == foodTypeToString[FoodType.recipe]) {
       // recipe
       return ListTile(
         title: Text(food.recipeDetails!.title ?? ''),

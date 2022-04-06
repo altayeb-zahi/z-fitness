@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:z_fitness/enums/meal_type.dart';
-import '../../../app/diary_view_model.dart';
+import 'diary_view_model.dart';
 import '../../dumb_widgets/calories_counter_layout.dart';
 import '../../dumb_widgets/food_layout.dart';
 import '../../shared/ui_helpers.dart';
@@ -49,7 +49,6 @@ class _DiaryViewState extends State<DiaryView> {
                 divider,
                 _water(),
                 divider
-               
               ],
             ),
           ),
@@ -84,40 +83,53 @@ class _DiaryViewState extends State<DiaryView> {
   Widget _caloriesRemaining() => Consumer<DiaryViewModel>(
         builder: (context, model, child) => CaloriesCounterLayout(
           caloriesDetails: model.caloriesDetails,
-         
         ),
       );
 
   Widget _breakfast() => FoodLayout(
         title: 'Breakfast',
         stream: model.getBreakfastMeals(),
-        onAddPressed:()=> model.navigateToAddFood(mealType: MealType.breakfast),
+        onAddPressed: () =>
+            model.navigateToAddFood(mealType: MealType.breakfast),
+        onFoodLongPressed: (foodConsumed) =>
+            model.onFoodLongPressed(foodConsumed),
+        onFoodPressed: (foodConsumed) => model.onFoodPressed(foodConsumed),
       );
 
   Widget _lunch() => FoodLayout(
         title: 'Lunch',
         stream: model.getLunchMeals(),
         onAddPressed: () => model.navigateToAddFood(mealType: MealType.launch),
+        onFoodLongPressed: (foodConsumed) =>
+            model.onFoodLongPressed(foodConsumed),
+        onFoodPressed: (foodConsumed) => model.onFoodPressed(foodConsumed),
       );
 
   Widget _dinner() => FoodLayout(
         title: 'Dinner',
         stream: model.getDinnerMeals(),
         onAddPressed: () => model.navigateToAddFood(mealType: MealType.dinner),
+        onFoodLongPressed: (foodConsumed) =>
+            model.onFoodLongPressed(foodConsumed),
+        onFoodPressed: (foodConsumed) => model.onFoodPressed(foodConsumed),
       );
 
   Widget _snaks() => FoodLayout(
         title: 'Snacks',
         stream: model.getSnacks(),
-        onAddPressed: ()=> model.navigateToAddFood(mealType: MealType.snacks),
+        onAddPressed: () => model.navigateToAddFood(mealType: MealType.snacks),
+        onFoodLongPressed: (foodConsumed) =>
+            model.onFoodLongPressed(foodConsumed),
+        onFoodPressed: (foodConsumed) => model.onFoodPressed(foodConsumed),
       );
 
-
-        Widget _exercises() => FoodLayout(
+  Widget _exercises() => FoodLayout(
         title: 'Exercise',
         addButtonTitle: 'add exercise',
         stream: model.getExercises(),
         onAddPressed: () {},
+        onFoodLongPressed: (foodConsumed) {},
+        onFoodPressed: (foodConsumed) {},
       );
 
   Widget _water() => FoodLayout(
@@ -125,5 +137,7 @@ class _DiaryViewState extends State<DiaryView> {
         addButtonTitle: 'add water',
         stream: model.getWater(),
         onAddPressed: () {},
+        onFoodLongPressed: (foodConsumed) {},
+        onFoodPressed: (foodConsumed) {},
       );
 }

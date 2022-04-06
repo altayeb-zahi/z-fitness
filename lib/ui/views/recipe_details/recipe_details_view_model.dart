@@ -4,6 +4,8 @@ import 'package:z_fitness/api/firestore_api.dart';
 import 'package:z_fitness/api/recipes_api.dart';
 import 'package:z_fitness/app/router.dart';
 import 'package:z_fitness/enums/food_type.dart';
+import 'package:z_fitness/enums/meal_type.dart';
+import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import '../../../app/locator.dart';
 import '../../../enums/dialog_type.dart';
@@ -18,14 +20,26 @@ class RecipeDetailsViewModel extends BaseViewModel {
   final _firestoreApi = locator<FirestoreApi>();
   final _currentUser = locator<UserService>().currentUser;
 
+  late RecipeDetailsArgument recipeDetailsArgument;
+
   RecipeDetails? _recipeDetails;
   RecipeDetails? get recipeDetails => _recipeDetails;
 
-  Future<void> getRecipeDetails(int? id) async {
+   void onModelReady() {
+    if (recipeDetailsArgument.recipeDetails == null) {
+      _getRecipeDetailsFromApi();
+    } else {
+      _recipeDetails = recipeDetailsArgument.recipeDetails!;
+      notifyListeners();
+    }
+  }
+
+
+  Future<void> _getRecipeDetailsFromApi() async {
     setBusy(true);
 
-    var _recipeDetailsResult =
-        await _recipesApi.getRecipeDetails(id: id, includeNutrition: true);
+    var _recipeDetailsResult = await _recipesApi.getRecipeDetails(
+        id: recipeDetailsArgument.recipeId, includeNutrition: true);
 
     setBusy(false);
 
@@ -42,20 +56,21 @@ class RecipeDetailsViewModel extends BaseViewModel {
     ));
 
     if (confirmationResponse!.data != null &&
-        confirmationResponse.data is String) {
+        confirmationResponse.data is MealType) {
       _addRecipeToDailyFoodConcusmed(confirmationResponse.data);
     }
   }
 
-  Future<void> _addRecipeToDailyFoodConcusmed(String mealType) async {
+  Future<void> _addRecipeToDailyFoodConcusmed(MealType mealType) async {
     await _firestoreApi.addFoodConsumed(
         userId: _currentUser!.id!,
         foodConsumed: FoodConsumed(
-            foodType: foodTypeToString[FoodType.recipe]!,
+            foodType: FoodType.recipe,
+            mealType: mealType,
             calories: _recipeDetails!.recipeToNutrients!.calories.toDouble(),
             foodConsumed: _recipeDetails!.toJson()),
         date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
-        meal: mealType);
+        mealType: mealTypeToString[mealType]!);
 
     //TODO handle the execption
     _navigationService.popUntil((route) => route.isFirst);

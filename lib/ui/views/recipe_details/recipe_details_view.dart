@@ -2,19 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:z_fitness/models/arguments_models.dart';
 
 import 'package:z_fitness/ui/views/recipe_details/recipe_details_view_model.dart';
 
-import '../../../models/recipes_models/recipe_search.dart';
 import '../../../utils/helpers.dart';
 import '../../shared/ui_helpers.dart';
 
 class RecipeDetailsView extends StatefulWidget {
   //TODO change the image size from the website to suitable size
-  final RecipeResult result;
+  final RecipeDetailsArgument recipeDetailsArgument;
   const RecipeDetailsView({
     Key? key,
-    required this.result,
+    required this.recipeDetailsArgument,
   }) : super(key: key);
 
   @override
@@ -26,7 +26,8 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
 
   @override
   void initState() {
-    model.getRecipeDetails(widget.result.id);
+    model.recipeDetailsArgument = widget.recipeDetailsArgument;
+    model.onModelReady();
     super.initState();
   }
 
@@ -36,11 +37,9 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
       create: (BuildContext context) => model,
       child: Consumer<RecipeDetailsViewModel>(
         builder: (context, model, child) => Scaffold(
-          backgroundColor: Colors.white,
+            backgroundColor: Colors.white,
             appBar: AppBar(
-               iconTheme: const IconThemeData(
-    color: Colors.black
-  ),
+              iconTheme: const IconThemeData(color: Colors.black),
               backgroundColor: Colors.white,
               elevation: 0,
             ),
@@ -113,8 +112,8 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
             ]),
             GestureDetector(
               behavior: HitTestBehavior.translucent,
-              onTap: () => model.navigateToRecipeStepsInstructions(
-                  model.recipeDetails!.id),
+              onTap: () => model
+                  .navigateToRecipeStepsInstructions(model.recipeDetails!.id),
               child: Column(children: const [
                 Icon(Icons.kitchen_outlined),
                 verticalSpaceSmall,
@@ -178,7 +177,9 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                       // style: theme.textTheme.bodyText2
                     ),
                     Text(
-                      model.recipeDetails!.recipeToNutrients!.protein.toString() + ' g',
+                      model.recipeDetails!.recipeToNutrients!.protein
+                              .toString() +
+                          ' g',
                       // style: theme.textTheme.bodyText1
                     )
                   ],
@@ -202,7 +203,8 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                       // style: theme.textTheme.bodyText2
                     ),
                     Text(
-                      model.recipeDetails!.recipeToNutrients!.carb.toString() + ' g',
+                      model.recipeDetails!.recipeToNutrients!.carb.toString() +
+                          ' g',
                       // style: theme.textTheme.bodyText1
                     )
                   ],
@@ -225,7 +227,8 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                       // style: theme.textTheme.bodyText2
                     ),
                     Text(
-                      model.recipeDetails!.recipeToNutrients!.fat.toString() + ' g',
+                      model.recipeDetails!.recipeToNutrients!.fat.toString() +
+                          ' g',
                       // style: theme.textTheme.bodyText1
                     )
                   ],
@@ -274,8 +277,8 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                             return const Icon(Icons.error);
                           },
                         ),
-                        Text(model.recipeDetails!
-                            .extendedIngredients![index].name!),
+                        Text(model
+                            .recipeDetails!.extendedIngredients![index].name!),
                       ],
                     ),
                   ),

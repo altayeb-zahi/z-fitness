@@ -1,4 +1,5 @@
 import 'package:z_fitness/models/food_models/food_details.dart';
+import 'package:z_fitness/models/recipes_models/recipe_details.dart';
 
 import '../enums/food_type.dart';
 import '../enums/meal_type.dart';
@@ -34,5 +35,26 @@ class FoodDetailsArgument {
     this.selectedFoodId,
     this.nutritientsDetail,
   });
+}
+
+class RecipeDetailsArgument {
+  final String date;
+
+  final FoodType foodType;
+
+  final MealType mealType;
+
+  final int recipeId;
+
+  /// store the food nutrition details when user tap on the food from diaryView or from the history in addFoodView
+  RecipeDetails? recipeDetails;
+  RecipeDetailsArgument({
+    required this.date,
+    required this.foodType,
+    required this.mealType,
+    required this.recipeId,
+    this.recipeDetails,
+  });
+
 }
 

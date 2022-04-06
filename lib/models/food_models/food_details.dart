@@ -86,7 +86,7 @@ class Food {
         foodName: json["food_name"],
         foodType: json['foodType'],
         brandName:
-            // ignore: prefer_null_aware_operators
+        
             json["brand_name"] == null ? null : json["brand_name"].toString(),
         servingQty:
             json["serving_qty"] == null ? null : json["serving_qty"].toDouble(),

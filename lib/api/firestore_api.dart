@@ -48,15 +48,16 @@ class FirestoreApi implements FirestoreApiAbstract {
     }
   }
 
+  @override
   Stream<QuerySnapshot<Map<String, dynamic>>> getFood(
           {required String userId,
           required String date,
-          required String meal}) =>
+          required String mealType}) =>
       _usersCollection
           .doc(userId)
           .collection('foods')
           .doc(date)
-          .collection(meal)
+          .collection(mealType)
           .snapshots();
 
   Stream<DocumentSnapshot<Map<String, dynamic>>>
@@ -91,16 +92,43 @@ class FirestoreApi implements FirestoreApiAbstract {
       {required String userId,
       required FoodConsumed foodConsumed,
       required String date,
-      required String meal}) async {
-      log.i('FirestoreApi - UserUpdated');
+      required String mealType}) async {
+    log.i('FirestoreApi - UserUpdated');
 
     try {
-     await _usersCollection
+      await _usersCollection
           .doc(userId)
           .collection('foods')
           .doc(date)
-          .collection(meal)
+          .collection(mealType)
           .add(foodConsumed.toMap());
-    } catch (e) {}
+    } catch (e) {
+      log.e(e);
+    }
+  }
+
+  @override
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserStream(
+          {required String userId}) =>
+      _usersCollection.doc(userId).snapshots()
+          as Stream<DocumentSnapshot<Map<String, dynamic>>>;
+
+  @override
+  Future deleteFood(
+      {required String userId,
+      required String foodId,
+      required String date,
+      required String mealType}) async {
+    try {
+      await _usersCollection
+          .doc(userId)
+          .collection('foods')
+          .doc(date)
+          .collection(mealType)
+          .doc(foodId)
+          .delete();
+    } catch (e) {
+      log.e(e);
+    }
   }
 }

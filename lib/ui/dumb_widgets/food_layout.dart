@@ -1,35 +1,39 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/ui/dumb_widgets/food_list_tile.dart';
 
-import '../../app/diary_view_model.dart';
 import '../../app/logger.dart';
 import '../shared/ui_helpers.dart';
+import '../views/diary/diary_view_model.dart';
 
 class FoodLayout extends StatelessWidget {
   final String title;
   final String addButtonTitle;
 
   final void Function() onAddPressed;
-  // final Function(String something)? onFoodPressed;
-  // final Function(int foodId)? onFoodLongPressed;
+  final Function(FoodConsumed foodConsumed) onFoodPressed;
+  final Function(FoodConsumed foodConsumed) onFoodLongPressed;
   final Stream<QuerySnapshot<Map<String, dynamic>>> stream;
 
   const FoodLayout({
     Key? key,
+    // this.onFoodPressed,
+    // this.onFoodLongPressed,
     required this.title,
     this.addButtonTitle = 'add food',
     required this.onAddPressed,
-    // this.onFoodPressed,
-    // this.onFoodLongPressed,
+    required this.onFoodPressed,
+    required this.onFoodLongPressed,
     required this.stream,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     log.i('food layout is built for $title');
+
     return Column(
       children: [
         ListTile(
@@ -60,6 +64,14 @@ class FoodLayout extends StatelessWidget {
             stream: stream,
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  // to add the id to the the foodConsumed
+              final foodConsumedList = snapshot.data!.docs.map((doc) {
+                final foodConsumed =
+                    FoodConsumed.fromMap(doc.data() as Map<String, dynamic>);
+                foodConsumed.id = doc.id;
+                return foodConsumed;
+              }).toList();
+
               if (snapshot.hasError) {
                 return const Text('Something went wrong');
               }
@@ -73,11 +85,12 @@ class FoodLayout extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
-                  final FoodConsumed _food = FoodConsumed.fromMap(
-                      snapshot.data?.docs[index].data()
-                          as Map<String, dynamic>);
+                  final FoodConsumed _food = foodConsumedList[index];
 
-                  return FoodListTile(food: _food);
+                  return GestureDetector(
+                      onTap: onFoodPressed(_food),
+                      onLongPress: onFoodLongPressed(_food),
+                      child: FoodListTile(food: _food));
                 },
               );
             }),
