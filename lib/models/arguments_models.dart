@@ -13,7 +13,6 @@ class AddFoodArgument {
   });
 }
 
-
 class FoodDetailsArgument {
   final String date;
 
@@ -28,33 +27,41 @@ class FoodDetailsArgument {
   /// store the food nutrition details when user tap on the food from diaryView or from the history in addFoodView
   NutritientsDetail? nutritientsDetail;
 
+  bool userIsEditingFoodDetails;
+  bool foodDetailsAreComingFromHistory;
+
   FoodDetailsArgument({
     required this.date,
     required this.foodType,
     required this.mealType,
     this.selectedFoodId,
     this.nutritientsDetail,
+    this.userIsEditingFoodDetails =false,
+    this.foodDetailsAreComingFromHistory = false
   });
 }
 
 class RecipeDetailsArgument {
-  final String date;
+  final String? date;
 
-  final FoodType foodType;
+  final FoodType? foodType;
 
-  final MealType mealType;
+  final MealType? mealType;
 
   final int recipeId;
+
+  bool userIsEditingRecipeDetails;
+  bool recipeDetailsAreComingFromHistory;
 
   /// store the food nutrition details when user tap on the food from diaryView or from the history in addFoodView
   RecipeDetails? recipeDetails;
   RecipeDetailsArgument({
-    required this.date,
-    required this.foodType,
-    required this.mealType,
+    this.date,
+    this.foodType,
+    this.mealType,
     required this.recipeId,
     this.recipeDetails,
+     this.userIsEditingRecipeDetails =false,
+    this.recipeDetailsAreComingFromHistory = false
   });
-
 }
-

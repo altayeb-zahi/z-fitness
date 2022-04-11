@@ -10,6 +10,7 @@ import 'package:z_fitness/models/food_models/food_consumed.dart';
 import '../../../app/locator.dart';
 import '../../../enums/dialog_type.dart';
 import '../../../models/recipes_models/recipe_details.dart';
+import '../../../services/database_service.dart';
 import '../../../services/user_service.dart';
 import '../../base/base_view_model.dart';
 
@@ -19,21 +20,42 @@ class RecipeDetailsViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _firestoreApi = locator<FirestoreApi>();
   final _currentUser = locator<UserService>().currentUser;
+  final _databaseService = locator<DatabaseService>();
 
   late RecipeDetailsArgument recipeDetailsArgument;
 
   RecipeDetails? _recipeDetails;
   RecipeDetails? get recipeDetails => _recipeDetails;
 
-   void onModelReady() {
-    if (recipeDetailsArgument.recipeDetails == null) {
-      _getRecipeDetailsFromApi();
-    } else {
+  bool _foodIsStoredLocally = true;
+
+  Future<void> onModelReady() async {
+    bool _userIsEditingFoodDetails =
+        recipeDetailsArgument.userIsEditingRecipeDetails;
+    bool _foodDetailsAreComingFromHistory =
+        recipeDetailsArgument.recipeDetailsAreComingFromHistory;
+
+    if (_userIsEditingFoodDetails || _foodDetailsAreComingFromHistory) {
       _recipeDetails = recipeDetailsArgument.recipeDetails!;
       notifyListeners();
+    } else {
+      setBusy(true);
+
+      final _result = await _databaseService
+          .getRecipeFromDatabase(recipeDetailsArgument.recipeId);
+
+      setBusy(false);
+
+      _foodIsStoredLocally = _result != null;
+
+      if (_foodIsStoredLocally) {
+        _recipeDetails = _result!.recipeDetails;
+        notifyListeners();
+      } else {
+        _getRecipeDetailsFromApi();
+      }
     }
   }
-
 
   Future<void> _getRecipeDetailsFromApi() async {
     setBusy(true);
@@ -62,15 +84,25 @@ class RecipeDetailsViewModel extends BaseViewModel {
   }
 
   Future<void> _addRecipeToDailyFoodConcusmed(MealType mealType) async {
+     final _foodConsumed = FoodConsumed(
+        isStoredLocally: _foodIsStoredLocally,
+        recipeApiId: recipeDetailsArgument.recipeId,
+        foodType: FoodType.recipe,
+        mealType:mealType,
+        calories: _recipeDetails!.recipeToNutrients!.calories.toDouble(),
+        foodConsumed: _recipeDetails!.toJson(),
+        );
+
+
     await _firestoreApi.addFoodConsumed(
         userId: _currentUser!.id!,
-        foodConsumed: FoodConsumed(
-            foodType: FoodType.recipe,
-            mealType: mealType,
-            calories: _recipeDetails!.recipeToNutrients!.calories.toDouble(),
-            foodConsumed: _recipeDetails!.toJson()),
+        foodConsumed: _foodConsumed,
         date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+        //TODO check why mealType is reapeated here and up
         mealType: mealTypeToString[mealType]!);
+
+         _foodConsumed.forDatabase = true;
+    await _databaseService.addFoodToDatabase(_foodConsumed);
 
     //TODO handle the execption
     _navigationService.popUntil((route) => route.isFirst);

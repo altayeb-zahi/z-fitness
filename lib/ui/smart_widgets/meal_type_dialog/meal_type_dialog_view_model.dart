@@ -5,7 +5,7 @@ import '../../base/base_view_model.dart';
 class MealTypeDialogViewModel extends BaseViewModel {
   List<MealType> mealTypeList = [
     MealType.breakfast,
-    MealType.launch,
+    MealType.lunch,
     MealType.dinner,
     MealType.snacks
   ];

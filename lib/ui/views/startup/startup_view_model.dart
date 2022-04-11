@@ -1,4 +1,5 @@
 import 'package:stacked_services/stacked_services.dart';
+import 'package:z_fitness/services/database_service.dart';
 
 import '../../../app/locator.dart';
 import '../../../app/logger.dart';
@@ -13,10 +14,12 @@ class StartupViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   final _pushNotificationService = locator<PushNotificationService>();
   final _localNotifcationService = locator<LocalNotificationService>();
+  final _databaseService = locator<DatabaseService>();
 
   Future<void> runStartupLogic() async {
     await _localNotifcationService.initialize();
     await _pushNotificationService.initialise();
+    await _databaseService.initialise();
 
     if (_userService.hasLoggedInUser) {
       log.v('We have a user session on disk. Sync the user profile ...');

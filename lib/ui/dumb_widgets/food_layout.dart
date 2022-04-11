@@ -14,8 +14,8 @@ class FoodLayout extends StatelessWidget {
   final String addButtonTitle;
 
   final void Function() onAddPressed;
-  final Function(FoodConsumed foodConsumed) onFoodPressed;
-  final Function(FoodConsumed foodConsumed) onFoodLongPressed;
+  final void Function(FoodConsumed foodConsumed) onFoodPressed;
+  final void Function(FoodConsumed foodConsumed) onFoodLongPressed;
   final Stream<QuerySnapshot<Map<String, dynamic>>> stream;
 
   const FoodLayout({
@@ -64,13 +64,8 @@ class FoodLayout extends StatelessWidget {
             stream: stream,
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  // to add the id to the the foodConsumed
-              final foodConsumedList = snapshot.data!.docs.map((doc) {
-                final foodConsumed =
-                    FoodConsumed.fromMap(doc.data() as Map<String, dynamic>);
-                foodConsumed.id = doc.id;
-                return foodConsumed;
-              }).toList();
+              // to add the id to the the foodConsumed
+              List<FoodConsumed> foodConsumedList = [];
 
               if (snapshot.hasError) {
                 return const Text('Something went wrong');
@@ -78,6 +73,15 @@ class FoodLayout extends StatelessWidget {
 
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Container();
+              }
+
+              if (snapshot.hasData) {
+                foodConsumedList = snapshot.data!.docs.map((doc) {
+                  final foodConsumed =
+                      FoodConsumed.fromMap(doc.data() as Map<String, dynamic>);
+                  foodConsumed.id = doc.id;
+                  return foodConsumed;
+                }).toList();
               }
 
               return ListView.builder(
@@ -88,8 +92,8 @@ class FoodLayout extends StatelessWidget {
                   final FoodConsumed _food = foodConsumedList[index];
 
                   return GestureDetector(
-                      onTap: onFoodPressed(_food),
-                      onLongPress: onFoodLongPressed(_food),
+                      onTap: () => onFoodPressed(_food),
+                      onLongPress: () => onFoodLongPressed(_food),
                       child: FoodListTile(food: _food));
                 },
               );

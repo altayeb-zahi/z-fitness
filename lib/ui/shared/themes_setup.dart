@@ -6,6 +6,7 @@ var lightTheme = ThemeData(
   primaryColor: const Color(0xFF512D6D),
   iconTheme: const IconThemeData(color: Color(0xff00C1D4)),
   textTheme: const TextTheme(
+    
       headline1: TextStyle(
           fontSize: 16.0, fontWeight: FontWeight.w500, color: Colors.black),
       headline2: TextStyle(

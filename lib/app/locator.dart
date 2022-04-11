@@ -3,11 +3,11 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/api/food_api.dart';
 import 'package:z_fitness/api/recipes_api.dart';
 import 'package:z_fitness/services/calories_service.dart';
+import 'package:z_fitness/services/database_service.dart';
 import 'package:z_fitness/services/shared_prefrences_service.dart';
 import '../api/firestore_api.dart';
 import '../services/firebase_authentication_service.dart';
 import '../services/local_notifications_service.dart';
-// import '../services/navigation_service.dart';
 import '../services/push_notifications_service.dart';
 import '../services/user_service.dart';
 
@@ -31,4 +31,6 @@ void setupLocator() {
   locator.registerLazySingleton<BottomSheetService>(() => BottomSheetService());
   locator.registerLazySingleton<SharedPreferencesService>(
       () => SharedPreferencesService());
+  locator.registerLazySingleton<DatabaseService>(() => DatabaseService());
+
 }

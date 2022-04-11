@@ -23,6 +23,15 @@ class AddFoodView extends StatefulWidget {
 
 class _AddFoodViewState extends State<AddFoodView> {
   final model = AddFoodViewModel();
+
+  @override
+  void initState() {
+    model.addFoodArgument = widget.addFoodArgument;
+    model.getFoodHistory();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -31,12 +40,12 @@ class _AddFoodViewState extends State<AddFoodView> {
           builder: (context, model, child) => Scaffold(
             backgroundColor: Colors.grey[100],
             appBar: AppBar(
-               iconTheme: const IconThemeData(
-    color: Colors.black, //change your color here
-  ),
+              iconTheme: const IconThemeData(
+                color: Colors.black, //change your color here
+              ),
               backgroundColor: Colors.white,
               elevation: 0,
-              title:  Text(
+              title: Text(
                 mealTypeToString[widget.addFoodArgument.mealType]!,
                 style: const TextStyle(color: Colors.black),
               ),
@@ -45,16 +54,25 @@ class _AddFoodViewState extends State<AddFoodView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SearchBar(onSearch: model.getSearchedFood, onClear: model.clearSearchResult,),
-            
-                  if(model.isBusy)
-                   Center(child: Container(
-                     margin: const EdgeInsets.only(top: 20),
-                     child: const CircularProgressIndicator())),
-
+                  SearchBar(
+                    onSearch: model.getSearchedFood,
+                    onClear: model.clearSearchResult,
+                  ),
+                  if (model.isBusy)
+                    Center(
+                        child: Container(
+                            margin: const EdgeInsets.only(top: 20),
+                            child: const CircularProgressIndicator())),
                   if (model.searchedFood.isNotEmpty && !model.isBusy)
-                    SearchedFoodListView(searchedFood: model.searchedFood,
-                    onFoodPressed: (foodType,selectedFoodId) => model.navigateToFoodDetails(FoodDetailsArgument(date:widget.addFoodArgument.date , foodType: foodType,selectedFoodId: selectedFoodId, mealType: widget.addFoodArgument.mealType)),
+                    SearchedFoodListView(
+                      searchedFood: model.searchedFood,
+                      onFoodPressed: (foodType, selectedFoodId) =>
+                          model.navigateToFoodDetails(FoodDetailsArgument(
+                            
+                              date: widget.addFoodArgument.date,
+                              foodType: foodType,
+                              selectedFoodId: selectedFoodId,
+                              mealType: widget.addFoodArgument.mealType)),
                     ),
                   if (model.searchedFood.isEmpty && !model.isBusy)
                     // show barcode scanner quick add and search history
@@ -67,6 +85,7 @@ class _AddFoodViewState extends State<AddFoodView> {
                                 onScanBarcode: () {}, onQuickAdd: () {}),
                             SearchedFoodHistory(
                               foodHistory: model.foodHistory,
+                              onHistoryItemPressed: (foodConsumed) => model.onHistoryItemPressed(foodConsumed),
                             )
                           ],
                         ),

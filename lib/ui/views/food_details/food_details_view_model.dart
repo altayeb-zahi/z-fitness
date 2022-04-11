@@ -6,6 +6,7 @@ import 'package:z_fitness/enums/food_type.dart';
 import 'package:z_fitness/enums/meal_type.dart';
 import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
+import 'package:z_fitness/services/database_service.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
 
 import '../../../app/logger.dart';
@@ -22,6 +23,7 @@ class FoodDetailsViewModel extends BaseViewModel {
   final _firestoreApi = locator<FirestoreApi>();
   final _currentUser = locator<UserService>().currentUser;
   final _navigationService = locator<NavigationService>();
+  final _databaseService = locator<DatabaseService>();
 
   NutritientsDetail? _nutritientsDetail;
   NutritientsDetail? get nutritienstDetail => _nutritientsDetail;
@@ -31,13 +33,35 @@ class FoodDetailsViewModel extends BaseViewModel {
 
   late FoodDetailsArgument foodDetailsArgument;
 
-  void onModelReady() {
-    if (foodDetailsArgument.nutritientsDetail == null) {
-      _getFoodDetailsFromApi();
-    } else {
+  bool _foodIsStoredLocally = true;
+
+  Future<void> onModelReady() async {
+    bool _userIsEditingFoodDetails =
+        foodDetailsArgument.userIsEditingFoodDetails;
+    bool _foodDetailsAreComingFromHistory =
+        foodDetailsArgument.foodDetailsAreComingFromHistory;
+
+    if (_userIsEditingFoodDetails || _foodDetailsAreComingFromHistory) {
       _nutritientsDetail = foodDetailsArgument.nutritientsDetail!;
       _originalNutrientsDetail = foodDetailsArgument.nutritientsDetail!;
       notifyListeners();
+    } else {
+      setBusy(true);
+
+      final _result = await _databaseService
+          .getFoodFromDatabase(foodDetailsArgument.selectedFoodId!);
+
+      setBusy(false);
+
+      _foodIsStoredLocally = _result != null;
+
+      if (_foodIsStoredLocally) {
+        _nutritientsDetail = _result!.nutritientsDetail;
+        _originalNutrientsDetail = _result.nutritientsDetail!;
+        notifyListeners();
+      } else {
+        _getFoodDetailsFromApi();
+      }
     }
   }
 
@@ -64,15 +88,24 @@ class FoodDetailsViewModel extends BaseViewModel {
   }
 
   Future addFoodToDatabase() async {
+    final _foodConsumed = FoodConsumed(
+        isStoredLocally: _foodIsStoredLocally,
+        foodApiId: foodDetailsArgument.selectedFoodId,
+        foodType: foodDetailsArgument.foodType,
+        mealType: foodDetailsArgument.mealType,
+        calories: _nutritientsDetail!.foods![0]!.nfCalories!,
+        foodConsumed: nutritientsDetailsToJson(
+          _nutritientsDetail!,
+        ));
+
     await _firestoreApi.addFoodConsumed(
         userId: _currentUser!.id!,
-        foodConsumed: FoodConsumed(
-            foodType: foodDetailsArgument.foodType,
-            mealType: foodDetailsArgument.mealType ,
-            calories: _nutritientsDetail!.foods![0]!.nfCalories!,
-            foodConsumed: nutritientsDetailsToJson(_nutritientsDetail!)),
+        foodConsumed: _foodConsumed,
         date: foodDetailsArgument.date,
         mealType: mealTypeToString[foodDetailsArgument.mealType]!);
+    
+    _foodConsumed.forDatabase = true;
+    await _databaseService.addFoodToDatabase(_foodConsumed);
 
     //TODO handle exeption
     _navigationService.popUntil((route) => route.isFirst);

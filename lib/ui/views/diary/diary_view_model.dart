@@ -12,6 +12,7 @@ import '../../../../../api/firestore_api.dart';
 import '../../../../../app/locator.dart';
 import '../../../../../models/user.dart';
 import '../../../../../services/user_service.dart';
+import '../../../app/logger.dart';
 
 //TODO when upload recipe to firestore and navigate back the currentIndex shoud go back to 0
 
@@ -81,6 +82,7 @@ class DiaryViewModel extends BaseViewModel {
         foodTypeToString[FoodType.recipe]) {
       _navigationService.navigateTo(Routes.recipeDetailsView,
           arguments: RecipeDetailsArgument(
+            userIsEditingRecipeDetails: true,
               date: _formattedDate,
               foodType: foodConsumed.foodType,
               mealType: foodConsumed.mealType,
@@ -89,9 +91,12 @@ class DiaryViewModel extends BaseViewModel {
     } else {
       _navigationService.navigateTo(Routes.foodDetailsView,
           arguments: FoodDetailsArgument(
+            userIsEditingFoodDetails: true,
               date: _formattedDate,
               foodType: foodConsumed.foodType,
-              mealType: foodConsumed.mealType));
+              mealType: foodConsumed.mealType,
+              selectedFoodId: foodConsumed.foodApiId
+              ));
     }
   }
 
@@ -110,7 +115,7 @@ class DiaryViewModel extends BaseViewModel {
       _firestoreApi.getFood(
           userId: currentUser.id!,
           date: _formattedDate,
-          mealType: mealTypeToString[MealType.launch]!);
+          mealType: mealTypeToString[MealType.lunch]!);
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getDinnerMeals() =>
       _firestoreApi.getFood(

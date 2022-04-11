@@ -99,7 +99,7 @@ class _DiaryViewState extends State<DiaryView> {
   Widget _lunch() => FoodLayout(
         title: 'Lunch',
         stream: model.getLunchMeals(),
-        onAddPressed: () => model.navigateToAddFood(mealType: MealType.launch),
+        onAddPressed: () => model.navigateToAddFood(mealType: MealType.lunch),
         onFoodLongPressed: (foodConsumed) =>
             model.onFoodLongPressed(foodConsumed),
         onFoodPressed: (foodConsumed) => model.onFoodPressed(foodConsumed),

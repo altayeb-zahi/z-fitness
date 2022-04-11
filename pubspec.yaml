@@ -40,7 +40,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_local_notifications: ^9.4.0
-  get_it: ^6.0.0
+  get_it: ^7.2.0
   google_sign_in: ^5.2.4
   html: ^0.15.0
   http: ^0.13.4
@@ -50,8 +50,7 @@ dependencies:
   readmore: ^2.1.0
   shared_preferences: ^2.0.13
   sign_in_with_apple: ^3.3.0
-  sqflite: ^2.0.0+3
-  sqflite_migration_service: ^1.0.6
+  sqflite: ^2.0.2
   stacked_services: ^0.8.17
   table_calendar: ^3.0.4
 

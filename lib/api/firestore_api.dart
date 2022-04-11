@@ -131,4 +131,26 @@ class FirestoreApi implements FirestoreApiAbstract {
       log.e(e);
     }
   }
+
+  Future getFoodHistory(String userId) async {
+    log.i('firestoreApi - getFoodHistory');
+    
+    List<FoodConsumed> _foodHistory = [];
+
+    try {
+      final _querySnapshot =
+          await _usersCollection.doc(userId).collection('history').get();
+
+      if (_querySnapshot.docs.isNotEmpty) {
+        for (var doc in _querySnapshot.docs) {
+          final _foodConsumed = FoodConsumed.fromMap(doc.data());
+          _foodHistory.add(_foodConsumed);
+        }
+      }
+
+      if (_foodHistory.isNotEmpty) return _foodHistory;
+    } catch (e) {
+      log.e(e);
+    }
+  }
 }

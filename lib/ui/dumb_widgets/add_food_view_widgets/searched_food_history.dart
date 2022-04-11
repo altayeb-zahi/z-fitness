@@ -6,10 +6,12 @@ import '../food_list_tile.dart';
 
 class SearchedFoodHistory extends StatelessWidget {
   final List<FoodConsumed> foodHistory;
+  final void Function(FoodConsumed foodConsumed) onHistoryItemPressed;
 
   const SearchedFoodHistory({
     Key? key,
     required this.foodHistory,
+    required this.onHistoryItemPressed
   }) : super(key: key);
 
   @override
@@ -27,7 +29,10 @@ class SearchedFoodHistory extends StatelessWidget {
                     itemCount: foodHistory.length,
                     itemBuilder: (context, index) {
                       final _food = foodHistory[index];
-                      return FoodListTile(food: _food);
+                      return GestureDetector(
+                        
+                        onTap: () => onHistoryItemPressed(foodHistory[index]),
+                        child: FoodListTile(food: _food));
                     }),
                 if (foodHistory.isEmpty)
                   SizedBox(

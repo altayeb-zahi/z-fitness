@@ -1,5 +1,6 @@
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/app/router.dart';
+import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
 
 import '../../../api/recipes_api.dart';
@@ -149,8 +150,6 @@ class RecipesViewModel extends BaseViewModel {
     }
   }
 
-  
-
   Future showBottomSheet() async {
     var confirmationResponse = await (_bottomSheetService.showCustomSheet(
         variant: BottomSheetType.recipeFilters,
@@ -179,7 +178,8 @@ class RecipesViewModel extends BaseViewModel {
   }
 
   void navigateToRecipeDetils(RecipeResult result) {
-    _navigationService.navigateTo(Routes.recipeDetailsView, arguments: result);
+    final recipeDetailsArgument = RecipeDetailsArgument(recipeId: result.id!);
+    _navigationService.navigateTo(Routes.recipeDetailsView, arguments: recipeDetailsArgument);
   }
 
   void _setRecipesFiltersSetttingsValues(
