@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:z_fitness/models/calories_details.dart';
+
 class User {
   String? id;
   String? name;
@@ -16,6 +18,8 @@ class User {
   double? bmr;
   int? age;
 
+  CaloriesDetails? caloriesDetails;
+
   User(
       {this.id,
       this.name,
@@ -30,7 +34,9 @@ class User {
       this.desiredWeight,
       this.dailyCaloriesGoal,
       this.bmr,
-      this.age});
+      this.age,
+      this.caloriesDetails
+      });
 
   bool get hasWeightInfo => dateOfBirth?.isNotEmpty ?? false;
 
@@ -39,7 +45,7 @@ class User {
       'id': id,
       'name': name,
       'email': email,
-      'profilePic':profilePic,
+      'profilePic': profilePic,
       'token': token,
       'gender': gender,
       'activityLevel': activityLevel,
@@ -50,6 +56,7 @@ class User {
       'dailyCaloriesGoal': dailyCaloriesGoal,
       'bmr': bmr,
       'age': age,
+      'caloriesDetails':caloriesDetails!= null? caloriesDetails!.toMap():null,
     };
   }
 
@@ -58,7 +65,7 @@ class User {
       id: map['id'],
       name: map['name'],
       email: map['email'],
-      profilePic:map['profilePic'],
+      profilePic: map['profilePic'],
       token: map['token'],
       gender: map['gender'],
       activityLevel: map['activityLevel'],
@@ -69,6 +76,7 @@ class User {
       dailyCaloriesGoal: map['dailyCaloriesGoal']?.toDouble(),
       bmr: map['bmr']?.toDouble(),
       age: map['age']?.toInt(),
+      caloriesDetails: map['caloriesDetails'] != null? CaloriesDetails.fromMap(map['caloriesDetails']):null,
     );
   }
 

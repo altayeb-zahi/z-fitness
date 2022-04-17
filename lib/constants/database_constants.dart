@@ -1,3 +1,3 @@
-const String DB_NAME = 'food_database.sqlite';
-const String FoodTableName = 'foods';
-const String RecipesTableName = 'recipes';
+const String databaseName = 'food_database.sqlite';
+const String foodTableName = 'food';
+const String foodConsumedTableName = 'foodConsumed';

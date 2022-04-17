@@ -1,5 +1,6 @@
 import 'package:z_fitness/enums/food_type.dart';
 import 'package:z_fitness/enums/meal_type.dart';
+import 'package:z_fitness/models/calories_details.dart';
 import 'package:z_fitness/models/food_models/food_details.dart';
 import 'package:z_fitness/models/recipes_models/recipe_details.dart';
 import 'package:z_fitness/utils/helpers.dart';
@@ -23,11 +24,11 @@ class FoodConsumed {
   //TODO find better name for NutritientsDetail
   NutritientsDetail? nutritientsDetail;
   RecipeDetails? recipeDetails;
+  CaloriesDetails? caloriesDetails;
 
   FoodConsumed(
-      {
-        this.forDatabase = false,
-        this.id,
+      {this.forDatabase = false,
+      this.id,
       this.databaseId,
       this.foodApiId,
       this.recipeApiId,
@@ -37,23 +38,25 @@ class FoodConsumed {
       required this.foodConsumed,
       this.isStoredLocally = false,
       this.nutritientsDetail,
-      this.recipeDetails});
+      this.recipeDetails,
+      required this.caloriesDetails
+      });
 
   Map<String, dynamic> toMap() {
-    if(forDatabase){
-      return  {
+    if (forDatabase) {
+      return {
         'databaseId': databaseId,
-      'foodApiId': foodApiId,
-      'recipeApiId': recipeApiId,
-      'foodType': foodTypeToString[foodType],
-      'mealType': mealTypeToString[mealType],
-      'calories': calories,
-      'foodConsumed': foodConsumed,
-      'nutritientsDetail': nutritientsDetail != null
-          ? nutritientsDetailsToJson(nutritientsDetail!)
-          : null,
-      'recipeDetails': recipeDetails != null ? recipeDetails!.toJson : null,
-    };
+        'foodApiId': foodApiId,
+        'recipeApiId': recipeApiId,
+        'foodType': foodTypeToString[foodType],
+        'mealType': mealTypeToString[mealType],
+        'calories': calories,
+        'foodConsumed': foodConsumed,
+        'nutritientsDetail': nutritientsDetail != null
+            ? nutritientsDetailsToJson(nutritientsDetail!)
+            : null,
+        'recipeDetails': recipeDetails != null ? recipeDetails!.toJson : null,
+      };
     }
     return {
       'id': id,
@@ -68,6 +71,7 @@ class FoodConsumed {
           ? nutritientsDetailsToJson(nutritientsDetail!)
           : null,
       'recipeDetails': recipeDetails != null ? recipeDetails!.toJson : null,
+      'caloriesDetails': caloriesDetails!.toMap(),
     };
   }
 
@@ -89,6 +93,9 @@ class FoodConsumed {
                 : null,
         recipeDetails: map['foodType'] == foodTypeToString[FoodType.recipe]
             ? RecipeDetails.fromJson(map['foodConsumed'])
-            : null);
+            : null,
+      caloriesDetails:map['caloriesDetails'] != null? CaloriesDetails.fromMap(map['caloriesDetails']):null,
+            
+            );
   }
 }

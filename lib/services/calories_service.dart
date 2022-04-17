@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:z_fitness/models/calories_details.dart';
 
 import '../app/logger.dart';
 import '../enums/calories_related_enums.dart';
@@ -6,6 +7,9 @@ import '../models/user.dart';
 import '../utils/helpers.dart';
 
 class CaloriesService {
+  CaloriesDetails _caloriesDetails = CaloriesDetails();
+  CaloriesDetails get caloriesDetails => _caloriesDetails;
+
   double _dailyCaloriesGoal = 0;
   double get dailyCaloriesGoal => _dailyCaloriesGoal;
 
@@ -91,5 +95,9 @@ class CaloriesService {
     DateTime _today = DateTime.now();
     int _yearDiff = _today.year - _birthDate.year;
     return _yearDiff;
+  }
+
+  void setCaloriesDetails(CaloriesDetails caloriesDetails) {
+    _caloriesDetails = caloriesDetails;
   }
 }

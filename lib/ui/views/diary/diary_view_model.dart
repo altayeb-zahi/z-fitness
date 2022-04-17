@@ -1,4 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: unused_import
+
 import 'package:intl/intl.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/app/router.dart';
@@ -7,6 +8,8 @@ import 'package:z_fitness/enums/meal_type.dart';
 import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/models/calories_details.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
+import 'package:z_fitness/services/calories_service.dart';
+import 'package:z_fitness/services/database_service.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
 import '../../../../../api/firestore_api.dart';
 import '../../../../../app/locator.dart';
@@ -18,10 +21,10 @@ import '../../../app/logger.dart';
 
 class DiaryViewModel extends BaseViewModel {
   final _firestoreApi = locator<FirestoreApi>();
-
   final _navigationService = locator<NavigationService>();
-
   final _dialogService = locator<DialogService>();
+  final _caloresService = locator<CaloriesService>();
+  final _databaseService = locator<DatabaseService>();
 
   String _formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
@@ -55,7 +58,12 @@ class DiaryViewModel extends BaseViewModel {
             userId: currentUser.id!, date: _formattedDate)
         .listen((calories) {
       if (calories.exists) {
-        _caloriesDetails = CaloriesDetails.fromMap(calories.data()!);
+        final _caloriesDetailsResult =
+            CaloriesDetails.fromMap(calories.data()!);
+
+        _caloresService.setCaloriesDetails(_caloriesDetailsResult);
+        _caloriesDetails = _caloriesDetailsResult;
+
         notifyListeners();
       }
     });
@@ -82,7 +90,7 @@ class DiaryViewModel extends BaseViewModel {
         foodTypeToString[FoodType.recipe]) {
       _navigationService.navigateTo(Routes.recipeDetailsView,
           arguments: RecipeDetailsArgument(
-            userIsEditingRecipeDetails: true,
+              userIsEditingRecipeDetails: true,
               date: _formattedDate,
               foodType: foodConsumed.foodType,
               mealType: foodConsumed.mealType,
@@ -91,12 +99,11 @@ class DiaryViewModel extends BaseViewModel {
     } else {
       _navigationService.navigateTo(Routes.foodDetailsView,
           arguments: FoodDetailsArgument(
-            userIsEditingFoodDetails: true,
+              userIsEditingFoodDetails: true,
               date: _formattedDate,
               foodType: foodConsumed.foodType,
               mealType: foodConsumed.mealType,
-              selectedFoodId: foodConsumed.foodApiId
-              ));
+              selectedFoodId: foodConsumed.foodApiId));
     }
   }
 
@@ -105,37 +112,29 @@ class DiaryViewModel extends BaseViewModel {
         arguments: AddFoodArgument(mealType: mealType, date: _formattedDate));
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getBreakfastMeals() =>
-      _firestoreApi.getFood(
-          userId: currentUser.id!,
-          date: _formattedDate,
-          mealType: mealTypeToString[MealType.breakfast]!);
+  Stream<List<FoodConsumed>> getBreakfastMeals() =>
+      _databaseService.getFoodConsumedForSpecificMeal(
+          mealTypeToString[MealType.breakfast]!);
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getLunchMeals() =>
-      _firestoreApi.getFood(
-          userId: currentUser.id!,
-          date: _formattedDate,
-          mealType: mealTypeToString[MealType.lunch]!);
+  Stream<List<FoodConsumed>> getLunchMeals() =>
+      _databaseService.getFoodConsumedForSpecificMeal(
+          mealTypeToString[MealType.lunch]!);
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getDinnerMeals() =>
-      _firestoreApi.getFood(
-          userId: currentUser.id!,
-          date: _formattedDate,
-          mealType: mealTypeToString[MealType.dinner]!);
+  Stream<List<FoodConsumed>> getDinnerMeals() =>
+     _databaseService.getFoodConsumedForSpecificMeal(
+          mealTypeToString[MealType.dinner]!);
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getSnacks() =>
-      _firestoreApi.getFood(
-          userId: currentUser.id!,
-          date: _formattedDate,
-          mealType: mealTypeToString[MealType.snacks]!);
+  Stream<List<FoodConsumed>> getSnacks() =>
+     _databaseService.getFoodConsumedForSpecificMeal(
+          mealTypeToString[MealType.snacks]!);
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getExercises() =>
-      _firestoreApi.getFood(
-          userId: currentUser.id!, date: _formattedDate, mealType: 'exercises');
+ Stream<List<FoodConsumed>> getExercises() =>
+     _databaseService.getFoodConsumedForSpecificMeal(
+          'exercise');
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getWater() =>
-      _firestoreApi.getFood(
-          userId: currentUser.id!, date: _formattedDate, mealType: 'water');
+  Stream<List<FoodConsumed>> getWater() =>
+      _databaseService.getFoodConsumedForSpecificMeal(
+          'water');
 
   void _getTheFoodConsumedInSpecificDay() {
     getBreakfastMeals();

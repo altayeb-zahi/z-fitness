@@ -10,6 +10,7 @@ import 'package:z_fitness/models/food_models/food_consumed.dart';
 import '../../../app/locator.dart';
 import '../../../enums/dialog_type.dart';
 import '../../../models/recipes_models/recipe_details.dart';
+import '../../../services/calories_service.dart';
 import '../../../services/database_service.dart';
 import '../../../services/user_service.dart';
 import '../../base/base_view_model.dart';
@@ -21,6 +22,8 @@ class RecipeDetailsViewModel extends BaseViewModel {
   final _firestoreApi = locator<FirestoreApi>();
   final _currentUser = locator<UserService>().currentUser;
   final _databaseService = locator<DatabaseService>();
+  final _caloresService = locator<CaloriesService>();
+
 
   late RecipeDetailsArgument recipeDetailsArgument;
 
@@ -85,6 +88,7 @@ class RecipeDetailsViewModel extends BaseViewModel {
 
   Future<void> _addRecipeToDailyFoodConcusmed(MealType mealType) async {
      final _foodConsumed = FoodConsumed(
+      caloriesDetails: _caloresService.caloriesDetails,
         isStoredLocally: _foodIsStoredLocally,
         recipeApiId: recipeDetailsArgument.recipeId,
         foodType: FoodType.recipe,

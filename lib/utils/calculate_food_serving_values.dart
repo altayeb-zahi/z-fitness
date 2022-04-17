@@ -16,10 +16,6 @@ NutritientsDetail getUpdatedNutrientsValues(
   double num = (_newNumberOfServings / _currentNumberOfServings) *
       (_alMeasuresServingWeight / _originalFoodServingWeight);
 
-  // List<FullNutrient> _updatedFullNutrients = originalFoodValues.fullNutrients!
-  //     .map((nutrient) =>
-  //         FullNutrient(attrId: nutrient.attrId, value: nutrient.value! * num))
-  //     .toList();
 
   NutritientsDetail _updatedNutrientsDetail = NutritientsDetail(foods: [
     Food(

@@ -34,7 +34,7 @@ class _RecipesViewState extends State<RecipesView> {
         builder: (context, model, child) => Scaffold(
             appBar: AppBar(
               title: const Text('Recipes',style: TextStyle(color: Colors.black),),
-              backgroundColor: Colors.white,
+            
               elevation: 0,
               actions: [
                 GestureDetector(
@@ -65,7 +65,7 @@ class _RecipesViewState extends State<RecipesView> {
   searchBar(RecipesViewModel model, BuildContext context,
       TextEditingController? searchRecipeTex) {
     return SizedBox(
-        height: screenHeightPercentage(context, percentage: 0.08),
+        height: screenHeightPercentage(context, percentage: 0.065),
         child: TextField(
             onChanged: (txt) {
               if (txt == '' || txt.isEmpty) {
@@ -83,12 +83,13 @@ class _RecipesViewState extends State<RecipesView> {
                     }
                   },
                   child: const Icon(Icons.search)),
+                  
               hintText: 'Search Recipes...',
               hintStyle: const TextStyle(color: Colors.grey),
               filled: true,
               fillColor: Colors.grey[300],
               enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 borderSide: BorderSide(color: Colors.grey[300]!, width: 2),
               ),
               focusedBorder: OutlineInputBorder(
@@ -183,18 +184,18 @@ class _RecipesViewState extends State<RecipesView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          verticalSpaceSmall,
+                    verticalSpaceRegular,
           Text(
             'Sorted By: ${recipeSortByToString[model.sortBy]}',
             // style: theme.textTheme.headline1,
           ),
-          verticalSpaceSmall,
+          verticalSpaceRegular,
           Expanded(
             child: GridView.builder(
                 // to maintain the listview position
                 key: const PageStorageKey('storage-key'),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisSpacing: 5, mainAxisSpacing: 5, crossAxisCount: 2),
+                    crossAxisSpacing: 8, mainAxisSpacing: 0, crossAxisCount: 2),
                 itemCount: model.recipesLis!.length,
                 itemBuilder: (BuildContext ctx, index) {
                   return CreationAwareListItem(
@@ -219,16 +220,15 @@ class _RecipesViewState extends State<RecipesView> {
                                       height: 130,
                                       fit: BoxFit.fill,
                                     ),
-                                    verticalSpaceTiny,
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        model.recipesLis![index].title!,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.clip,
-                                        // style: theme.textTheme.bodyText1,
-                                      ),
+                                    verticalSpaceSmall,
+                                    Text(
+                                      model.recipesLis![index].title!,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.clip,
+                                      // style: theme.textTheme.bodyText1,
                                     ),
+
+                                   
                                   ]),
                             ),
                           ),

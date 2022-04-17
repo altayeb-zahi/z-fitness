@@ -33,6 +33,19 @@ class _DiaryViewState extends State<DiaryView> {
             physics: const ScrollPhysics(),
             child: Column(
               children: [
+                Container(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                    Icon(Icons.arrow_left),
+                    horizontalSpaceTiny,
+                    Text('Today'),
+                    horizontalSpaceTiny,
+
+                    Icon(Icons.arrow_right)
+                  ],),
+                ),
                 _tableCalender(),
                 divider,
                 _caloriesRemaining(),
@@ -66,6 +79,7 @@ class _DiaryViewState extends State<DiaryView> {
           //          )
           //          ),
           firstDay: DateTime.utc(DateTime.now().year, 1, 1),
+          headerVisible: false,
           // 0 to get last day from previous month
           lastDay: DateTime.utc(DateTime.now().year + 1, 1, 0),
           focusedDay: model.focusedDay,

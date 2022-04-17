@@ -1,9 +1,10 @@
+
 import 'package:stacked_services/stacked_services.dart';
-import 'package:z_fitness/services/calories_service.dart';
 
 import '../../../app/locator.dart';
 import '../../../app/router.dart';
 import '../../../models/user.dart';
+import '../../../services/calories_service.dart';
 import '../../../services/user_service.dart';
 import '../../base/base_view_model.dart';
 
@@ -71,6 +72,8 @@ class UserInfoViewModel extends BaseViewModel {
   }
 
   Future<User> _getUserUpdatedDetails() async {
+    var _caloriesDetails = _caloriesService.caloriesDetails;
+
     var _user = User(
         id: currentUser!.id,
         name: currentUser!.name,
@@ -80,13 +83,17 @@ class UserInfoViewModel extends BaseViewModel {
         height: _height,
         currentWeight: _currentWeight,
         desiredWeight: _desiredWeight,
-        dateOfBirth: _dateOfBirth);
+        dateOfBirth: _dateOfBirth,
+        );
 
     await _caloriesService.syncCaloriesGoal(_user);
 
+    _caloriesDetails.dailyCaloriesGoal = _caloriesService.dailyCaloriesGoal.toInt();
     _user.dailyCaloriesGoal = _caloriesService.dailyCaloriesGoal;
     _user.bmr = _caloriesService.bmr;
     _user.age = _caloriesService.age;
+
+    _user.caloriesDetails = _caloriesDetails;
 
     return _user;
   }

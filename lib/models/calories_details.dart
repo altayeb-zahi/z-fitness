@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class CaloriesDetails {
-  final int dailyCaloriesGoal;
+   int dailyCaloriesGoal;
   final int totalCaloriesConsumed;
   final int caloriesBurned;
   final int caloriesRemaining;

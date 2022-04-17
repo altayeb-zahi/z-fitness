@@ -1,10 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/ui/dumb_widgets/food_list_tile.dart';
-
 import '../../app/logger.dart';
 import '../shared/ui_helpers.dart';
 import '../views/diary/diary_view_model.dart';
@@ -16,7 +13,7 @@ class FoodLayout extends StatelessWidget {
   final void Function() onAddPressed;
   final void Function(FoodConsumed foodConsumed) onFoodPressed;
   final void Function(FoodConsumed foodConsumed) onFoodLongPressed;
-  final Stream<QuerySnapshot<Map<String, dynamic>>> stream;
+  final Stream<List<FoodConsumed>> stream;
 
   const FoodLayout({
     Key? key,
@@ -60,10 +57,9 @@ class FoodLayout extends StatelessWidget {
 
               return Text(_calories.toString());
             })),
-        StreamBuilder<QuerySnapshot>(
+        StreamBuilder<List<FoodConsumed>>(
             stream: stream,
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            builder: (BuildContext context, snapshot) {
               // to add the id to the the foodConsumed
               List<FoodConsumed> foodConsumedList = [];
 
@@ -76,18 +72,13 @@ class FoodLayout extends StatelessWidget {
               }
 
               if (snapshot.hasData) {
-                foodConsumedList = snapshot.data!.docs.map((doc) {
-                  final foodConsumed =
-                      FoodConsumed.fromMap(doc.data() as Map<String, dynamic>);
-                  foodConsumed.id = doc.id;
-                  return foodConsumed;
-                }).toList();
+                foodConsumedList = snapshot.data!;
               }
 
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: snapshot.data?.docs.length,
+                itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
                   final FoodConsumed _food = foodConsumedList[index];
 

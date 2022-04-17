@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/api/firestore_api.dart';
 import 'package:z_fitness/api/food_api.dart';
@@ -14,6 +16,7 @@ import '../../../enums/dialog_type.dart';
 import '../../../models/food_models/food_details.dart';
 import '../../../models/food_models/food_details_dialog_custom_data.dart';
 import '../../../models/food_models/food_details_dialog_response.dart';
+import '../../../services/calories_service.dart';
 import '../../../services/user_service.dart';
 import '../../../utils/calculate_food_serving_values.dart';
 
@@ -24,6 +27,8 @@ class FoodDetailsViewModel extends BaseViewModel {
   final _currentUser = locator<UserService>().currentUser;
   final _navigationService = locator<NavigationService>();
   final _databaseService = locator<DatabaseService>();
+  final _caloresService = locator<CaloriesService>();
+
 
   NutritientsDetail? _nutritientsDetail;
   NutritientsDetail? get nutritienstDetail => _nutritientsDetail;
@@ -89,6 +94,7 @@ class FoodDetailsViewModel extends BaseViewModel {
 
   Future addFoodToDatabase() async {
     final _foodConsumed = FoodConsumed(
+      caloriesDetails: _caloresService.caloriesDetails,
         isStoredLocally: _foodIsStoredLocally,
         foodApiId: foodDetailsArgument.selectedFoodId,
         foodType: foodDetailsArgument.foodType,

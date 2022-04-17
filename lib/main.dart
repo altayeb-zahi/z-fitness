@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/services/push_notifications_service.dart';
 import 'package:z_fitness/app/router.dart' as router;
@@ -17,7 +18,7 @@ import 'firebase_options.dart';
 // taskkill /f /im java.exe
 
 const bool useEmulator = false;
-const String ipAdress = '192.168.0.110';
+const String ipAdress = '192.168.0.107';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +40,7 @@ void main() async {
 
 Future _connectToFirebaseEmulator() async {
   FirebaseFirestore.instance.settings = const Settings(
-    host: ipAdress,
+    host: '$ipAdress:8080',
     sslEnabled: false,
     persistenceEnabled: false,
   );
@@ -66,7 +67,14 @@ class MyApp extends StatelessWidget {
       navigatorKey: StackedService.navigatorKey,
       onGenerateRoute: router.generateRoute,
       initialRoute: Routes.startupView,
-      theme: ThemeData(primarySwatch: Colors.purple),
+      theme: ThemeData(primarySwatch: Colors.purple,
+      fontFamily: GoogleFonts.openSans().fontFamily,
+      appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
+      textTheme: const TextTheme(bodyText2: TextStyle(
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400
+        ))
+      ),
     );
   }
 }

@@ -1,7 +1,5 @@
 import 'package:html/parser.dart';
 
-import '../app/logger.dart';
-
 T convertStringToEnum<T>(List<T> values, String value) {
 
 
