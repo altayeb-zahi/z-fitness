@@ -34,7 +34,7 @@ class FoodApi {
   }
 
 
-  Future getNutritionDetailsForCommonFood(
+  Future<NutritientsDetail?> getNutritionDetailsForCommonFood(
      { required String selectedFoodId, String timeZone = 'US/Eastern'}) async {
     var _response = await http.post(Uri.parse(naturalNutrientsEndPoint),
         headers: foodHeaders,
@@ -54,10 +54,10 @@ class FoodApi {
       return foodNutritionDetail;
     }
     log.e('Failed to get  food nutrition details,  type:common');
-    return 'Failed to get  food nutrition details';
+    return null;
   }
 
-  Future getNutritionDetailsForBrandedFood(
+  Future<NutritientsDetail?> getNutritionDetailsForBrandedFood(
       { required String selectedFoodId}) async {
     var response = await http.get(
         Uri.parse(searchItemEndPoint + 'nix_item_id=$selectedFoodId'),
@@ -78,7 +78,7 @@ class FoodApi {
     }
 
     log.e('Failed to get  food nutrition details,  type:branded');
-    return 'Failed to get  food nutrition details';
+    return null;
   }
 
   // Future getExerciseEstimatedCalories(String searchText) async {

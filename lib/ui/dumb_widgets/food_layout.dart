@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/ui/dumb_widgets/food_list_tile.dart';
+import 'package:z_fitness/ui/dumb_widgets/text_title.dart';
 import '../../app/logger.dart';
 import '../shared/ui_helpers.dart';
-import '../views/diary/diary_view_model.dart';
 
 class FoodLayout extends StatelessWidget {
   final String title;
@@ -13,52 +12,54 @@ class FoodLayout extends StatelessWidget {
   final void Function() onAddPressed;
   final void Function(FoodConsumed foodConsumed) onFoodPressed;
   final void Function(FoodConsumed foodConsumed) onFoodLongPressed;
-  final Stream<List<FoodConsumed>> stream;
+  final Stream<List<FoodConsumed>> mealsConsumedStream;
+  final Stream<int> mealTotalCaloriesStream;
 
-  const FoodLayout({
-    Key? key,
-    // this.onFoodPressed,
-    // this.onFoodLongPressed,
-    required this.title,
-    this.addButtonTitle = 'add food',
-    required this.onAddPressed,
-    required this.onFoodPressed,
-    required this.onFoodLongPressed,
-    required this.stream,
-  }) : super(key: key);
+  const FoodLayout(
+      {Key? key,
+      // this.onFoodPressed,
+      // this.onFoodLongPressed,
+      required this.title,
+      this.addButtonTitle = 'ADD FOOD',
+      required this.onAddPressed,
+      required this.onFoodPressed,
+      required this.onFoodLongPressed,
+      required this.mealsConsumedStream,
+      required this.mealTotalCaloriesStream})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     log.i('food layout is built for $title');
 
+    final theme = Theme.of(context);
+
     return Column(
       children: [
         ListTile(
-            title: Text(title),
-            trailing:
-                Consumer<DiaryViewModel>(builder: (context, model, child) {
-              int _calories = 0;
+            title: TextTitle(title),
+            trailing: StreamBuilder<int>(
+              stream: mealTotalCaloriesStream,
+              builder: (context, snapshot) {
+                int _totalCaloires = 0;
 
-              //TODO think about it first.. instead of all the if statment pass the calories value in the consturctor
+                if (snapshot.hasError) {
+                  return  Text(_totalCaloires.toString());
+                }
 
-              if (title == 'Breakfast') {
-                _calories = model.caloriesDetails.totalBreakfastCalories;
-              } else if (title == 'Lunch') {
-                _calories = model.caloriesDetails.totalLunchCalories;
-              } else if (title == 'Dinner') {
-                _calories = model.caloriesDetails.totalDinnerCalories;
-              } else if (title == 'Snacks') {
-                _calories = model.caloriesDetails.totalSnacksCalories;
-              } else if (title == 'Exercise') {
-                _calories = model.caloriesDetails.totalCaloriesConsumed;
-              } else if (title == 'Water') {
-                _calories = model.caloriesDetails.totalWaterConsumed;
-              }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  Text(_totalCaloires.toString());
+                }
 
-              return Text(_calories.toString());
-            })),
+                if (snapshot.hasData) {
+                  _totalCaloires = snapshot.data!;
+                }
+
+                return Text(_totalCaloires.toString());
+              },
+            )),
         StreamBuilder<List<FoodConsumed>>(
-            stream: stream,
+            stream: mealsConsumedStream,
             builder: (BuildContext context, snapshot) {
               // to add the id to the the foodConsumed
               List<FoodConsumed> foodConsumedList = [];
@@ -91,12 +92,16 @@ class FoodLayout extends StatelessWidget {
             }),
         GestureDetector(
           onTap: onAddPressed,
-          child: Row(
-            children: [
-              verticalSpaceSmall,
-              const Icon(Icons.add),
-              Text(addButtonTitle)
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Row(
+              children: [
+                verticalSpaceSmall,
+                Text(addButtonTitle,
+                style: theme.textTheme.headline3!.copyWith(color: Colors.purple,fontSize: 16),
+                )
+              ],
+            ),
           ),
         ),
       ],

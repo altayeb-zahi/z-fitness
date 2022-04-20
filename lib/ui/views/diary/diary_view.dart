@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:z_fitness/enums/meal_type.dart';
+import 'package:z_fitness/ui/dumb_widgets/text_title.dart';
 import 'diary_view_model.dart';
 import '../../dumb_widgets/calories_counter_layout.dart';
 import '../../dumb_widgets/food_layout.dart';
@@ -33,18 +34,18 @@ class _DiaryViewState extends State<DiaryView> {
             physics: const ScrollPhysics(),
             child: Column(
               children: [
-                Container(
+                SizedBox(
                   height: 50,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                    Icon(Icons.arrow_left),
-                    horizontalSpaceTiny,
-                    Text('Today'),
-                    horizontalSpaceTiny,
-
-                    Icon(Icons.arrow_right)
-                  ],),
+                      Icon(Icons.arrow_left),
+                      horizontalSpaceMedium,
+                      TextTitle('Today'),
+                      horizontalSpaceMedium,
+                      Icon(Icons.arrow_right)
+                    ],
+                  ),
                 ),
                 _tableCalender(),
                 divider,
@@ -95,14 +96,13 @@ class _DiaryViewState extends State<DiaryView> {
       );
 
   Widget _caloriesRemaining() => Consumer<DiaryViewModel>(
-        builder: (context, model, child) => CaloriesCounterLayout(
-          caloriesDetails: model.caloriesDetails,
-        ),
+        builder: (context, model, child) => const CaloriesCounterLayout(),
       );
 
   Widget _breakfast() => FoodLayout(
         title: 'Breakfast',
-        stream: model.getBreakfastMeals(),
+        mealsConsumedStream: model.getBreakfastMeals(),
+        mealTotalCaloriesStream: model.getBreaktotalCalories(),
         onAddPressed: () =>
             model.navigateToAddFood(mealType: MealType.breakfast),
         onFoodLongPressed: (foodConsumed) =>
@@ -112,7 +112,8 @@ class _DiaryViewState extends State<DiaryView> {
 
   Widget _lunch() => FoodLayout(
         title: 'Lunch',
-        stream: model.getLunchMeals(),
+        mealsConsumedStream: model.getLunchMeals(),
+        mealTotalCaloriesStream: model.getLunchtotalCalories(),
         onAddPressed: () => model.navigateToAddFood(mealType: MealType.lunch),
         onFoodLongPressed: (foodConsumed) =>
             model.onFoodLongPressed(foodConsumed),
@@ -121,7 +122,8 @@ class _DiaryViewState extends State<DiaryView> {
 
   Widget _dinner() => FoodLayout(
         title: 'Dinner',
-        stream: model.getDinnerMeals(),
+        mealsConsumedStream: model.getDinnerMeals(),
+        mealTotalCaloriesStream: model.getDinnerTotalCalories(),
         onAddPressed: () => model.navigateToAddFood(mealType: MealType.dinner),
         onFoodLongPressed: (foodConsumed) =>
             model.onFoodLongPressed(foodConsumed),
@@ -130,7 +132,8 @@ class _DiaryViewState extends State<DiaryView> {
 
   Widget _snaks() => FoodLayout(
         title: 'Snacks',
-        stream: model.getSnacks(),
+        mealsConsumedStream: model.getSnacks(),
+        mealTotalCaloriesStream: model.getSnacksTotalCalories(),
         onAddPressed: () => model.navigateToAddFood(mealType: MealType.snacks),
         onFoodLongPressed: (foodConsumed) =>
             model.onFoodLongPressed(foodConsumed),
@@ -140,7 +143,8 @@ class _DiaryViewState extends State<DiaryView> {
   Widget _exercises() => FoodLayout(
         title: 'Exercise',
         addButtonTitle: 'add exercise',
-        stream: model.getExercises(),
+        mealTotalCaloriesStream: model.getExerciseTotalCalories(),
+        mealsConsumedStream: model.getExercises(),
         onAddPressed: () {},
         onFoodLongPressed: (foodConsumed) {},
         onFoodPressed: (foodConsumed) {},
@@ -149,7 +153,8 @@ class _DiaryViewState extends State<DiaryView> {
   Widget _water() => FoodLayout(
         title: 'Water',
         addButtonTitle: 'add water',
-        stream: model.getWater(),
+        mealTotalCaloriesStream: model.getWaterTotal(),
+        mealsConsumedStream: model.getWater(),
         onAddPressed: () {},
         onFoodLongPressed: (foodConsumed) {},
         onFoodPressed: (foodConsumed) {},

@@ -27,8 +27,8 @@ class FoodDetailsArgument {
   /// store the food nutrition details when user tap on the food from diaryView or from the history in addFoodView
   NutritientsDetail? nutritientsDetail;
 
-  bool userIsEditingFoodDetails;
-  bool foodDetailsAreComingFromHistory;
+  bool userIsEditingNutrition;
+  bool userNavigatedFromHistory;
 
   FoodDetailsArgument({
     required this.date,
@@ -36,8 +36,8 @@ class FoodDetailsArgument {
     required this.mealType,
     this.selectedFoodId,
     this.nutritientsDetail,
-    this.userIsEditingFoodDetails =false,
-    this.foodDetailsAreComingFromHistory = false
+    this.userIsEditingNutrition = false,
+    this.userNavigatedFromHistory = false
   });
 }
 
@@ -50,18 +50,17 @@ class RecipeDetailsArgument {
 
   final int recipeId;
 
-  bool userIsEditingRecipeDetails;
-  bool recipeDetailsAreComingFromHistory;
+  bool userIsEditingNutrition;
+  bool userNavigatedFromHistory;
 
   /// store the food nutrition details when user tap on the food from diaryView or from the history in addFoodView
   RecipeDetails? recipeDetails;
-  RecipeDetailsArgument({
-    this.date,
-    this.foodType,
-    this.mealType,
-    required this.recipeId,
-    this.recipeDetails,
-     this.userIsEditingRecipeDetails =false,
-    this.recipeDetailsAreComingFromHistory = false
-  });
+  RecipeDetailsArgument(
+      {this.date,
+      this.foodType,
+      this.mealType,
+      required this.recipeId,
+      this.recipeDetails,
+      this.userIsEditingNutrition = false,
+      this.userNavigatedFromHistory = false});
 }

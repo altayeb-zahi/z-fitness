@@ -10,9 +10,21 @@ abstract class FirestoreApiAbstract {
 
   Future<void> updateUser({required User user});
 
-  Future addFoodConsumed(
+  Future addFoodToDiary(
       {required String userId,
       required FoodConsumed foodConsumed,
+      required String date,
+      required String mealType});
+
+  Future updateFoodInDiary(
+      {required String userId,
+      required FoodConsumed foodConsumed,
+      required String date,
+      required String mealType});
+
+  Future deleteFoodFromDiary(
+      {required String userId,
+      required String foodId,
       required String date,
       required String mealType});
 
@@ -22,7 +34,4 @@ abstract class FirestoreApiAbstract {
   Stream<DocumentSnapshot<Map<String, dynamic>>> getUserStream({
     required String userId,
   });
-
-  Future deleteFood(
-      {required String userId, required String foodId, required String date,required String mealType});
 }

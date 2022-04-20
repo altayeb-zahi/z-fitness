@@ -70,7 +70,7 @@ class DiaryViewModel extends BaseViewModel {
   }
 
   void _deleteFood(FoodConsumed foodConsumed) async {
-    await _firestoreApi.deleteFood(
+    await _firestoreApi.deleteFoodFromDiary(
         userId: currentUser.id!,
         foodId: foodConsumed.id!,
         date: _formattedDate,
@@ -90,7 +90,7 @@ class DiaryViewModel extends BaseViewModel {
         foodTypeToString[FoodType.recipe]) {
       _navigationService.navigateTo(Routes.recipeDetailsView,
           arguments: RecipeDetailsArgument(
-              userIsEditingRecipeDetails: true,
+              userIsEditingNutrition: true,
               date: _formattedDate,
               foodType: foodConsumed.foodType,
               mealType: foodConsumed.mealType,
@@ -99,11 +99,13 @@ class DiaryViewModel extends BaseViewModel {
     } else {
       _navigationService.navigateTo(Routes.foodDetailsView,
           arguments: FoodDetailsArgument(
-              userIsEditingFoodDetails: true,
+              userIsEditingNutrition: true,
               date: _formattedDate,
-              foodType: foodConsumed.foodType,
-              mealType: foodConsumed.mealType,
-              selectedFoodId: foodConsumed.foodApiId));
+              foodType: foodConsumed.foodType!,
+              mealType: foodConsumed.mealType!,
+              selectedFoodId: foodConsumed.foodApiId,
+              nutritientsDetail: foodConsumed.nutritientsDetail
+              ));
     }
   }
 
@@ -114,27 +116,49 @@ class DiaryViewModel extends BaseViewModel {
 
   Stream<List<FoodConsumed>> getBreakfastMeals() =>
       _databaseService.getFoodConsumedForSpecificMeal(
-          mealTypeToString[MealType.breakfast]!);
+          mealTypeToString[MealType.breakfast]!, _formattedDate);
 
   Stream<List<FoodConsumed>> getLunchMeals() =>
       _databaseService.getFoodConsumedForSpecificMeal(
-          mealTypeToString[MealType.lunch]!);
+          mealTypeToString[MealType.lunch]!, _formattedDate);
 
   Stream<List<FoodConsumed>> getDinnerMeals() =>
-     _databaseService.getFoodConsumedForSpecificMeal(
-          mealTypeToString[MealType.dinner]!);
+      _databaseService.getFoodConsumedForSpecificMeal(
+          mealTypeToString[MealType.dinner]!, _formattedDate);
 
   Stream<List<FoodConsumed>> getSnacks() =>
-     _databaseService.getFoodConsumedForSpecificMeal(
-          mealTypeToString[MealType.snacks]!);
+      _databaseService.getFoodConsumedForSpecificMeal(
+          mealTypeToString[MealType.snacks]!, _formattedDate);
 
- Stream<List<FoodConsumed>> getExercises() =>
-     _databaseService.getFoodConsumedForSpecificMeal(
-          'exercise');
+  Stream<List<FoodConsumed>> getExercises() => _databaseService
+      .getFoodConsumedForSpecificMeal('exercise', _formattedDate);
 
   Stream<List<FoodConsumed>> getWater() =>
-      _databaseService.getFoodConsumedForSpecificMeal(
-          'water');
+      _databaseService.getFoodConsumedForSpecificMeal('water', _formattedDate);
+
+  Stream<int> getBreaktotalCalories() =>
+      _databaseService.getFoodTotalCaloriesForOneMeal(
+          mealTypeToString[MealType.breakfast]!, _formattedDate);
+
+  Stream<int> getLunchtotalCalories() =>
+      _databaseService.getFoodTotalCaloriesForOneMeal(
+          mealTypeToString[MealType.lunch]!, _formattedDate);
+
+  Stream<int> getDinnerTotalCalories() =>
+      _databaseService.getFoodTotalCaloriesForOneMeal(
+          mealTypeToString[MealType.dinner]!, _formattedDate);
+
+  Stream<int> getSnacksTotalCalories() =>
+      _databaseService.getFoodTotalCaloriesForOneMeal(
+          mealTypeToString[MealType.snacks]!, _formattedDate);
+
+           Stream<int> getExerciseTotalCalories() =>
+      _databaseService.getFoodTotalCaloriesForOneMeal(
+          'exercise', _formattedDate);
+
+           Stream<int> getWaterTotal() =>
+      _databaseService.getFoodTotalCaloriesForOneMeal(
+         'water', _formattedDate);
 
   void _getTheFoodConsumedInSpecificDay() {
     getBreakfastMeals();
@@ -143,5 +167,9 @@ class DiaryViewModel extends BaseViewModel {
     getSnacks();
     getExercises();
     getWater();
+    getBreaktotalCalories();
+    getLunchtotalCalories();
+    getDinnerTotalCalories();
+    getSnacksTotalCalories();
   }
 }

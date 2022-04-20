@@ -1,15 +1,13 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:logger/logger.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
-
 import '../abstracts/firestore_api_abstract.dart';
+import '../app/logger.dart';
 import '../exceptions/firestore_api_exceptions.dart';
 import '../models/user.dart';
 
 class FirestoreApi implements FirestoreApiAbstract {
-  final log = Logger();
 
   final CollectionReference _usersCollection =
       FirebaseFirestore.instance.collection('users');
@@ -88,12 +86,30 @@ class FirestoreApi implements FirestoreApiAbstract {
   }
 
   @override
-  Future addFoodConsumed(
+  Future addFoodToDiary(
       {required String userId,
       required FoodConsumed foodConsumed,
       required String date,
       required String mealType}) async {
-    log.i('FirestoreApi - UserUpdated');
+    log.i('FirestoreApi - addFoodToDiary');
+
+    try {
+      final docRef = await _usersCollection
+          .doc(userId)
+          .collection('foods')
+          .doc(date)
+          .collection(mealType)
+          .add(foodConsumed.toMap());
+
+      return docRef.id;
+    } catch (e) {
+      log.e(e);
+    }
+  }
+
+   @override
+  Future updateFoodInDiary({required String userId, required FoodConsumed foodConsumed, required String date, required String mealType}) async{
+    log.i('FirestoreApi - updateFoodInDiary');
 
     try {
       await _usersCollection
@@ -101,24 +117,22 @@ class FirestoreApi implements FirestoreApiAbstract {
           .collection('foods')
           .doc(date)
           .collection(mealType)
-          .add(foodConsumed.toMap());
+          .doc(foodConsumed.id)
+          .update(foodConsumed.toMap());
+
     } catch (e) {
       log.e(e);
     }
   }
 
   @override
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserStream(
-          {required String userId}) =>
-      _usersCollection.doc(userId).snapshots()
-          as Stream<DocumentSnapshot<Map<String, dynamic>>>;
-
-  @override
-  Future deleteFood(
+  Future deleteFoodFromDiary(
       {required String userId,
       required String foodId,
       required String date,
       required String mealType}) async {
+    log.i('FirestoreApi - deleteFoodFromDiary');
+
     try {
       await _usersCollection
           .doc(userId)
@@ -132,9 +146,17 @@ class FirestoreApi implements FirestoreApiAbstract {
     }
   }
 
+  @override
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserStream(
+          {required String userId}) =>
+      _usersCollection.doc(userId).snapshots()
+          as Stream<DocumentSnapshot<Map<String, dynamic>>>;
+
+  
+
   Future getFoodHistory(String userId) async {
     log.i('firestoreApi - getFoodHistory');
-    
+
     List<FoodConsumed> _foodHistory = [];
 
     try {

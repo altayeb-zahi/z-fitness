@@ -18,7 +18,7 @@ class FoodListTile extends StatelessWidget {
       return ListTile(
         title: Text(food.recipeDetails!.title ?? ''),
         subtitle: Text(food.recipeDetails!.servings.toString() + ' servings'),
-        trailing: Text(food.calories.round().toString()),
+        trailing: Text(food.calories!.round().toString()),
       );
     }
 
@@ -29,7 +29,7 @@ class FoodListTile extends StatelessWidget {
       subtitle: Text(
         _foodDetail.servingQty.toString() + ' ' + _foodDetail.servingUnit!,
       ),
-      trailing: Text(food.calories.round().toString()),
+      trailing: Text(food.calories!.round().toString()),
     );
   }
 }

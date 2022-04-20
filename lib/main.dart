@@ -68,12 +68,22 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: router.generateRoute,
       initialRoute: Routes.startupView,
       theme: ThemeData(primarySwatch: Colors.purple,
-      fontFamily: GoogleFonts.openSans().fontFamily,
+      fontFamily: GoogleFonts.roboto().fontFamily,
       appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
       textTheme: const TextTheme(bodyText2: TextStyle(
         fontSize: 14.0,
         fontWeight: FontWeight.w400
-        ))
+        ),
+        headline3: TextStyle(fontSize: 20,
+        fontWeight: FontWeight.w400,
+        color: Colors.black
+        ),
+
+        headline4:  TextStyle(fontSize: 16,fontWeight: FontWeight.w400, 
+        color: Colors.black
+        )
+        
+        )
       ),
     );
   }

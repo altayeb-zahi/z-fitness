@@ -24,7 +24,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
   @override
   void initState() {
     model.foodDetailsArgument = widget.foodDetailsArgument;
-    model.onModelReady();
+    model.getFoodNutritionDetails();
     super.initState();
   }
 
@@ -38,7 +38,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
               title: (const Text('food details')),
               actions: [
                 GestureDetector(
-                    onTap: () => model.addFoodToDatabase(),
+                    onTap: () => model.onMainButtonPressed(),
                     child: const Icon(Icons.check)),
                 const SizedBox(
                   width: 15,

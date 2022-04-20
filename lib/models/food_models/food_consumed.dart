@@ -15,16 +15,15 @@ class FoodConsumed {
   // food and recipe api id i will use for database history by checking if this id exist there or no then decide to add new history or no
   String? foodApiId;
   int? recipeApiId;
-  FoodType foodType;
-  MealType mealType;
-  double calories;
+  FoodType? foodType;
+  MealType? mealType;
+  double? calories;
   String foodConsumed;
+  String? date;
 
-  bool isStoredLocally;
   //TODO find better name for NutritientsDetail
   NutritientsDetail? nutritientsDetail;
   RecipeDetails? recipeDetails;
-  CaloriesDetails? caloriesDetails;
 
   FoodConsumed(
       {this.forDatabase = false,
@@ -32,32 +31,17 @@ class FoodConsumed {
       this.databaseId,
       this.foodApiId,
       this.recipeApiId,
-      required this.foodType,
-      required this.mealType,
-      required this.calories,
+      this.foodType,
+      this.mealType,
+      this.calories,
       required this.foodConsumed,
-      this.isStoredLocally = false,
+      this.date,
       this.nutritientsDetail,
       this.recipeDetails,
-      required this.caloriesDetails
-      });
+     });
 
   Map<String, dynamic> toMap() {
-    if (forDatabase) {
-      return {
-        'databaseId': databaseId,
-        'foodApiId': foodApiId,
-        'recipeApiId': recipeApiId,
-        'foodType': foodTypeToString[foodType],
-        'mealType': mealTypeToString[mealType],
-        'calories': calories,
-        'foodConsumed': foodConsumed,
-        'nutritientsDetail': nutritientsDetail != null
-            ? nutritientsDetailsToJson(nutritientsDetail!)
-            : null,
-        'recipeDetails': recipeDetails != null ? recipeDetails!.toJson : null,
-      };
-    }
+  
     return {
       'id': id,
       'foodApiId': foodApiId,
@@ -65,37 +49,36 @@ class FoodConsumed {
       'foodType': foodTypeToString[foodType],
       'mealType': mealTypeToString[mealType],
       'calories': calories,
+      'date': date,
       'foodConsumed': foodConsumed,
-      'isStoredLocally': isStoredLocally,
       'nutritientsDetail': nutritientsDetail != null
           ? nutritientsDetailsToJson(nutritientsDetail!)
           : null,
       'recipeDetails': recipeDetails != null ? recipeDetails!.toJson : null,
-      'caloriesDetails': caloriesDetails!.toMap(),
+     
     };
   }
 
   factory FoodConsumed.fromMap(Map<String, dynamic> map) {
     return FoodConsumed(
-        id: map['id'],
-        databaseId: map['databaseId'],
-        foodApiId: map['foodApiId'],
-        recipeApiId: map['recipeApiId'],
-        foodType: convertStringToEnum(FoodType.values, map['foodType']),
-        mealType: convertStringToEnum(MealType.values, map['mealType']),
-        calories: map['calories'],
-        foodConsumed: map['foodConsumed'],
-        isStoredLocally: map['isStoredLocally'] ?? true,
-        nutritientsDetail:
-            map['foodType'] == foodTypeToString[FoodType.brandedFood] ||
-                    map['foodType'] == foodTypeToString[FoodType.commonFood]
-                ? nutritientsDetailsFromJson(map['foodConsumed'])
-                : null,
-        recipeDetails: map['foodType'] == foodTypeToString[FoodType.recipe]
-            ? RecipeDetails.fromJson(map['foodConsumed'])
-            : null,
-      caloriesDetails:map['caloriesDetails'] != null? CaloriesDetails.fromMap(map['caloriesDetails']):null,
-            
-            );
+      id: map['id'],
+      databaseId: map['databaseId'],
+      foodApiId: map['foodApiId'],
+      recipeApiId: map['recipeApiId'],
+      foodType:map['foodType'] != null? convertStringToEnum(FoodType.values, map['foodType']):null,
+      mealType: map['mealType'] != null? convertStringToEnum(MealType.values, map['mealType']):null,
+      calories: map['calories'],
+      foodConsumed: map['foodConsumed'],
+      date: map[ 'date'],
+      nutritientsDetail:
+          map['foodType'] == foodTypeToString[FoodType.brandedFood] ||
+                  map['foodType'] == foodTypeToString[FoodType.commonFood]
+              ? nutritientsDetailsFromJson(map['foodConsumed'])
+              : null,
+      recipeDetails: map['foodType'] == foodTypeToString[FoodType.recipe]
+          ? RecipeDetails.fromJson(map['foodConsumed'])
+          : null,
+      
+    );
   }
 }

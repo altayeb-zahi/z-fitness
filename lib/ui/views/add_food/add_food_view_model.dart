@@ -75,7 +75,7 @@ class AddFoodViewModel extends BaseViewModel {
         foodTypeToString[FoodType.recipe]) {
       _navigationService.navigateTo(Routes.recipeDetailsView,
           arguments: RecipeDetailsArgument(
-              recipeDetailsAreComingFromHistory: true,
+              userNavigatedFromHistory: true,
               date: addFoodArgument.date,
               foodType: foodConsumed.foodType,
               mealType: addFoodArgument.mealType,
@@ -84,9 +84,9 @@ class AddFoodViewModel extends BaseViewModel {
     } else {
       _navigationService.navigateTo(Routes.foodDetailsView,
           arguments: FoodDetailsArgument(
-              foodDetailsAreComingFromHistory: true,
+              userNavigatedFromHistory: true,
               date: addFoodArgument.date,
-              foodType: foodConsumed.foodType,
+              foodType: foodConsumed.foodType!,
               mealType: addFoodArgument.mealType,
               selectedFoodId: foodConsumed.foodApiId,
               nutritientsDetail: foodConsumed.nutritientsDetail,

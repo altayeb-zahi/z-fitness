@@ -16,26 +16,34 @@ class DatabaseService {
 
 // stores food and recipes when user search it, it doesnt matter if user add it to the diary or no
 // the goal is next time user needs nutrion details no need to call the api and fetch it from databse
-      await _database!.execute('''
-CREATE TABLE food(
-   databaseId INTEGER PRIMARY KEY,
-   foodApiId TEXT,
-   recipeApiId INTEGER,
-   foodType TEXT,
-   foodConsumed TEXT
-)''');
-
-
-// stores the food and recipes that user add it to diary
-      await _database!.execute('''
-CREATE TABLE foodConsumed(
+      await _database!.execute('''CREATE TABLE IF NOT EXISTS  food(
+   id TEXT,     
    databaseId INTEGER PRIMARY KEY,
    foodApiId TEXT,
    recipeApiId INTEGER,
    mealType TEXT,
    foodType TEXT,
    calories REAL,
-   foodConsumed TEXT
+   foodConsumed TEXT,
+   date TEXT,
+   nutritientsDetail TEXT,
+   recipeDetails TEXT
+)''');
+
+// stores the food and recipes that user add it to diary
+      await _database!.execute('''
+CREATE TABLE IF NOT EXISTS foodConsumed(
+   id TEXT,
+   databaseId INTEGER PRIMARY KEY,
+   foodApiId TEXT,
+   recipeApiId INTEGER,
+   mealType TEXT,
+   foodType TEXT,
+   calories REAL,
+   foodConsumed TEXT,
+   date TEXT,
+   nutritientsDetail TEXT,
+   recipeDetails TEXT
 )''');
     }
   }
@@ -51,24 +59,36 @@ CREATE TABLE foodConsumed(
     }
   }
 
-  Future updateFoodInDatabase(FoodConsumed food) async {
-    log.i('DatabaseService - updateFoodInDatabase');
+  Future addFoodToDiary(FoodConsumed food) async {
+    log.i('DatabaseService - addFoodToDatabase');
 
     try {
-      await _database!.update(foodTableName, food.toMap(),
-          where: 'id = ?', whereArgs: [food.id]);
-      log.v('food in database updated successfully');
+      await _briteDatabase!.insert(foodConsumedTableName, food.toMap());
+      log.v('food added to database successfully');
+    } catch (e) {
+      return 'coulnt add Food to database $e';
+    }
+  }
+
+  Future updateFoodInDiary(FoodConsumed food) async {
+    log.i('DatabaseService - updateFoodInDiary');
+
+    try {
+      await _briteDatabase!.update(foodConsumedTableName, food.toMap(),
+          where: 'databaseId = ?', whereArgs: [food.databaseId]);
+      log.v('food in database updated successfully ${food.toMap()}');
+      log.i(food.databaseId);
     } catch (e) {
       return 'couldnt update Food in database $e';
     }
   }
 
-  Future deleteFoodFromDatabase(int foodId) async {
+  Future deleteFoodFromDiary(int foodId) async {
     log.i('DatabaseService - deleteFoodFromDatabase');
 
     try {
-      await _database!
-          .delete(foodTableName, where: 'id = ?', whereArgs: [foodId]);
+      await _briteDatabase!.delete(foodConsumedTableName,
+          where: 'databaseId = ?', whereArgs: [foodId]);
       log.v('food in database is deleted successfully');
     } catch (e) {
       return 'couldnt delete Food from database $e';
@@ -78,8 +98,8 @@ CREATE TABLE foodConsumed(
   Future<List<FoodConsumed>?> getFoodHistoryFromDatabase() async {
     log.i('DatabaseService - getFoodHistory');
 
-    List<Map> _foodsResult =
-        await _database!.query(foodTableName, limit: 10, orderBy: ' "id" DESC');
+    List<Map> _foodsResult = await _database!
+        .query(foodConsumedTableName, limit: 10, orderBy: ' "id" DESC');
 
     if (_foodsResult.isEmpty) {
       log.v('no history in database yet');
@@ -95,7 +115,7 @@ CREATE TABLE foodConsumed(
     return _foods;
   }
 
-  Future<FoodConsumed?> getFoodFromDatabase(String foodId) async {
+  Future<FoodConsumed?> getFoodNutritionDetails(String foodId) async {
     log.i('DatabaseService - getFoodFromDatabase');
 
     List<Map> _result = await _database!
@@ -110,10 +130,9 @@ CREATE TABLE foodConsumed(
     log.v('fetched food from database successfully');
 
     return FoodConsumed.fromMap(_result.first as Map<String, dynamic>);
-    ;
   }
 
-  Future<FoodConsumed?> getRecipeFromDatabase(int recipeId) async {
+  Future<FoodConsumed?> getRecipeNutritionDetails(int recipeId) async {
     log.i('DatabaseService - getRecipeFromDatabase');
 
     List<Map> _result = await _database!.query(foodTableName,
@@ -130,16 +149,33 @@ CREATE TABLE foodConsumed(
     return FoodConsumed.fromMap(_result.first as Map<String, dynamic>);
   }
 
-  Stream<List<FoodConsumed>> getFoodConsumedForSpecificMeal(String mealType) {
+  Stream<List<FoodConsumed>> getFoodConsumedForSpecificMeal(
+      String mealType, String date) {
     log.i('DatabaseService - getFoodConsumedForSpecificMeal');
 
     final Stream<List<FoodConsumed>> _foodConsumedResult =
         _briteDatabase!.createQuery(
-      foodTableName,
-      where: 'mealType LIKE ?',
-      whereArgs: [mealType],
+      foodConsumedTableName,
+      where: 'mealType IN (?,?)',
+      whereArgs: [mealType, date],
     ).mapToList((row) => FoodConsumed.fromMap(row));
 
     return _foodConsumedResult;
+  }
+
+  Stream<int> getFoodTotalCaloriesForOneMeal(String mealType, String date) {
+    log.i(
+        'DatabaseService - getFoodConsumedForSpecificMeal for $mealType on $date');
+
+    return _briteDatabase!
+        .createRawQuery(
+            [foodConsumedTableName],
+            'SELECT SUM(calories) FROM $foodConsumedTableName  WHERE "mealType" =? and "date" =?',
+            [mealType, date])
+        .mapToOne((row) {
+      if (row.values.first == null) return 0;
+      var calories = row.values.first as double;
+      return calories.round();
+    });
   }
 }
