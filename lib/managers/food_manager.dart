@@ -26,7 +26,6 @@ class FoodManager {
     foodConsumed.id = firestoreId;
 
     await _databaseService.addFoodToDiary(foodConsumed);
-
   }
 
   Future<void> updateFoodInDiary(FoodConsumed foodConsumed) async {
@@ -37,7 +36,6 @@ class FoodManager {
         mealType: mealTypeToString[foodConsumed.mealType]!);
 
     await _databaseService.updateFoodInDiary(foodConsumed);
-
   }
 
   Future<void> deleteFoodFromDiary(FoodConsumed foodConsumed) async {
@@ -48,7 +46,6 @@ class FoodManager {
         mealType: mealTypeToString[foodConsumed.mealType]!);
 
     await _databaseService.deleteFoodFromDiary(foodConsumed.databaseId!);
-
   }
 
   Future<NutritientsDetail?> getFoodNutritionDetails(
@@ -57,9 +54,8 @@ class FoodManager {
 
     final _foodId = foodDetailsArgument.selectedFoodId;
 
-   
-
-    if (foodDetailsArgument.userIsEditingNutrition || foodDetailsArgument.userNavigatedFromHistory) {
+    if (foodDetailsArgument.userIsEditingNutrition ||
+        foodDetailsArgument.userNavigatedFromHistory) {
       log.v('user is editing nutrion details or navigated from history');
 
       _nutritionDetails = foodDetailsArgument.nutritientsDetail;
@@ -75,6 +71,8 @@ class FoodManager {
         log.v('food details exist in local database');
 
         _nutritionDetails = _detailsFromDatabase.nutritientsDetail;
+        log.i('nutrition details: $_nutritionDetails');
+        log.i('food type: ${_detailsFromDatabase.foodType}');
       } else {
         log.v(
             'food details does not exist in local database, fetching it from the api');
@@ -92,7 +90,6 @@ class FoodManager {
 
     return _nutritionDetails;
   }
-
 
   Future _getFoodDetailsFromApi(FoodDetailsArgument foodDetailsArgument) async {
     switch (foodDetailsArgument.foodType) {
@@ -116,48 +113,5 @@ class FoodManager {
 
     _databaseService.addFoodToDatabase(_foodConsumed);
   }
-
-  
-  // /// Using the serving_weight parameter value from the alt_measure array,
-  // /// you can derive the nutrients in each serving by dividing that serving weight by
-  // /// the default returned serving weight of the food object, and multiplying by the full_nutrients array:
-  // /// (foods.alt_measures.serving_weight / foods.serving_weight_grams) * full_nutrients
-  // NutritientsDetail getUpdatedNutrientsDetails(
-  //     DialogResponseData dialogResponseData, Food originalFoodValues) {
-  //   var _originalFoodServingWeight = originalFoodValues.servingWeightGrams!;
-  //   double _newNumberOfServings = dialogResponseData.numberOfServings!;
-  //   double _currentNumberOfServings = originalFoodValues.servingQty!;
-  //   double _alMeasuresServingWeight =
-  //       dialogResponseData.servingWeight ?? _originalFoodServingWeight;
-
-  //   double num = (_newNumberOfServings / _currentNumberOfServings) *
-  //       (_alMeasuresServingWeight / _originalFoodServingWeight);
-
-  //   NutritientsDetail _updatedNutrientsDetail = NutritientsDetail(foods: [
-  //     Food(
-  //         foodName: originalFoodValues.foodName,
-  //         photo: originalFoodValues.photo,
-  //         servingQty: _newNumberOfServings,
-  //         servingUnit: dialogResponseData.servingUnit,
-  //         servingWeightGrams: originalFoodValues.servingWeightGrams,
-  //         nfCalories: originalFoodValues.nfCalories! * num,
-  //         nfTotalFat: originalFoodValues.nfTotalFat! * num,
-  //         nfSaturatedFat: originalFoodValues.nfSaturatedFat! * num,
-  //         nfCholesterol: originalFoodValues.nfCholesterol! * num,
-  //         nfSodium: originalFoodValues.nfSodium! * num,
-  //         nfTotalCarbohydrate: originalFoodValues.nfTotalCarbohydrate! * num,
-  //         nfDietaryFiber: originalFoodValues.nfDietaryFiber! * num,
-  //         nfSugars: originalFoodValues.nfSugars! * num,
-  //         nfProtein: originalFoodValues.nfProtein! * num,
-  //         nfPotassium: originalFoodValues.nfPotassium! * num,
-  //         nfP: originalFoodValues.nfP != null
-  //             ? originalFoodValues.nfP! * num
-  //             : null,
-  //         // fullNutrients: _updatedFullNutrients,
-  //         altMeasures: originalFoodValues.altMeasures)
-  //   ]);
-
-  //   return _updatedNutrientsDetail;
-  // }
 
 }

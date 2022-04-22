@@ -1,9 +1,10 @@
 import 'package:z_fitness/enums/food_type.dart';
 import 'package:z_fitness/enums/meal_type.dart';
-import 'package:z_fitness/models/calories_details.dart';
 import 'package:z_fitness/models/food_models/food_details.dart';
 import 'package:z_fitness/models/recipes_models/recipe_details.dart';
 import 'package:z_fitness/utils/helpers.dart';
+
+import '../../app/logger.dart';
 
 class FoodConsumed {
   bool forDatabase;
@@ -25,23 +26,22 @@ class FoodConsumed {
   NutritientsDetail? nutritientsDetail;
   RecipeDetails? recipeDetails;
 
-  FoodConsumed(
-      {this.forDatabase = false,
-      this.id,
-      this.databaseId,
-      this.foodApiId,
-      this.recipeApiId,
-      this.foodType,
-      this.mealType,
-      this.calories,
-      required this.foodConsumed,
-      this.date,
-      this.nutritientsDetail,
-      this.recipeDetails,
-     });
+  FoodConsumed({
+    this.forDatabase = false,
+    this.id,
+    this.databaseId,
+    this.foodApiId,
+    this.recipeApiId,
+    this.foodType,
+    this.mealType,
+    this.calories,
+    required this.foodConsumed,
+    this.date,
+    this.nutritientsDetail,
+    this.recipeDetails,
+  });
 
   Map<String, dynamic> toMap() {
-  
     return {
       'id': id,
       'foodApiId': foodApiId,
@@ -55,7 +55,6 @@ class FoodConsumed {
           ? nutritientsDetailsToJson(nutritientsDetail!)
           : null,
       'recipeDetails': recipeDetails != null ? recipeDetails!.toJson : null,
-     
     };
   }
 
@@ -65,20 +64,23 @@ class FoodConsumed {
       databaseId: map['databaseId'],
       foodApiId: map['foodApiId'],
       recipeApiId: map['recipeApiId'],
-      foodType:map['foodType'] != null? convertStringToEnum(FoodType.values, map['foodType']):null,
-      mealType: map['mealType'] != null? convertStringToEnum(MealType.values, map['mealType']):null,
+      foodType: map['foodType'] != null
+          ? convertStringToEnum(FoodType.values, map['foodType'])
+          : null,
+      mealType: map['mealType'] != null
+          ? convertStringToEnum(MealType.values, map['mealType'])
+          : null,
       calories: map['calories'],
       foodConsumed: map['foodConsumed'],
-      date: map[ 'date'],
+      date: map['date'],
       nutritientsDetail:
           map['foodType'] == foodTypeToString[FoodType.brandedFood] ||
-                  map['foodType'] == foodTypeToString[FoodType.commonFood]
+                  map['foodType'] == foodTypeToString[FoodType.commonFood] || map['foodType'] == null
               ? nutritientsDetailsFromJson(map['foodConsumed'])
               : null,
       recipeDetails: map['foodType'] == foodTypeToString[FoodType.recipe]
           ? RecipeDetails.fromJson(map['foodConsumed'])
           : null,
-      
     );
   }
 }

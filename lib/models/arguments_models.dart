@@ -27,18 +27,20 @@ class FoodDetailsArgument {
   /// store the food nutrition details when user tap on the food from diaryView or from the history in addFoodView
   NutritientsDetail? nutritientsDetail;
 
+  int? databaseId;
+
   bool userIsEditingNutrition;
   bool userNavigatedFromHistory;
 
-  FoodDetailsArgument({
-    required this.date,
-    required this.foodType,
-    required this.mealType,
-    this.selectedFoodId,
-    this.nutritientsDetail,
-    this.userIsEditingNutrition = false,
-    this.userNavigatedFromHistory = false
-  });
+  FoodDetailsArgument(
+      {required this.date,
+      required this.foodType,
+      required this.mealType,
+      this.selectedFoodId,
+      this.nutritientsDetail,
+      this.databaseId,
+      this.userIsEditingNutrition = false,
+      this.userNavigatedFromHistory = false});
 }
 
 class RecipeDetailsArgument {

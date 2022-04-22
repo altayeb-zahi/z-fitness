@@ -18,7 +18,7 @@ class DatabaseService {
 // the goal is next time user needs nutrion details no need to call the api and fetch it from databse
       await _database!.execute('''CREATE TABLE IF NOT EXISTS  food(
    id TEXT,     
-   databaseId INTEGER PRIMARY KEY,
+   databaseId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
    foodApiId TEXT,
    recipeApiId INTEGER,
    mealType TEXT,
@@ -34,7 +34,7 @@ class DatabaseService {
       await _database!.execute('''
 CREATE TABLE IF NOT EXISTS foodConsumed(
    id TEXT,
-   databaseId INTEGER PRIMARY KEY,
+   databaseId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
    foodApiId TEXT,
    recipeApiId INTEGER,
    mealType TEXT,
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS foodConsumed(
     try {
       await _briteDatabase!.update(foodConsumedTableName, food.toMap(),
           where: 'databaseId = ?', whereArgs: [food.databaseId]);
-      log.v('food in database updated successfully ${food.toMap()}');
+      log.v('food in database updated successfully');
       log.i(food.databaseId);
     } catch (e) {
       return 'couldnt update Food in database $e';

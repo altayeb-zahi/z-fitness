@@ -45,6 +45,7 @@ class FoodDetailsViewModel extends BaseViewModel {
       foodType: foodDetailsArgument.foodType,
       mealType: foodDetailsArgument.mealType,
       calories: _nutritientsDetail!.foods![0]!.nfCalories!,
+      databaseId: foodDetailsArgument.databaseId,
       foodConsumed: nutritientsDetailsToJson(
         _nutritientsDetail!,
       ),

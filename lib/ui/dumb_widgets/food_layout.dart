@@ -30,7 +30,6 @@ class FoodLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log.i('food layout is built for $title');
 
     final theme = Theme.of(context);
 
@@ -44,7 +43,7 @@ class FoodLayout extends StatelessWidget {
                 int _totalCaloires = 0;
 
                 if (snapshot.hasError) {
-                  return  Text(_totalCaloires.toString());
+                  return Text(_totalCaloires.toString());
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -82,7 +81,6 @@ class FoodLayout extends StatelessWidget {
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
                   final FoodConsumed _food = foodConsumedList[index];
-
                   return GestureDetector(
                       onTap: () => onFoodPressed(_food),
                       onLongPress: () => onFoodLongPressed(_food),
@@ -97,8 +95,10 @@ class FoodLayout extends StatelessWidget {
             child: Row(
               children: [
                 verticalSpaceSmall,
-                Text(addButtonTitle,
-                style: theme.textTheme.headline3!.copyWith(color: Colors.purple,fontSize: 16),
+                Text(
+                  addButtonTitle,
+                  style: theme.textTheme.headline3!
+                      .copyWith(color: Colors.purple, fontSize: 16),
                 )
               ],
             ),

@@ -5,6 +5,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/app/router.dart';
 import 'package:z_fitness/enums/food_type.dart';
 import 'package:z_fitness/enums/meal_type.dart';
+import 'package:z_fitness/managers/food_manager.dart';
 import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/models/calories_details.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
@@ -25,6 +26,7 @@ class DiaryViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _caloresService = locator<CaloriesService>();
   final _databaseService = locator<DatabaseService>();
+  final _foodManager = locator<FoodManager>();
 
   String _formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
@@ -69,20 +71,12 @@ class DiaryViewModel extends BaseViewModel {
     });
   }
 
-  void _deleteFood(FoodConsumed foodConsumed) async {
-    await _firestoreApi.deleteFoodFromDiary(
-        userId: currentUser.id!,
-        foodId: foodConsumed.id!,
-        date: _formattedDate,
-        mealType: mealTypeToString[foodConsumed.mealType]!);
-
-    //TODO handle the exemption
-  }
-
   void onFoodLongPressed(FoodConsumed foodConsumed) async {
     final response = await _dialogService.showConfirmationDialog(
         confirmationTitle: 'Delete');
-    if (response!.confirmed) _deleteFood(foodConsumed);
+    if (response!.confirmed) {
+      await _foodManager.deleteFoodFromDiary(foodConsumed);
+    }
   }
 
   void onFoodPressed(FoodConsumed foodConsumed) {
@@ -99,13 +93,13 @@ class DiaryViewModel extends BaseViewModel {
     } else {
       _navigationService.navigateTo(Routes.foodDetailsView,
           arguments: FoodDetailsArgument(
+            databaseId: foodConsumed.databaseId,
               userIsEditingNutrition: true,
               date: _formattedDate,
               foodType: foodConsumed.foodType!,
               mealType: foodConsumed.mealType!,
               selectedFoodId: foodConsumed.foodApiId,
-              nutritientsDetail: foodConsumed.nutritientsDetail
-              ));
+              nutritientsDetail: foodConsumed.nutritientsDetail));
     }
   }
 
@@ -152,13 +146,11 @@ class DiaryViewModel extends BaseViewModel {
       _databaseService.getFoodTotalCaloriesForOneMeal(
           mealTypeToString[MealType.snacks]!, _formattedDate);
 
-           Stream<int> getExerciseTotalCalories() =>
-      _databaseService.getFoodTotalCaloriesForOneMeal(
-          'exercise', _formattedDate);
+  Stream<int> getExerciseTotalCalories() => _databaseService
+      .getFoodTotalCaloriesForOneMeal('exercise', _formattedDate);
 
-           Stream<int> getWaterTotal() =>
-      _databaseService.getFoodTotalCaloriesForOneMeal(
-         'water', _formattedDate);
+  Stream<int> getWaterTotal() =>
+      _databaseService.getFoodTotalCaloriesForOneMeal('water', _formattedDate);
 
   void _getTheFoodConsumedInSpecificDay() {
     getBreakfastMeals();
