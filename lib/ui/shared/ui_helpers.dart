@@ -1,5 +1,6 @@
 // Horizontal Spacing
 import 'package:flutter/material.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
 
 const Widget horizontalSpaceTiny = SizedBox(width: 5.0);
 const Widget horizontalSpaceSmall = SizedBox(width: 10.0);
@@ -13,8 +14,9 @@ const Widget verticalSpaceRegular = SizedBox(height: 18.0);
 const Widget verticalSpaceMedium = SizedBox(height: 25.0);
 const Widget verticalSpaceLarge = SizedBox(height: 50.0);
 
- Widget divider = Divider(thickness: 7, color: Colors.grey.shade200);
+Widget divider = const Divider(thickness: 8, color: kcBackgroundColor);
 
+const horizontalViewPading = 15.0;
 
 // Screen Size helpers
 

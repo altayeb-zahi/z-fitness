@@ -3,12 +3,14 @@ import 'package:provider/provider.dart';
 
 import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/ui/dumb_widgets/add_food_view_widgets/searched_food_history.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'package:z_fitness/ui/views/add_food/add_food_view_model.dart';
 
 import '../../../enums/meal_type.dart';
 import '../../dumb_widgets/add_food_view_widgets/scan_barcode_and_quick_add.dart';
 import '../../dumb_widgets/add_food_view_widgets/search_bar.dart';
 import '../../dumb_widgets/add_food_view_widgets/searched_food_list_view.dart';
+import '../../shared/ui_helpers.dart';
 
 class AddFoodView extends StatefulWidget {
   final AddFoodArgument addFoodArgument;
@@ -34,23 +36,23 @@ class _AddFoodViewState extends State<AddFoodView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return ChangeNotifierProvider(
         create: (BuildContext context) => model,
         child: Consumer<AddFoodViewModel>(
           builder: (context, model, child) => Scaffold(
-            backgroundColor: Colors.grey[100],
+            backgroundColor: kcScafoldBackgroundColor,
             appBar: AppBar(
-              iconTheme: const IconThemeData(
-                color: Colors.black, //change your color here
-              ),
               backgroundColor: Colors.white,
               elevation: 0,
               title: Text(
                 mealTypeToString[widget.addFoodArgument.mealType]!,
-                style: const TextStyle(color: Colors.black),
+                style: theme.textTheme.headline3,
               ),
             ),
-            body: SafeArea(
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: horizontalViewPading),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -68,7 +70,6 @@ class _AddFoodViewState extends State<AddFoodView> {
                       searchedFood: model.searchedFood,
                       onFoodPressed: (foodType, selectedFoodId) =>
                           model.navigateToFoodDetails(FoodDetailsArgument(
-                            
                               date: widget.addFoodArgument.date,
                               foodType: foodType,
                               selectedFoodId: selectedFoodId,
@@ -83,9 +84,12 @@ class _AddFoodViewState extends State<AddFoodView> {
                           children: [
                             BarcodeScannerAndQuickAdd(
                                 onScanBarcode: () {}, onQuickAdd: () {}),
+                 verticalSpaceRegular,
+
                             SearchedFoodHistory(
                               foodHistory: model.foodHistory,
-                              onHistoryItemPressed: (foodConsumed) => model.onHistoryItemPressed(foodConsumed),
+                              onHistoryItemPressed: (foodConsumed) =>
+                                  model.onHistoryItemPressed(foodConsumed),
                             )
                           ],
                         ),

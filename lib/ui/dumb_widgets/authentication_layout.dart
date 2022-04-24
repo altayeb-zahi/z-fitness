@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
 
 import '../shared/styles.dart';
 import '../shared/ui_helpers.dart';
@@ -105,7 +106,7 @@ class AuthenticationLayout extends StatelessWidget {
               height: 50,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                // color: theme.accentIconTheme.color,
+                color: kcPrimaryColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: busy
@@ -115,7 +116,7 @@ class AuthenticationLayout extends StatelessWidget {
                   : Text(
                       mainButtonTitle!,
                       style: const TextStyle(
-                          // color: Colors.white,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 14),
                     ),
@@ -169,13 +170,13 @@ class AuthenticationLayout extends StatelessWidget {
           GoogleAuthButton(
             onPressed: onSignInWithGoogle ?? () {},
             text: 'CONTINUE WITH GOOGLE',
-            style: AuthButtonStyle(
+            style:  AuthButtonStyle(
               buttonColor: theme.primaryColor,
               iconSize: 24,
               iconBackground: Colors.white,
               buttonType: AuthButtonType.secondary,
               height: 50,
-              textStyle: const TextStyle(color: Colors.white),
+              textStyle: TextStyle(color: Colors.white),
             ),
           )
         ],

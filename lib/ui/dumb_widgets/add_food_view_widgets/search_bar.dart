@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
 
 class SearchBar extends StatefulWidget {
   final void Function(String text) onSearch;
@@ -55,14 +56,14 @@ class _SearchBarState extends State<SearchBar> {
                 hintText: 'Search for a food',
                 hintStyle: const TextStyle(color: Colors.grey),
                 filled: true,
-                fillColor: Colors.grey[100],
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                  borderSide: BorderSide(color: Colors.grey[200]!, width: 2),
+                fillColor: kcBackgroundColor,
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderSide: BorderSide(color: kcBackgroundColor, width: 2),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                  borderSide: BorderSide(color: Colors.grey[300]!),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderSide: BorderSide(color: kcBackgroundColor),
                 ),
                 
                 suffixIcon: showClearIcon?

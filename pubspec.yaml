@@ -33,6 +33,7 @@ dependencies:
   cloud_functions: ^3.2.9
   crypto: ^3.0.1
   cupertino_icons: ^1.0.2
+  device_preview: ^1.0.0
   firebase_auth: ^3.3.9
   firebase_core: ^1.13.1
   firebase_messaging: ^11.2.8
@@ -55,6 +56,7 @@ dependencies:
   sqlbrite: ^2.2.0
   stacked_services: ^0.8.17
   table_calendar: ^3.0.4
+  unicons: ^2.1.0
 
 dev_dependencies:
   flutter_lints: ^1.0.0

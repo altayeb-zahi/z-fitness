@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:z_fitness/ui/dumb_widgets/text_title.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
+import 'package:z_fitness/ui/shared/ui_helpers.dart';
 
 import 'package:z_fitness/ui/views/diary/diary_view_model.dart';
-
 
 class CaloriesCounterLayout extends StatelessWidget {
   const CaloriesCounterLayout({
@@ -49,7 +49,7 @@ class CaloriesCounterLayout extends StatelessWidget {
                   _snacksCalories;
 
               _caloriesRemaining =
-                _caloriesGoal - _totalCaloiresConsumed + _totalCaloriesBurned;
+                  _caloriesGoal - _totalCaloiresConsumed + _totalCaloriesBurned;
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -58,49 +58,66 @@ class CaloriesCounterLayout extends StatelessWidget {
 
             return Column(
               children: [
-                const ListTile(
-                  title: TextTitle('Calories Remaining'),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(children: [
-                      Text(_caloriesGoal.toString(),
-                      style:theme.textTheme.headline4,
-                      ),
-                      const Text(
-                        'Goal',
-                        style: TextStyle(fontSize: 12),
-                      )
-                    ]),
-                    const Text('-'),
-                    Column(children: [
-                      Text(_totalCaloiresConsumed.toString(),
-                      style:theme.textTheme.headline4,
-                      
-                      ),
-                      const Text(
-                        'Food',
-                        style: TextStyle(fontSize: 12),
-                      )
-                    ]),
-                    const Text('+'),
-                    Column(children: [
-                      Text(_totalCaloriesBurned.toString(),
-                      style:theme.textTheme.headline4,
-                      ),
-                      const Text(
-                        'Exercise',
-                        style: TextStyle(fontSize: 12),
-                      )
-                    ]),
-                    const Text('='),
-                    Column(children: [
-                      TextTitle(_caloriesRemaining.toString()),
-                      const Text('Remaining',
-                      style: TextStyle(fontSize: 12),
-                      ),
-                    ])
+                    Text('Calories Remaining',
+                      style: theme.textTheme.headline3!
+                          ),
+
+                          verticalSpaceRegular,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(children: [
+                          Text(
+                            _caloriesGoal.toString(),
+                            style: theme.textTheme.headline4,
+                          ),
+                          Text(
+                            'Goal',
+                            style: theme.textTheme.caption,
+                          )
+                        ]),
+                         Text('-', style: theme.textTheme.headline3),
+                        Column(children: [
+                          Text(
+                            _totalCaloiresConsumed.toString(),
+                            style: theme.textTheme.headline4,
+                          ),
+                          Text(
+                            'Food',
+                            style: theme.textTheme.caption,
+                          )
+                        ]),
+                         Text('+', style: theme.textTheme.headline3),
+                        Column(children: [
+                          Text(
+                            _totalCaloriesBurned.toString(),
+                            style: theme.textTheme.headline4,
+                          ),
+                          Text(
+                            'Exercise',
+                            style: theme.textTheme.caption,
+                          )
+                        ]),
+                         Text('=',
+                         style: theme.textTheme.headline3
+                        ),
+                        Column(children: [
+                          Text(
+                            _caloriesRemaining.toString(),
+                            style:theme.textTheme.headline3!
+                            .copyWith(color: kcPrimaryColor, fontSize: 16,fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Remaining',
+                            style: theme.textTheme.caption,
+                          ),
+                        ])
+                      ],
+                    ),
                   ],
                 ),
               ],

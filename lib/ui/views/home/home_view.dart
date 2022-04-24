@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'package:z_fitness/ui/views/diary/diary_view.dart';
 import 'package:z_fitness/ui/views/me/me_view.dart';
 import 'package:z_fitness/ui/views/recipes/recipes_view.dart';
@@ -40,15 +41,18 @@ class _HomeViewState extends State<HomeView> {
                   children: screens,
                 ),
                 bottomNavigationBar: BottomNavigationBar(
+                  backgroundColor: kcPrimaryColor,
                   onTap: model.setIndex,
                   currentIndex: model.currentIndex,
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
                   items: const [
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.restaurant), label: 'Diary'),
+                        icon: Icon(Icons.restaurant,color: kcScafoldBackgroundColor,), label: 'Diary'),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.restaurant_menu), label: 'Recipes'),
+                        icon: Icon(Icons.restaurant_menu,color: kcScafoldBackgroundColor), label: 'Recipes'),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.home), label: 'Me'),
+                        icon: Icon(Icons.home,color: kcScafoldBackgroundColor), label: 'Me'),
                   ],
                 ),
               )),

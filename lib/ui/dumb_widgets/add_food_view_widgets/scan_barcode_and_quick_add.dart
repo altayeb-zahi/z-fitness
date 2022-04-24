@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:unicons/unicons.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
 
 import '../../shared/ui_helpers.dart';
-
 
 class BarcodeScannerAndQuickAdd extends StatelessWidget {
   final void Function() onScanBarcode;
   final void Function() onQuickAdd;
-
 
   const BarcodeScannerAndQuickAdd({
     Key? key,
@@ -16,25 +16,28 @@ class BarcodeScannerAndQuickAdd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      
       height: screenHeightPercentage(context, percentage: 0.2),
       child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Expanded(
             child: Container(
-          color: Colors.white,
+          color: kcBackgroundColor,
           child: GestureDetector(
             onTap: onScanBarcode,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.camera_alt,
-                  color: Colors.purple[900],
+              children:  [
+                const Icon(
+                  UniconsLine.qrcode_scan,
+                  color: kcPrimaryColor,
                   size: 60,
                 ),
-                const Text('Scan a Barcode')
+                verticalSpaceSmall,
+
+                Text('Scan a Barcode',style: theme.textTheme.headline4,)
               ],
             ),
           ),
@@ -42,18 +45,22 @@ class BarcodeScannerAndQuickAdd extends StatelessWidget {
         horizontalSpaceSmall,
         Expanded(
             child: Container(
-          color: Colors.white,
+          color: kcSecondaryColor,
           child: GestureDetector(
             onTap: onQuickAdd,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.add_task_sharp,
-                  color: Colors.purple[900],
+              children:  [
+                const Icon(
+                  UniconsLine.fire,
+                  color: kcPrimaryColor,
                   size: 60,
                 ),
-                const Text('Quick Add')
+                verticalSpaceSmall,
+                Text(
+                  'Quick Add',
+                 style: theme.textTheme.headline4,
+                )
               ],
             ),
           ),

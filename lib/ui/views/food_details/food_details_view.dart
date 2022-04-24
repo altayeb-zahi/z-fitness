@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:z_fitness/models/arguments_models.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'package:z_fitness/ui/views/food_details/food_details_view_model.dart';
 
 import '../../../enums/food_type.dart';
@@ -30,20 +31,18 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+
     return ChangeNotifierProvider(
       create: (BuildContext context) => model,
       child: Consumer<FoodDetailsViewModel>(
         builder: (context, model, child) => Scaffold(
-           appBar: AppBar(
-              title: (const Text('food details')),
-              actions: [
-                GestureDetector(
-                    onTap: () => model.onMainButtonPressed(),
-                    child: const Icon(Icons.check)),
-                const SizedBox(
-                  width: 15,
-                )
-              ],
+            appBar: AppBar(
+              elevation: 0,
+              title: (Text(
+               'Food Details',
+                style: theme.textTheme.headline3,
+              )),
             ),
             body: model.isBusy
                 ? const Center(child: CircularProgressIndicator())
@@ -52,41 +51,30 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
     );
   }
 
-  
   _body(
     FoodDetailsViewModel model,
     FoodType foodType,
     BuildContext context,
   ) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(horizontalViewPading),
       child: ListView(
         children: [
-          _foodName(model, context),
-          const Divider(),
+          _title(model, context),
+          verticalSpaceMedium,
           _numberOfServing(model, context),
-          const Divider(),
+          verticalSpaceMedium,
           _servingQty(model, context),
-          const Divider(),
+          verticalSpaceMedium,
           _servingWeight(model, context),
-          const Divider(),
+          verticalSpaceMedium,
           _caloriesProtienCarbFat(model, context),
-        
+          verticalSpaceLarge,
+          verticalSpaceLarge,
+          _addButton(model, context)
         ],
       ),
     );
-  }
-
-  _foodName(FoodDetailsViewModel model, BuildContext context) {
-    var theme = Theme.of(context);
-    return Container(
-        height: 40,
-        margin: const EdgeInsets.all(5),
-        alignment: Alignment.centerLeft,
-        child: Text(
-          model.nutritienstDetail!.foods![0]!.foodName ?? '',
-          style: theme.textTheme.bodyText1,
-        ));
   }
 
   _numberOfServing(FoodDetailsViewModel model, BuildContext context) {
@@ -101,17 +89,16 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
             children: [
               Text(
                 'number of seving',
-                style: theme.textTheme.bodyText1,
+                style: theme.textTheme.bodyText2,
               ),
               const Expanded(
                   child: SizedBox(
                 height: 5,
                 width: 5,
               )),
-              Text(
-                model.nutritienstDetail!.foods![0]!.servingQty.toString(),
-                // style: theme.textTheme.headline2,
-              ),
+              Text(model.nutritienstDetail!.foods![0]!.servingQty.toString(),
+                  style: theme.textTheme.headline4!
+                      .copyWith(color: kcPrimaryColor)),
               const SizedBox(
                 width: 10,
               )
@@ -132,7 +119,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
             children: [
               Text(
                 'serving Qty  ',
-                style: theme.textTheme.bodyText1,
+                style: theme.textTheme.bodyText2,
               ),
               const Expanded(
                   child: SizedBox(
@@ -140,11 +127,12 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                 width: 5,
               )),
               Text(
-                model.nutritienstDetail!.foods![0]!.servingQty.toString() +
-                    ' ' +
-                    model.nutritienstDetail!.foods![0]!.servingUnit.toString(),
-                // style: theme.textTheme.headline2,
-              ),
+                  model.nutritienstDetail!.foods![0]!.servingQty.toString() +
+                      ' ' +
+                      model.nutritienstDetail!.foods![0]!.servingUnit
+                          .toString(),
+                  style: theme.textTheme.headline4!
+                      .copyWith(color: kcPrimaryColor)),
               const SizedBox(
                 width: 10,
               )
@@ -161,28 +149,28 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
         Expanded(
           child: Column(
             children: [
-              const Text(
+              Text(
                 'calories',
-                // style: theme.textTheme.bodyText1,
+                style: theme.textTheme.bodyText2,
               ),
               verticalSpaceRegular,
               Text(
-                model.nutritienstDetail!.foods![0]!.nfCalories!
-                        .round()
-                        .toString() +
-                    ' ' +
-                    'kcal',
-                // style: theme.textTheme.headline2,
-              )
+                  model.nutritienstDetail!.foods![0]!.nfCalories!
+                          .round()
+                          .toString() +
+                      ' ' +
+                      'kcal',
+                  style: theme.textTheme.headline4!
+                      .copyWith(color: kcPrimaryColor))
             ],
           ),
         ),
         Expanded(
           child: Column(
             children: [
-              const Text(
+              Text(
                 'protien',
-                // style: theme.textTheme.bodyText1,
+                style: theme.textTheme.bodyText2,
               ),
               verticalSpaceRegular,
               Text(
@@ -200,7 +188,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
             children: [
               Text(
                 'carb',
-                style: theme.textTheme.bodyText1,
+                style: theme.textTheme.bodyText2,
               ),
               verticalSpaceRegular,
               Text(
@@ -216,9 +204,9 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
         Expanded(
           child: Column(
             children: [
-              const Text(
+              Text(
                 'fat',
-                // style: theme.textTheme.bodyText1,
+                style: theme.textTheme.bodyText2,
               ),
               verticalSpaceRegular,
               Text(
@@ -247,7 +235,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
             children: [
               Text(
                 'serving weight  ',
-                style: theme.textTheme.bodyText1,
+                style: theme.textTheme.bodyText2,
               ),
               const Expanded(
                   child: SizedBox(
@@ -258,7 +246,8 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                 model.nutritienstDetail!.foods![0]!.servingWeightGrams
                         .toString() +
                     ' g',
-                // style: theme.textTheme.headline2,
+                style:
+                    theme.textTheme.headline4!.copyWith(color: kcPrimaryColor),
               ),
               const SizedBox(
                 width: 10,
@@ -268,4 +257,33 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
     );
   }
 
+  _addButton(FoodDetailsViewModel model, BuildContext context) {
+    var theme = Theme.of(context);
+    return GestureDetector(
+      onTap: () => model.onMainButtonPressed(),
+      child: Container(
+        height: 50,
+        alignment: Alignment.center,
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: const BoxDecoration(
+            color: kcPrimaryColor,
+            borderRadius: BorderRadius.all(Radius.circular(8))),
+        child: Text(
+          ' Add',
+          style: theme.textTheme.headline4!
+              .copyWith(color: kcScafoldBackgroundColor),
+        ),
+      ),
+    );
+  }
+
+  _title(FoodDetailsViewModel model, BuildContext context) {
+    var theme = Theme.of(context);
+
+  return  Text(
+      model.nutritienstDetail!.foods![0]!.foodName ?? '',
+      style: theme.textTheme.headline3,
+    );
+  }
 }

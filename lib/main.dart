@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/services/push_notifications_service.dart';
 import 'package:z_fitness/app/router.dart' as router;
+import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'app/locator.dart';
 import 'app/router.dart';
 import 'app/setup_bottom_sheet.dart';
@@ -35,7 +38,13 @@ void main() async {
   setupBottomSheetUi();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
-  runApp(const MyApp());
+  runApp( 
+    // DevicePreview(
+    // enabled: !kReleaseMode,
+    // builder: (context) =>
+     const MyApp(), // Wrap your app
+  // ),
+  );
 }
 
 Future _connectToFirebaseEmulator() async {
@@ -62,29 +71,37 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      //  useInheritedMediaQuery: true,
+      // locale: DevicePreview.locale(context),
+      // builder: DevicePreview.appBuilder,
+    
+      //
+        debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       navigatorKey: StackedService.navigatorKey,
       onGenerateRoute: router.generateRoute,
       initialRoute: Routes.startupView,
-      theme: ThemeData(primarySwatch: Colors.purple,
-      fontFamily: GoogleFonts.roboto().fontFamily,
-      appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
-      textTheme: const TextTheme(bodyText2: TextStyle(
-        fontSize: 14.0,
-        fontWeight: FontWeight.w400
-        ),
-        headline3: TextStyle(fontSize: 20,
-        fontWeight: FontWeight.w400,
-        color: Colors.black
-        ),
-
-        headline4:  TextStyle(fontSize: 16,fontWeight: FontWeight.w400, 
-        color: Colors.black
-        )
-        
-        )
-      ),
+      theme: ThemeData(
+        scaffoldBackgroundColor: kcScafoldBackgroundColor,
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: kcPrimaryColor,
+            secondary: kcSecondaryColor,
+          ),
+          fontFamily: GoogleFonts.montserrat().fontFamily,
+          appBarTheme: const AppBarTheme(backgroundColor:kcScafoldBackgroundColor,
+          titleTextStyle:TextStyle(color: Colors.black,fontSize: 16) ,
+          iconTheme: IconThemeData(color:kcPrimaryColor)
+          ),
+          textTheme: const TextTheme(
+              bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
+              headline3: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
+              headline4: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black))),
     );
   }
 }

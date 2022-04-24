@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:unicons/unicons.dart';
 import 'package:z_fitness/models/arguments_models.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
 
 import 'package:z_fitness/ui/views/recipe_details/recipe_details_view_model.dart';
 
@@ -37,256 +39,344 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
       create: (BuildContext context) => model,
       child: Consumer<RecipeDetailsViewModel>(
         builder: (context, model, child) => Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              iconTheme: const IconThemeData(color: Colors.black),
-              backgroundColor: Colors.white,
-              elevation: 0,
-            ),
             body: model.isBusy
                 ? const Center(child: CircularProgressIndicator())
-                : SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _recipeImage(model),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _titleAndSummary(model),
-                              verticalSpaceSmall,
-                              _addToDiary(model),
-                              verticalSpaceSmall,
-                              _calories(model),
-                              verticalSpaceSmall,
-                              _ingrediants(model)
-                            ],
-                          ),
-                        )
-                      ],
+                : SafeArea(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _recipeImage(model),
+                          Padding(
+                            padding: const EdgeInsets.all(horizontalViewPading),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _titleAndSummary(model),
+                                verticalSpaceRegular,
+                                _addToDiary(model),
+                                verticalSpaceRegular,
+                                _calories(model),
+                                verticalSpaceRegular,
+                                tabBar(model, context)
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   )),
       ),
     );
   }
 
-  _titleAndSummary(RecipeDetailsViewModel model) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            model.recipeDetails!.title!,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-          ),
-          verticalSpaceSmall,
-          ReadMoreText(
-            parseHtmlString(model.recipeDetails!.summary!),
-            style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w400, color: Colors.grey),
-            trimLines: 4,
-          )
-        ],
-      );
+  _titleAndSummary(RecipeDetailsViewModel model) {
+    final theme = Theme.of(context);
 
-  _addToDiary(RecipeDetailsViewModel model) => Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            Column(children: [
-              const Icon(Icons.add_alarm_outlined),
-              verticalSpaceSmall,
-              Text(
-                model.recipeDetails!.readyInMinutes.toString() + ' min',
-                // style: theme.textTheme.bodyText2,
-              )
-            ]),
-            Column(children: [
-              const Icon(Icons.favorite_border_outlined),
-              verticalSpaceSmall,
-              Text(
-                model.recipeDetails!.spoonacularScore.toString(),
-                // style: theme.textTheme.bodyText2,
-              )
-            ]),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () => model
-                  .navigateToRecipeStepsInstructions(model.recipeDetails!.id),
-              child: Column(children: const [
-                Icon(Icons.kitchen_outlined),
-                verticalSpaceSmall,
-                Text(
-                  'start cocking',
-                  // style: theme.textTheme.bodyText2,
-                )
-              ]),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          model.recipeDetails!.title!,
+          style: theme.textTheme.headline3,
+        ),
+        verticalSpaceRegular,
+        ReadMoreText(
+          parseHtmlString(model.recipeDetails!.summary!),
+          style: theme.textTheme.bodyText2!
+              .copyWith(color: kcDarkGreyColor, wordSpacing: 1.7),
+          colorClickableText: kcPrimaryColor,
+          trimLength: 120,
+        )
+      ],
+    );
+  }
+
+  _addToDiary(RecipeDetailsViewModel model) {
+    final theme = Theme.of(context);
+
+   return Container(
+       decoration: BoxDecoration(
+              color: kcSecondaryColor,
+              border: Border.all(color: theme.scaffoldBackgroundColor),
+              borderRadius: const BorderRadius.all(Radius.circular(8))),
+          margin: const EdgeInsets.symmetric(vertical: 3),
+          padding: const EdgeInsets.all(horizontalViewPading),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        Column(children: [
+          const Icon(Icons.add_alarm_outlined),
+          verticalSpaceSmall,
+          Text(
+            model.recipeDetails!.readyInMinutes.toString() + ' min',
+            style: theme.textTheme.caption,
+          )
+        ]),
+        Column(children: [
+          const Icon(Icons.favorite_border_outlined),
+          verticalSpaceSmall,
+          Text(
+            model.recipeDetails!.spoonacularScore.toString(),
+            style: theme.textTheme.caption,
+          )
+        ]),
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () =>
+              model.navigateToRecipeStepsInstructions(model.recipeDetails!.id),
+          child: Column(children:  [
+            const Icon(
+              UniconsLine.notes,
+              color: kcPrimaryColor,
             ),
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () => model.selectMealType(),
-              child: Column(children: const [
-                Icon(Icons.add),
-                verticalSpaceSmall,
-                Text(
-                  'add to Diary',
-                  // style: theme.textTheme.bodyText2,
-                )
-              ]),
-            ),
+            verticalSpaceSmall,
+            Text(
+              'start cocking',
+              style: theme.textTheme.caption,
+            )
           ]),
         ),
-      );
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => model.selectMealType(),
+          child: Column(children:  [
+            const Icon(
+              Icons.add,
+              color: kcPrimaryColor,
+            ),
+            verticalSpaceSmall,
+            Text(
+              'add to Diary',
+              style: theme.textTheme.caption,
+            )
+          ]),
+        ),
+      ]),
+    );
+  }
 
-  _calories(RecipeDetailsViewModel model) => Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+  _calories(RecipeDetailsViewModel model) {
+    final theme = Theme.of(context);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Column(
             children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text('calories'
-                        // , style: theme.textTheme.bodyText1
-                        ),
-                    verticalSpaceSmall,
-                    Text(
-                      '${model.recipeDetails!.recipeToNutrients!.calories.toString()} kcal',
-                      // style: theme.textTheme.headline2
-                    ),
-                    const Text('')
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text(
-                      'protien',
-                      // style: theme.textTheme.bodyText1,
-                    ),
-                    verticalSpaceSmall,
-                    Text(
-                      model.recipeDetails!.nutrition!.caloricBreakdown!
-                              .percentProtein!
-                              .round()
-                              .toString() +
-                          ' %',
-                      // style: theme.textTheme.bodyText2
-                    ),
-                    Text(
-                      model.recipeDetails!.recipeToNutrients!.protein
-                              .toString() +
-                          ' g',
-                      // style: theme.textTheme.bodyText1
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text(
-                      'carb',
-
-                      //  style: theme.textTheme.bodyText1
-                    ),
-                    verticalSpaceSmall,
-                    Text(
-                      model.recipeDetails!.nutrition!.caloricBreakdown!
-                              .percentCarbs!
-                              .round()
-                              .toString() +
-                          ' %',
-                      // style: theme.textTheme.bodyText2
-                    ),
-                    Text(
-                      model.recipeDetails!.recipeToNutrients!.carb.toString() +
-                          ' g',
-                      // style: theme.textTheme.bodyText1
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text(
-                      'fat',
-                      //  style: theme.textTheme.bodyText1
-                    ),
-                    verticalSpaceSmall,
-                    Text(
-                      model.recipeDetails!.nutrition!.caloricBreakdown!
-                              .percentFat!
-                              .round()
-                              .toString() +
-                          ' %',
-                      // style: theme.textTheme.bodyText2
-                    ),
-                    Text(
-                      model.recipeDetails!.recipeToNutrients!.fat.toString() +
-                          ' g',
-                      // style: theme.textTheme.bodyText1
-                    )
-                  ],
-                ),
-              ),
+               Text('calories'
+                  , style: theme.textTheme.caption
+                  ),
+              verticalSpaceSmall,
+              Text(
+                  '${model.recipeDetails!.recipeToNutrients!.calories.toString()} kcal',
+                  style: theme.textTheme.headline4!
+                      .copyWith(color: kcPrimaryColor)),
+              const Text('')
             ],
           ),
         ),
-      );
+        Expanded(
+          child: Column(
+            children: [
+               Text(
+                'protien',
+                style: theme.textTheme.caption,
+              ),
+              verticalSpaceSmall,
+              Text(
+                model.recipeDetails!.nutrition!.caloricBreakdown!
+                        .percentProtein!
+                        .round()
+                        .toString() +
+                    ' %',
+                style: theme.textTheme.caption
+              ),
+              verticalSpaceTiny,
+
+              Text(
+                model.recipeDetails!.recipeToNutrients!.protein.toString() +
+                    ' g',
+                style: theme.textTheme.bodyText2
+              )
+            ],
+          ),
+        ),
+        Expanded(
+          child: Column(
+            children: [
+               Text(
+                'carb',
+
+                 style: theme.textTheme.caption
+              ),
+              verticalSpaceSmall,
+              Text(
+                model.recipeDetails!.nutrition!.caloricBreakdown!.percentCarbs!
+                        .round()
+                        .toString() +
+                    ' %',
+                style: theme.textTheme.caption
+              ),
+              verticalSpaceTiny,
+
+              Text(
+                model.recipeDetails!.recipeToNutrients!.carb.toString() + ' g',
+                style: theme.textTheme.bodyText2
+              )
+            ],
+          ),
+        ),
+        Expanded(
+          child: Column(
+            children: [
+               Text(
+                'fat',
+                 style: theme.textTheme.caption
+              ),
+              verticalSpaceSmall,
+              Text(
+                model.recipeDetails!.nutrition!.caloricBreakdown!.percentFat!
+                        .round()
+                        .toString() +
+                    ' %',
+                style: theme.textTheme.caption
+              ),
+              verticalSpaceTiny,
+              Text(
+                model.recipeDetails!.recipeToNutrients!.fat.toString() + ' g',
+                style: theme.textTheme.bodyText2
+              )
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 
   _recipeImage(RecipeDetailsViewModel model) => CachedNetworkImage(
         fit: BoxFit.fill,
         imageUrl: model.recipeDetails!.image!,
       );
 
-  _ingrediants(RecipeDetailsViewModel model) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Ingrediants',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-          ),
-          SizedBox(
-            height: 100,
-            width: double.infinity,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                var url = 'https://spoonacular.com/cdn/ingredients_100x100/';
-                var ingredient =
-                    model.recipeDetails!.extendedIngredients![index];
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        CachedNetworkImage(
-                          height: 50,
-                          width: 50,
-                          imageUrl: url + ingredient.image!,
-                          placeholder: (context, url) =>
-                              const Center(child: CircularProgressIndicator()),
-                          errorWidget: (context, url, error) {
-                            return const Icon(Icons.error);
-                          },
-                        ),
-                        Text(model
-                            .recipeDetails!.extendedIngredients![index].name!),
-                      ],
+  tabBar(RecipeDetailsViewModel model, BuildContext context) {
+    var theme = Theme.of(context);
+    return SizedBox(
+      height: 500,
+      child: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            flexibleSpace: Column(
+              children: [
+                TabBar(
+                  labelColor: theme.textTheme.bodyText2!.color,
+                  indicatorColor: kcSecondaryColor,
+                  tabs: const [
+                    Tab(
+                      text: 'ingredients',
                     ),
-                  ),
-                );
-              },
-              itemCount: model.recipeDetails!.extendedIngredients!.length,
+                    Tab(
+                      text: 'nutrients',
+                    ),
+                    Tab(
+                      text: 'prices',
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
-        ],
-      );
+          body: TabBarView(
+            children: [
+              showIngredients(model, context),
+              showNutrients(model, context),
+              showPrices(model, context)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  showIngredients(RecipeDetailsViewModel model, BuildContext context) {
+    var theme = Theme.of(context);
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        var url = 'https://spoonacular.com/cdn/ingredients_100x100/';
+        var ingredient = model.recipeDetails!.extendedIngredients![index];
+        return Container(
+          decoration: BoxDecoration(
+              color: kcBackgroundColor,
+              border: Border.all(color: theme.scaffoldBackgroundColor),
+              borderRadius: const BorderRadius.all(Radius.circular(8))),
+          margin: const EdgeInsets.symmetric(vertical: 3),
+          child: ListTile(
+            leading: CachedNetworkImage(
+              height: 50,
+              width: 50,
+              imageUrl: url + ingredient.image!,
+              placeholder: (context, url) =>
+                  const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) {
+                return const Icon(Icons.error);
+              },
+            ),
+            title: Text(ingredient.name!),
+            subtitle: Text(
+                ingredient.amount!.toStringAsFixed(2) +
+                    ' ' +
+                    ingredient.measures!.metric!.unitShort!,
+                ),
+          ),
+        );
+      },
+      itemCount: model.recipeDetails!.extendedIngredients!.length,
+    );
+  }
+
+  showNutrients(RecipeDetailsViewModel model, BuildContext context) {
+    var theme = Theme.of(context);
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) => Container(
+        decoration: BoxDecoration(
+            color: kcBackgroundColor,
+            border: Border.all(color: theme.scaffoldBackgroundColor),
+            borderRadius: const BorderRadius.all(Radius.circular(8))),
+        margin: const EdgeInsets.all(3),
+        child: ListTile(
+          title: Text(model.recipeDetails!.nutrition!.nutrients![index].name!,
+             ),
+          trailing: Text(
+              model.recipeDetails!.nutrition!.nutrients![index].amount
+                  .toString(),
+             ),
+        ),
+      ),
+      itemCount: model.recipeDetails!.extendedIngredients!.length,
+    );
+  }
+
+  showPrices(RecipeDetailsViewModel model, BuildContext context) {
+    var theme = Theme.of(context);
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) => Container(
+        decoration: BoxDecoration(
+            color: kcBackgroundColor,
+            border: Border.all(color: theme.scaffoldBackgroundColor),
+            borderRadius: const BorderRadius.all(Radius.circular(15))),
+        margin: const EdgeInsets.all(3),
+        child: ListTile(
+          title: Text(
+            model.recipeDetails!.extendedIngredients![index].name!,
+            style: theme.textTheme.bodyText1,
+          ),
+        ),
+      ),
+      itemCount: model.recipeDetails!.extendedIngredients!.length,
+    );
+  }
 }

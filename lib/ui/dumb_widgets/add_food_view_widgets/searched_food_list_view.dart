@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:z_fitness/enums/food_type.dart';
 
 import '../../../models/food_models/food_search.dart';
+import '../../shared/app_colors.dart';
 
 class SearchedFoodListView extends StatelessWidget {
   final List<dynamic> searchedFood;
@@ -14,6 +15,8 @@ class SearchedFoodListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Expanded(
       child: ListView.builder(
           shrinkWrap: true,
@@ -24,12 +27,13 @@ class SearchedFoodListView extends StatelessWidget {
             if (searchedFood[index] is String) {
               return Container(
                 color: Colors.white,
-                child: const ListTile(
+                child:  ListTile(
+                  contentPadding: EdgeInsets.zero,
                   title: Text(
                     'Branded',
-                    style: TextStyle(fontSize: 25),
+                    style: theme.textTheme.headline3,
                   ),
-                  trailing: Icon(
+                  trailing: const Icon(
                     Icons.verified,
                     color: Colors.green,
                   ),
@@ -40,12 +44,12 @@ class SearchedFoodListView extends StatelessWidget {
             if (searchedFood[index] is int) {
               return Container(
                 color: Colors.white,
-                child: const ListTile(
+                child:  ListTile(
                   title: Text(
                     'Common',
-                    style: TextStyle(fontSize: 25),
+                   style: theme.textTheme.headline3,
                   ),
-                  trailing: Icon(
+                  trailing: const Icon(
                     Icons.verified,
                     color: Colors.grey,
                   ),
@@ -59,9 +63,15 @@ class SearchedFoodListView extends StatelessWidget {
                 onTap: () => onFoodPressed(
                     FoodType.brandedFood, searchedFood[index].nixItemId),
                 child: Container(
-                  color: Colors.white,
-                  margin: const EdgeInsets.all(3),
+                     margin: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      decoration: const BoxDecoration(
+      color: kcBackgroundColor,
+
+            borderRadius: BorderRadius.all(Radius.circular(8))),
                   child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+
                     leading: CachedNetworkImage(
                       width: 50,
                       height: 50,
@@ -86,8 +96,12 @@ class SearchedFoodListView extends StatelessWidget {
               onTap: () => onFoodPressed(
                   FoodType.commonFood, searchedFood[index].foodName),
               child: Container(
-                color: Colors.white,
-                margin: const EdgeInsets.all(3),
+                 margin: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      decoration: const BoxDecoration(
+      color: kcBackgroundColor,
+
+            borderRadius: BorderRadius.all(Radius.circular(8))),
                 child: ListTile(
                   leading: CachedNetworkImage(
                     width: 50,
