@@ -30,121 +30,131 @@ class _UserInfoViewState extends State<UserInfoView> {
       create: (context) => model,
       child: Scaffold(
           body: SafeArea(
-        child: Container(
-          height: screenHeight(context),
-          width: screenWidth(context),
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // uper part
-              SizedBox(
-                height: screenHeightPercentage(context, percentage: 0.5),
-                width: screenWidth(context),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: screenWidthPercentage(context, percentage: 0.7),
-                      child: Column(
-                        children: [
-                          Expanded(
-                              flex: 3,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                      child: GenderSelector(
-                                    onMaleSelected: () =>
-                                        model.setGender('male'),
-                                    onFemaleSelected: () =>
-                                        model.setGender('female'),
-                                  )),
-                                  Expanded(
-                                      child: BirthdaySelector(
-                                    onBirthdaySelected: (dateOfBirth) =>
-                                        model.setDateOfBirth(dateOfBirth),
-                                  ))
-                                ],
-                              )),
+        child: Padding(
+          padding: const EdgeInsets.all(horizontalViewPading),
+          child: SizedBox(
+            height: screenHeight(context),
+            width: screenWidth(context),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // uper part
+                SizedBox(
+                  height: screenHeightPercentage(context, percentage: 0.5),
+                  width: screenWidth(context),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: screenWidthPercentage(context, percentage: 0.65),
+                        child: Column(
+                          children: [
+                            Expanded(
+                                flex: 3,
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                        child: GenderSelector(
+                                      onMaleSelected: () =>
+                                          model.setGender('male'),
+                                      onFemaleSelected: () =>
+                                          model.setGender('female'),
+                                    )),
+                                    Expanded(
+                                      
+                                        child: Container(
+                                          margin: const EdgeInsets.only(top: 8),
+                                          child: BirthdaySelector(
+                                      onBirthdaySelected: (dateOfBirth) =>
+                                            model.setDateOfBirth(dateOfBirth),
+                                    ),
+                                        ))
+                                  ],
+                                )),
 
-                          // current and desired weight
-                          Expanded(
-                              flex: 1,
-                              child: Row(
-                                children: [
-                                  // current weight
-                                  Expanded(
-                                      child: WeightSelector(
-                                    onWeightChange: (weight) =>
-                                        model.setCurrentWeightValue(weight!),
-                                    title: 'Current Weight',
-                                    initialWeight:
-                                        model.currentUser!.currentWeight,
-                                  )),
+                            // current and desired weight
+                            Expanded(
+                                flex: 1,
+                                child: Row(
+                                  children: [
+                                    // current weight
+                                    Expanded(
+                                        child: WeightSelector(
+                                      onWeightChange: (weight) =>
+                                          model.setCurrentWeightValue(weight!),
+                                      title: 'Current Weight',
+                                      initialWeight:
+                                          model.currentUser!.currentWeight,
+                                    )),
 
-                                  // desired weight
-                                  Expanded(
-                                      child: WeightSelector(
-                                    onWeightChange: (weight) =>
-                                        model.setDesiredWeightValue(weight!),
-                                    title: 'Desired Weight',
-                                    initialWeight:
-                                        model.currentUser!.desiredWeight,
-                                  ))
-                                ],
-                              )),
-                        ],
+                                    // desired weight
+                                    Expanded(
+                                        child: WeightSelector(
+                                      onWeightChange: (weight) =>
+                                          model.setDesiredWeightValue(weight!),
+                                      title: 'Desired Weight',
+                                      initialWeight:
+                                          model.currentUser!.desiredWeight,
+                                    ))
+                                  ],
+                                )),
+                          ],
+                        ),
                       ),
-                    ),
 
-                    // height
-                    SizedBox(
-                      width: screenWidthPercentage(context, percentage: 0.3),
-                      child: HeightSelector(
-                        onHeightChange: (height) => model.setHeight(height!),
+                      // height
+                      Flexible(
+                       
+                        child: HeightSelector(
+                          onHeightChange: (height) => model.setHeight(height!),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-
-              // down part
-              Expanded(
-                  child: Column(
-                children: [
-                  // Activity level
-                  Expanded(
-                      flex: 6,
-                      child: ActivityLevelSelector(
-                        onActivityLevelChange: (activityLevel) =>
-                            model.setActitvityLevel(activityLevel!),
-                      )),
-                  Expanded(
-                      flex: 1,
-                      child: GestureDetector(
-                          onTap: () => model.onSaveButtonTaped(),
-                          child: Consumer<UserInfoViewModel>(
-                              builder: (context, model, child) =>
-                                  _saveButton(model))))
-                ],
-              ))
-            ],
+                // down part
+                Expanded(
+                    child: Column(
+                  children: [
+                    verticalSpaceRegular,
+                    // Activity level
+                    Expanded(
+                        flex: 6,
+                        child: ActivityLevelSelector(
+                          onActivityLevelChange: (activityLevel) =>
+                              model.setActitvityLevel(activityLevel!),
+                        )),
+                    Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                            onTap: () => model.onSaveButtonTaped(),
+                            child: Consumer<UserInfoViewModel>(
+                                builder: (context, model, child) =>
+                                    _saveButton(model))))
+                  ],
+                ))
+              ],
+            ),
           ),
         ),
       )),
     );
   }
 
-  Widget _saveButton(UserInfoViewModel model) => Container(
-        width: double.infinity,
-        height: 60,
-        alignment: Alignment.center,
-        color: (model.dateOfBirth != null && model.selectedGender != null)
-            ? Colors.purple
-            : Colors.grey,
-        child: model.isBusy
-            ? const Center(
-                child: CircularProgressIndicator(color: Colors.white),
-              )
-            : const Text('Save', style: TextStyle(color: Colors.white)),
-      );
+  Widget _saveButton(UserInfoViewModel model) {
+    final theme = Theme.of(context);
+
+    return Container(
+      width: double.infinity,
+      height: 60,
+      alignment: Alignment.center,
+      color: (model.dateOfBirth != null && model.selectedGender != null)
+          ? theme.primaryColor
+          : Colors.grey,
+      child: model.isBusy
+          ? const Center(
+              child: CircularProgressIndicator(color: Colors.white),
+            )
+          : const Text('Save', style: TextStyle(color: Colors.white)),
+    );
+  }
 }

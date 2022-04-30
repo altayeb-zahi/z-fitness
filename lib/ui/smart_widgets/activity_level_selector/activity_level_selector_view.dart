@@ -13,6 +13,7 @@ class ActivityLevelSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = ActivityLevelSelectorViewModel();
+    final theme = Theme.of(context);
 
     return ChangeNotifierProvider(
         create: (context) => model,
@@ -22,7 +23,7 @@ class ActivityLevelSelector extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(5),
-                      child: const Text('Activity Level'),
+                      child:  Text('Activity Level',style: theme.textTheme.headline3,),
                     ),
                     verticalSpaceSmall,
                     Row(
@@ -33,6 +34,7 @@ class ActivityLevelSelector extends StatelessWidget {
                             children: model.activityLevels
                                 .map((level) => RadioListTile<String>(
                                     dense: true,
+                                    activeColor: theme.primaryColor,
                                     title: Text(
                                       level,
                                     ),

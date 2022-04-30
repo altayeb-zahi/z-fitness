@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS foodConsumed(
     final Stream<List<FoodConsumed>> _foodConsumedResult =
         _briteDatabase!.createQuery(
       foodConsumedTableName,
-      where: 'mealType IN (?,?)',
+      where: '"mealType" =? and "date" =?',
       whereArgs: [mealType, date],
     ).mapToList((row) => FoodConsumed.fromMap(row));
 

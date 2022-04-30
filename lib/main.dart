@@ -39,11 +39,11 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
   runApp( 
-    // DevicePreview(
-    // enabled: !kReleaseMode,
-    // builder: (context) =>
+    DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) =>
      const MyApp(), // Wrap your app
-  // ),
+  ),
   );
 }
 
@@ -71,9 +71,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //  useInheritedMediaQuery: true,
-      // locale: DevicePreview.locale(context),
-      // builder: DevicePreview.appBuilder,
+       useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
     
       //
         debugShowCheckedModeBanner: false,
@@ -83,6 +83,8 @@ class MyApp extends StatelessWidget {
       initialRoute: Routes.startupView,
       theme: ThemeData(
         scaffoldBackgroundColor: kcScafoldBackgroundColor,
+        primaryColor: kcPrimaryColor,
+        backgroundColor: kcBackgroundColor,
           colorScheme: ColorScheme.fromSwatch().copyWith(
             primary: kcPrimaryColor,
             secondary: kcSecondaryColor,
@@ -102,6 +104,8 @@ class MyApp extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: Colors.black))),
+
+                  
     );
   }
 }

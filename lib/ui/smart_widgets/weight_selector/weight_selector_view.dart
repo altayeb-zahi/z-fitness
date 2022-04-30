@@ -24,7 +24,7 @@ class _WeightSelectorState extends State<WeightSelector> {
 
   @override
   void initState() {
-    if(widget.initialWeight != null) {
+    if (widget.initialWeight != null) {
       model.setWeightValue(widget.initialWeight!);
     }
     super.initState();
@@ -32,6 +32,8 @@ class _WeightSelectorState extends State<WeightSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return ChangeNotifierProvider(
         create: (context) => model,
         child: Consumer<WeightSelectorViewModel>(
@@ -46,7 +48,7 @@ class _WeightSelectorState extends State<WeightSelector> {
                           model.weight.toString() + ' kg',
                         ),
                         DropdownButton(
-                          focusColor: Colors.transparent,
+                            focusColor: Colors.transparent,
                             items: model.weightRange
                                 .map((weight) => DropdownMenuItem(
                                       onTap: () {},
@@ -67,7 +69,10 @@ class _WeightSelectorState extends State<WeightSelector> {
                             }),
                       ],
                     ),
-                    Text(widget.title)
+                    Text(
+                      widget.title,
+                      style: theme.textTheme.caption,
+                    )
                   ],
                 )));
   }

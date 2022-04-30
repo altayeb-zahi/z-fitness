@@ -13,6 +13,7 @@ class HeightSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = HeightSelectorViewModel();
+    final theme = Theme.of(context);
 
     return ChangeNotifierProvider(
         create: (context) => model,
@@ -25,12 +26,12 @@ class HeightSelector extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Text('Height'),
-                            horizontalSpaceSmall,
+                             Text('Height',style: theme.textTheme.caption,),
+                            horizontalSpaceTiny,
                             Text(
                               model.height.round().toString(),
                             ),
-                            const Text(' cm'),
+                             const Text(' cm'),
                           ],
                         ),
                       ),
@@ -38,8 +39,8 @@ class HeightSelector extends StatelessWidget {
                         child: RotatedBox(
                             quarterTurns: 3,
                             child: Slider(
-                              activeColor: Colors.pink,
-                              inactiveColor: Colors.grey,
+                              activeColor: theme.primaryColor,
+                              inactiveColor: theme.colorScheme.secondary,
                               value: model.height.toDouble(),
                               onChanged: (height) {
                                 model.setHeight(height);

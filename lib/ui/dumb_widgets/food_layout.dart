@@ -29,17 +29,20 @@ class FoodLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final theme = Theme.of(context);
 
     return Padding(
-       padding:    const EdgeInsets.symmetric(horizontal: horizontalViewPading),
+      padding: const EdgeInsets.symmetric(horizontal: horizontalViewPading),
       child: Column(
         children: [
-          Row(children: [Text(title,style: theme.textTheme.headline3,),
-        Expanded(child: Container()),
-
-          StreamBuilder<int>(
+          Row(
+            children: [
+              Text(
+                title,
+                style: theme.textTheme.headline3,
+              ),
+              Expanded(child: Container()),
+              StreamBuilder<int>(
                 stream: mealTotalCaloriesStream,
                 builder: (context, snapshot) {
                   int _totalCaloires = 0;
@@ -56,10 +59,12 @@ class FoodLayout extends StatelessWidget {
                     _totalCaloires = snapshot.data!;
                   }
 
-                  return Text(_totalCaloires.toString(),style: theme.textTheme.headline4);
+                  return Text(_totalCaloires.toString(),
+                      style: theme.textTheme.headline4);
                 },
               )
-          ],),
+            ],
+          ),
           verticalSpaceRegular,
           StreamBuilder<List<FoodConsumed>>(
               stream: mealsConsumedStream,
@@ -101,12 +106,12 @@ class FoodLayout extends StatelessWidget {
                   verticalSpaceSmall,
                   Text(
                     addButtonTitle,
-                    style: theme.textTheme.headline3!
-                        .copyWith(color: kcPrimaryColor, fontSize: 16,fontWeight: FontWeight.bold),
+                    style: theme.textTheme.headline3!.copyWith(
+                        color: kcPrimaryColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                   ),
-
                   Expanded(child: Container()),
-
                   const Icon(Icons.more_horiz)
                 ],
               ),

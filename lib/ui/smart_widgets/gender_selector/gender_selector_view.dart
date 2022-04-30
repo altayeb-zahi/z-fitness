@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'package:z_fitness/ui/smart_widgets/gender_selector/gender_selector_view_model.dart';
 import '../../shared/ui_helpers.dart';
 
@@ -23,6 +24,7 @@ class _GenderSelectorState extends State<GenderSelector> {
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
       create: (context) => model,
       child: Consumer<GenderSelectorViewModel>(
@@ -39,7 +41,7 @@ class _GenderSelectorState extends State<GenderSelector> {
                         },
                         child: _genderLayout(
                             title: 'Male',
-                            icon: Icons.arrow_upward,
+                            icon: Icons.male,
                             isSelected: model.maleIsSelected)),
                   ),
 
@@ -54,7 +56,7 @@ class _GenderSelectorState extends State<GenderSelector> {
                         },
                         child: _genderLayout(
                             title: 'Female',
-                            icon: Icons.arrow_downward,
+                            icon: Icons.female,
                             isSelected: model.femaleIsSelected)),
                   ),
                 ],
@@ -65,9 +67,11 @@ class _GenderSelectorState extends State<GenderSelector> {
   Widget _genderLayout(
           {required String title,
           required IconData icon,
-          required bool isSelected}) =>
-      Card(
-          color: isSelected ? Colors.purple : Colors.white,
+          required bool isSelected}) {
+    final theme = Theme.of(context);
+
+   return  Card(
+          color: isSelected ? theme.primaryColor : theme.backgroundColor,
           child: Container(
             width: screenWidthPercentage(context, percentage: 0.7 / 2.1),
             alignment: Alignment.center,
@@ -78,16 +82,16 @@ class _GenderSelectorState extends State<GenderSelector> {
               children: <Widget>[
                 Icon(
                   icon,
-                  color: isSelected ? Colors.white : Colors.grey,
+                  color: isSelected ? theme.scaffoldBackgroundColor : kcDarkGreyColor,
                   size: 40,
                 ),
                 verticalSpaceSmall,
                 Text(
                   title,
                   style:
-                      TextStyle(color: isSelected ? Colors.white : Colors.grey),
+                      theme.textTheme.bodyText2!.copyWith(color: isSelected ? theme.scaffoldBackgroundColor : kcDarkGreyColor),
                 )
               ],
             ),
-          ));
+          ));}
 }
