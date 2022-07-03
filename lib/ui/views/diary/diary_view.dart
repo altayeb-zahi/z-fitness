@@ -17,7 +17,6 @@ class DiaryView extends StatefulWidget {
 
 class _DiaryViewState extends State<DiaryView> {
   final model = DiaryViewModel();
-  
 
   @override
   void initState() {
@@ -27,21 +26,26 @@ class _DiaryViewState extends State<DiaryView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(title: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [
-                      const Icon(Icons.keyboard_arrow_left,color: kcPrimaryColor,),
-                      Expanded(child: Container()),
-                      const Text('Today'),
-                                            Expanded(child: Container()),
-
-                      const Icon(Icons.keyboard_arrow_right,color: kcPrimaryColor,)
-                    ],
-                  ),
-                  elevation: 0,
-                  ),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.keyboard_arrow_left,
+              color: primaryColorLight,
+            ),
+            Expanded(child: Container()),
+            const Text('Today'),
+            Expanded(child: Container()),
+            const Icon(
+              Icons.keyboard_arrow_right,
+              color: primaryColorLight,
+            )
+          ],
+        ),
+        elevation: 0,
+      ),
       body: ChangeNotifierProvider(
         create: (BuildContext context) => model,
         child: SafeArea(
@@ -100,11 +104,11 @@ class _DiaryViewState extends State<DiaryView> {
       );
 
   Widget _caloriesRemaining() => Padding(
-     padding:    const EdgeInsets.symmetric(horizontal: horizontalViewPading),
-    child: Consumer<DiaryViewModel>(
+        padding: const EdgeInsets.symmetric(horizontal: horizontalViewPading),
+        child: Consumer<DiaryViewModel>(
           builder: (context, model, child) => const CaloriesCounterLayout(),
         ),
-  );
+      );
 
   Widget _breakfast() => FoodLayout(
         title: 'Breakfast',

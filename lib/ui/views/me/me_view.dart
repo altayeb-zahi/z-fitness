@@ -14,7 +14,7 @@ class MeView extends StatefulWidget {
 
 class _MeViewState extends State<MeView> {
   final model = MeViewModel();
-  final Color headerColor = kcPrimaryColor;
+  final Color headerColor = primaryColorLight;
 
   @override
   void initState() {
@@ -42,25 +42,29 @@ class _MeViewState extends State<MeView> {
               appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Container(
-                   decoration: const BoxDecoration(boxShadow: [
-              BoxShadow(
-                color: kcPrimaryColor,
-                offset: Offset(0, 5.0),
-               
-              )
-            ]),
+                  decoration: const BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      color: primaryColorLight,
+                      offset: Offset(0, 5.0),
+                    )
+                  ]),
                   child: AppBar(
-                    backgroundColor: kcPrimaryColor,
+                    backgroundColor: primaryColorLight,
                     actions: [
                       TextButton(
                         onPressed: () => model.navigateToEditGoal(),
                         child: Text(
                           'Edit',
-                          style: theme.textTheme.headline3!.copyWith(color: kcScafoldBackgroundColor)
-                             ,
+                          style: theme.textTheme.headline3!
+                              .copyWith(color: scafoldBackgroundColorLight),
                         ),
                       ),
-                      horizontalSpaceMedium
+                      IconButton(
+                          onPressed: () => model.logout(),
+                          icon: const Icon(
+                            (Icons.menu),
+                            color: Colors.white,
+                          )),
                     ],
                     centerTitle: true,
                     elevation: 0,
@@ -68,7 +72,7 @@ class _MeViewState extends State<MeView> {
                 ),
               ),
               body: Container(
-                color: headerColor,
+                color: primaryColorLight,
                 child: Column(
                   children: [
                     Container(
@@ -76,12 +80,14 @@ class _MeViewState extends State<MeView> {
                         height: 110,
                         margin: const EdgeInsets.all(10.0),
                         decoration: const BoxDecoration(
-                            color: kcBackgroundColor, shape: BoxShape.circle),
+                            color: backgroundColorLight,
+                            shape: BoxShape.circle),
                         child: Icon(Icons.person,
                             size: 60, color: Colors.grey[400])),
                     Text(
                       model.currentUser.name ?? model.userNameFromGoogleSign,
-                      style: theme.textTheme.headline3!.copyWith(color: kcScafoldBackgroundColor),
+                      style: theme.textTheme.headline3!
+                          .copyWith(color: scafoldBackgroundColorLight),
                     ),
                     verticalSpaceMedium,
                     Expanded(
@@ -89,12 +95,12 @@ class _MeViewState extends State<MeView> {
                         alignment: Alignment.topCenter,
                         children: <Widget>[
                           Container(
-                            color: kcBackgroundColor,
+                            color: backgroundColorLight,
                           ),
                           Container(
                             height: 50,
-                            decoration:  BoxDecoration(
-                                color: headerColor,
+                            decoration: BoxDecoration(
+                                color: primaryColorLight,
                                 borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(60),
                                     bottomRight: Radius.circular(60))),
@@ -102,7 +108,7 @@ class _MeViewState extends State<MeView> {
                           Positioned(
                             top: 110,
                             child: Container(
-                              color: kcBackgroundColor,
+                              color: backgroundColorLight,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
                               width: MediaQuery.of(context).size.width,
@@ -114,7 +120,7 @@ class _MeViewState extends State<MeView> {
                                     margin: const EdgeInsets.all(10),
                                     height: 80,
                                     width: 200,
-                                    color: kcScafoldBackgroundColor,
+                                    color: scafoldBackgroundColorLight,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(
@@ -131,13 +137,13 @@ class _MeViewState extends State<MeView> {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   Text(info.subtitle,
-                                                      style: theme.textTheme
-                                                          .headline4),
+                                                      style: theme
+                                                          .textTheme.headline4),
                                                   verticalSpaceTiny,
                                                   Text(
                                                     info.title,
-                                                    style: theme
-                                                        .textTheme.caption,
+                                                    style:
+                                                        theme.textTheme.caption,
                                                   ),
                                                 ],
                                               )),
@@ -149,7 +155,7 @@ class _MeViewState extends State<MeView> {
                                             width: 50,
                                             child: Icon(info.icon,
                                                 size: 30,
-                                                color: kcPrimaryColor),
+                                                color: primaryColorLight),
                                           ),
                                         ],
                                       ),
@@ -161,14 +167,12 @@ class _MeViewState extends State<MeView> {
                             ),
                           ),
                           Container(
-                            margin:
-                                const EdgeInsets.symmetric(horizontal: 30),
-                            color: kcScafoldBackgroundColor,
+                            margin: const EdgeInsets.symmetric(horizontal: 30),
+                            color: scafoldBackgroundColorLight,
                             height: 90.0,
                             width: MediaQuery.of(context).size.width,
                             child: Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Expanded(
                                   child: Container(
@@ -178,13 +182,11 @@ class _MeViewState extends State<MeView> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(27.toString(),
-                                            style: theme.textTheme.headline4!
-                                               ),
+                                            style: theme.textTheme.headline4!),
                                         verticalSpaceTiny,
                                         Text(
                                           'Age',
-                                          style: theme.textTheme.caption!
-                                              ,
+                                          style: theme.textTheme.caption!,
                                         ),
                                       ],
                                     ),
@@ -193,7 +195,7 @@ class _MeViewState extends State<MeView> {
                                 Container(
                                   height: 40,
                                   width: 2,
-                                  color: kcSecondaryColor,
+                                  color: secondaryColorLight,
                                 ),
                                 Expanded(
                                   child: Container(
@@ -206,13 +208,11 @@ class _MeViewState extends State<MeView> {
                                             model.currentUser.currentWeight
                                                     .toString() +
                                                 ' kg',
-                                            style: theme.textTheme.headline4!
-                                                ),
+                                            style: theme.textTheme.headline4!),
                                         verticalSpaceTiny,
                                         Text(
                                           'Weight',
-                                          style: theme.textTheme.caption
-                                             ,
+                                          style: theme.textTheme.caption,
                                         ),
                                       ],
                                     ),
@@ -221,7 +221,7 @@ class _MeViewState extends State<MeView> {
                                 Container(
                                   height: 40,
                                   width: 2,
-                                  color: kcSecondaryColor,
+                                  color: secondaryColorLight,
                                 ),
                                 Expanded(
                                   child: Container(
@@ -234,13 +234,11 @@ class _MeViewState extends State<MeView> {
                                             model.currentUser.height
                                                     .toString() +
                                                 ' cm',
-                                            style: theme.textTheme.headline4!
-                                                ),
+                                            style: theme.textTheme.headline4!),
                                         verticalSpaceTiny,
                                         Text(
                                           'Height',
-                                          style: theme.textTheme.caption!
-                                             ,
+                                          style: theme.textTheme.caption!,
                                         ),
                                       ],
                                     ),

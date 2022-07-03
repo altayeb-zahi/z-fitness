@@ -15,6 +15,8 @@ class MeViewModel extends BaseViewModel {
   final _firestoreApi = locator<FirestoreApi>();
   final _navigationService = locator<NavigationService>();
   final _caloriesService = locator<CaloriesService>();
+  final firebaseAuthenticationService =
+      locator<FirebaseAuthenticationService>();
 
   User get currentUser => locator<UserService>().currentUser!;
 
@@ -64,6 +66,11 @@ class MeViewModel extends BaseViewModel {
       await initialiseUserInfo();
       notifyListeners();
     }
+  }
+
+  logout() {
+    firebaseAuthenticationService.logout();
+    _navigationService.navigateTo(Routes.loginView);
   }
 }
 

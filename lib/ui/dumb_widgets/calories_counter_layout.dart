@@ -58,15 +58,12 @@ class CaloriesCounterLayout extends StatelessWidget {
 
             return Column(
               children: [
-              
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Calories Remaining',
-                      style: theme.textTheme.headline3!
-                          ),
-
-                          verticalSpaceRegular,
+                        style: theme.textTheme.headline3!),
+                    verticalSpaceRegular,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -80,7 +77,7 @@ class CaloriesCounterLayout extends StatelessWidget {
                             style: theme.textTheme.caption,
                           )
                         ]),
-                         Text('-', style: theme.textTheme.headline3),
+                        Text('-', style: theme.textTheme.headline3),
                         Column(children: [
                           Text(
                             _totalCaloiresConsumed.toString(),
@@ -91,7 +88,7 @@ class CaloriesCounterLayout extends StatelessWidget {
                             style: theme.textTheme.caption,
                           )
                         ]),
-                         Text('+', style: theme.textTheme.headline3),
+                        Text('+', style: theme.textTheme.headline3),
                         Column(children: [
                           Text(
                             _totalCaloriesBurned.toString(),
@@ -102,14 +99,14 @@ class CaloriesCounterLayout extends StatelessWidget {
                             style: theme.textTheme.caption,
                           )
                         ]),
-                         Text('=',
-                         style: theme.textTheme.headline3
-                        ),
+                        Text('=', style: theme.textTheme.headline3),
                         Column(children: [
                           Text(
                             _caloriesRemaining.toString(),
-                            style:theme.textTheme.headline3!
-                            .copyWith(color: kcPrimaryColor, fontSize: 16,fontWeight: FontWeight.bold),
+                            style: theme.textTheme.headline3!.copyWith(
+                                color: primaryColorLight,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           ),
                           Text(
                             'Remaining',

@@ -38,12 +38,11 @@ void main() async {
   setupBottomSheetUi();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
-  runApp( 
+  runApp(
     DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) =>
-     const MyApp(), // Wrap your app
-  ),
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(), // Wrap your app
+    ),
   );
 }
 
@@ -71,29 +70,29 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       useInheritedMediaQuery: true,
+      useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-    
+
       //
-        debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       navigatorKey: StackedService.navigatorKey,
       onGenerateRoute: router.generateRoute,
       initialRoute: Routes.startupView,
-      theme: ThemeData(
-        scaffoldBackgroundColor: kcScafoldBackgroundColor,
-        primaryColor: kcPrimaryColor,
-        backgroundColor: kcBackgroundColor,
+      darkTheme: ThemeData(
+          scaffoldBackgroundColor: Colors.green[900],
+          primaryColor: primaryColorLight,
+          backgroundColor: Colors.black87,
           colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: kcPrimaryColor,
-            secondary: kcSecondaryColor,
+            primary: primaryColorLight,
+            secondary: secondaryColorLight,
           ),
           fontFamily: GoogleFonts.montserrat().fontFamily,
-          appBarTheme: const AppBarTheme(backgroundColor:kcScafoldBackgroundColor,
-          titleTextStyle:TextStyle(color: Colors.black,fontSize: 16) ,
-          iconTheme: IconThemeData(color:kcPrimaryColor)
-          ),
+          appBarTheme: const AppBarTheme(
+              backgroundColor: scafoldBackgroundColorLight,
+              titleTextStyle: TextStyle(color: Colors.black, fontSize: 16),
+              iconTheme: IconThemeData(color: primaryColorLight)),
           textTheme: const TextTheme(
               bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
               headline3: TextStyle(
@@ -105,7 +104,29 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   color: Colors.black))),
 
-                  
+      theme: ThemeData(
+          scaffoldBackgroundColor: scafoldBackgroundColorLight,
+          primaryColor: primaryColorLight,
+          backgroundColor: backgroundColorLight,
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: primaryColorLight,
+            secondary: secondaryColorLight,
+          ),
+          fontFamily: GoogleFonts.montserrat().fontFamily,
+          appBarTheme: const AppBarTheme(
+              backgroundColor: scafoldBackgroundColorLight,
+              titleTextStyle: TextStyle(color: Colors.black, fontSize: 16),
+              iconTheme: IconThemeData(color: primaryColorLight)),
+          textTheme: const TextTheme(
+              bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
+              headline3: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
+              headline4: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black))),
     );
   }
 }

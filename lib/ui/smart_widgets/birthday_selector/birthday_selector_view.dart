@@ -13,12 +13,13 @@ class BirthdaySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = BirthdaySelectorViewModel();
+    final theme = Theme.of(context);
 
     return ChangeNotifierProvider(
         create: (context) => model,
         child: Consumer<BirthdaySelectorViewModel>(
             builder: (context, value, child) => Container(
-              color: Theme.of(context).colorScheme.secondary,
+                  color: backgroundColorLight,
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: () async {
@@ -28,10 +29,10 @@ class BirthdaySelector extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                         Icon(
+                        Icon(
                           Icons.cake_outlined,
                           size: 60,
-                          color: Theme.of(context).primaryColor,
+                          color: theme.colorScheme.primary,
                         ),
                         verticalSpaceRegular,
                         Text(

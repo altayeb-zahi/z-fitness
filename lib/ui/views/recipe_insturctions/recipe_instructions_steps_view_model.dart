@@ -29,27 +29,28 @@ class _RecipeInstructionsViewState extends State<RecipeInstructionsView> {
 
   @override
   Widget build(BuildContext context) {
-     return ChangeNotifierProvider(
+    return ChangeNotifierProvider(
       create: (BuildContext context) => model,
       child: Consumer<RecipeInstructionsViewModel>(
         builder: (context, model, child) => Scaffold(
-            body: model.isBusy
-            ? const Center(child: CircularProgressIndicator())
-            : Container(
-                // color: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: horizontalViewPading),
-                child: PageView(
-                    children: model.recipeSteps![0].steps!
-                        .map((s) => instructionsBody(s, model, context))
-                        .toList()),
-              ),
+          body: model.isBusy
+              ? const Center(child: CircularProgressIndicator())
+              : Container(
+                  // color: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: horizontalViewPading),
+                  child: PageView(
+                      children: model.recipeSteps![0].steps!
+                          .map((s) => instructionsBody(s, model, context))
+                          .toList()),
+                ),
         ),
       ),
     );
   }
 
-   Widget instructionsBody(step.Step step, RecipeInstructionsViewModel model,
-      BuildContext context) {
+  Widget instructionsBody(
+      step.Step step, RecipeInstructionsViewModel model, BuildContext context) {
     final theme = Theme.of(context);
     return ListView(children: [
       Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
@@ -57,30 +58,29 @@ class _RecipeInstructionsViewState extends State<RecipeInstructionsView> {
           children: [
             Text(
                 'Step (${step.number.toString()}/${model.recipeSteps![0].steps!.length})',
-                style: theme.textTheme.headline3
-                ),
+                style: theme.textTheme.headline3),
             Expanded(
               child: Container(),
             ),
             step.number == model.recipeSteps![0].steps!.length
                 ? Container()
-                : const Icon(Icons.keyboard_arrow_right_outlined,color: kcPrimaryColor,)
+                : const Icon(
+                    Icons.keyboard_arrow_right_outlined,
+                    color: primaryColorLight,
+                  )
           ],
         ),
         verticalSpaceRegular,
         Text(step.step!,
-         style: theme.textTheme.bodyText2!.copyWith(height: 1.5,color: kcDarkGreyColor)
-         ),
-      
+            style: theme.textTheme.bodyText2!
+                .copyWith(height: 1.5, color: kcDarkGreyColorLight)),
         step.equipment!.isEmpty
             ? Container()
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   verticalSpaceRegular,
-                   Text('Equipments',
-                   style: theme.textTheme.headline3
-                   ),
+                  verticalSpaceRegular,
+                  Text('Equipments', style: theme.textTheme.headline3),
                   verticalSpaceRegular,
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
@@ -92,12 +92,9 @@ class _RecipeInstructionsViewState extends State<RecipeInstructionsView> {
 
                       return Container(
                         decoration: const BoxDecoration(
-                              color: kcBackgroundColor,
-                             
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
-                                                    margin: const EdgeInsets.symmetric(vertical: 5),
-
+                            color: backgroundColorLight,
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
                         child: ListTile(
                           leading: CachedNetworkImage(
                             imageUrl: url + step.equipment![index].image!,
@@ -110,9 +107,10 @@ class _RecipeInstructionsViewState extends State<RecipeInstructionsView> {
                               return const Icon(Icons.error);
                             },
                           ),
-                          title: Text(step.equipment![index].name!,
-                              // style: theme.textTheme.bodyText1
-                              ),
+                          title: Text(
+                            step.equipment![index].name!,
+                            // style: theme.textTheme.bodyText1
+                          ),
                         ),
                       );
                     },
@@ -120,13 +118,9 @@ class _RecipeInstructionsViewState extends State<RecipeInstructionsView> {
                   ),
                 ],
               ),
-             verticalSpaceRegular,
-         
-         
-         Text('Ingredients', 
-        style: theme.textTheme.headline3
-        ),
-       verticalSpaceRegular,
+        verticalSpaceRegular,
+        Text('Ingredients', style: theme.textTheme.headline3),
+        verticalSpaceRegular,
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
@@ -135,26 +129,26 @@ class _RecipeInstructionsViewState extends State<RecipeInstructionsView> {
             var url = 'https://spoonacular.com/cdn/ingredients_100x100/';
 
             return Container(
-                decoration: const BoxDecoration(
-                              color: kcBackgroundColor,
-                             
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
-                          margin: const EdgeInsets.symmetric(vertical: 5),
+              decoration: const BoxDecoration(
+                  color: backgroundColorLight,
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+              margin: const EdgeInsets.symmetric(vertical: 5),
               child: ListTile(
                 leading: CachedNetworkImage(
                   imageUrl: url + step.ingredients![index].image!,
                   height: 50,
                   width: 50,
                   fit: BoxFit.fill,
-                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
                   errorWidget: (context, url, error) {
                     return const Icon(Icons.error);
                   },
                 ),
-                title: Text(step.ingredients![index].name!,
-                    // style: theme.textTheme.bodyText1
-                    ),
+                title: Text(
+                  step.ingredients![index].name!,
+                  // style: theme.textTheme.bodyText1
+                ),
               ),
             );
           },

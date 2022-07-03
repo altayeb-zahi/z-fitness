@@ -107,7 +107,7 @@ class FoodLayout extends StatelessWidget {
                   Text(
                     addButtonTitle,
                     style: theme.textTheme.headline3!.copyWith(
-                        color: kcPrimaryColor,
+                        color: primaryColorLight,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),

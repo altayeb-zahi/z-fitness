@@ -27,7 +27,7 @@ class SearchedFoodListView extends StatelessWidget {
             if (searchedFood[index] is String) {
               return Container(
                 color: Colors.white,
-                child:  ListTile(
+                child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: Text(
                     'Branded',
@@ -44,10 +44,10 @@ class SearchedFoodListView extends StatelessWidget {
             if (searchedFood[index] is int) {
               return Container(
                 color: Colors.white,
-                child:  ListTile(
+                child: ListTile(
                   title: Text(
                     'Common',
-                   style: theme.textTheme.headline3,
+                    style: theme.textTheme.headline3,
                   ),
                   trailing: const Icon(
                     Icons.verified,
@@ -63,15 +63,13 @@ class SearchedFoodListView extends StatelessWidget {
                 onTap: () => onFoodPressed(
                     FoodType.brandedFood, searchedFood[index].nixItemId),
                 child: Container(
-                     margin: const EdgeInsets.symmetric(vertical: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: const BoxDecoration(
-      color: kcBackgroundColor,
-
-            borderRadius: BorderRadius.all(Radius.circular(8))),
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: const BoxDecoration(
+                      color: backgroundColorLight,
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
                   child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-
+                    contentPadding: EdgeInsets.zero,
                     leading: CachedNetworkImage(
                       width: 50,
                       height: 50,
@@ -96,12 +94,11 @@ class SearchedFoodListView extends StatelessWidget {
               onTap: () => onFoodPressed(
                   FoodType.commonFood, searchedFood[index].foodName),
               child: Container(
-                 margin: const EdgeInsets.symmetric(vertical: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: const BoxDecoration(
-      color: kcBackgroundColor,
-
-            borderRadius: BorderRadius.all(Radius.circular(8))),
+                margin: const EdgeInsets.symmetric(vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                decoration: const BoxDecoration(
+                    color: backgroundColorLight,
+                    borderRadius: BorderRadius.all(Radius.circular(8))),
                 child: ListTile(
                   leading: CachedNetworkImage(
                     width: 50,

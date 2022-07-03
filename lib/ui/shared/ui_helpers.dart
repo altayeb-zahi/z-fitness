@@ -14,7 +14,7 @@ const Widget verticalSpaceRegular = SizedBox(height: 18.0);
 const Widget verticalSpaceMedium = SizedBox(height: 25.0);
 const Widget verticalSpaceLarge = SizedBox(height: 50.0);
 
-Widget divider = const Divider(thickness: 8, color: kcBackgroundColor);
+Widget divider = const Divider(thickness: 8, color: backgroundColorLight);
 
 const horizontalViewPading = 15.0;
 

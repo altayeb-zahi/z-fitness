@@ -42,7 +42,7 @@ class _AddFoodViewState extends State<AddFoodView> {
         create: (BuildContext context) => model,
         child: Consumer<AddFoodViewModel>(
           builder: (context, model, child) => Scaffold(
-            backgroundColor: kcScafoldBackgroundColor,
+            backgroundColor: scafoldBackgroundColorLight,
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
@@ -52,7 +52,8 @@ class _AddFoodViewState extends State<AddFoodView> {
               ),
             ),
             body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: horizontalViewPading),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: horizontalViewPading),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -84,8 +85,7 @@ class _AddFoodViewState extends State<AddFoodView> {
                           children: [
                             BarcodeScannerAndQuickAdd(
                                 onScanBarcode: () {}, onQuickAdd: () {}),
-                 verticalSpaceRegular,
-
+                            verticalSpaceRegular,
                             SearchedFoodHistory(
                               foodHistory: model.foodHistory,
                               onHistoryItemPressed: (foodConsumed) =>

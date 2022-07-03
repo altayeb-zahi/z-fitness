@@ -94,8 +94,9 @@ class RecipeDetails {
   String toJson() => json.encode(toMap());
 
   factory RecipeDetails.fromMap(Map<String, dynamic> json) => RecipeDetails(
-      recipeToNutrients: getRecipeTopNutrients(Nutrition.fromMap(json["nutrition"])),
-    //  
+        recipeToNutrients:
+            getRecipeTopNutrients(Nutrition.fromMap(json["nutrition"])),
+        //
         vegetarian: json["vegetarian"],
         vegan: json["vegan"],
         glutenFree: json["glutenFree"],
@@ -109,7 +110,7 @@ class RecipeDetails {
         lowFodmap: json["lowFodmap"],
         aggregateLikes: json["aggregateLikes"],
         spoonacularScore: json["spoonacularScore"],
-        healthScore: json["healthScore"],
+        healthScore: json["healthScore"].toDouble(),
         creditsText: json["creditsText"],
         license: json["license"],
         sourceName: json["sourceName"],
@@ -188,26 +189,24 @@ class RecipeDetails {
         "originalId": originalId,
         "spoonacularSourceUrl": spoonacularSourceUrl,
       };
-
- 
 }
 
- RecipeToNutrients getRecipeTopNutrients(Nutrition nutrition) {
-    late int _calories;
-    late int _protein;
-    late int _carb;
-    late int _fat;
+RecipeToNutrients getRecipeTopNutrients(Nutrition nutrition) {
+  late int _calories;
+  late int _protein;
+  late int _carb;
+  late int _fat;
 
-    for (var element in nutrition.nutrients!) {
-      if (element.name == 'Calories') _calories = element.amount!.round();
-      if (element.name == 'Protein') _protein = element.amount!.round();
-      if (element.name == 'Carbohydrates') _carb = element.amount!.round();
-      if (element.name == 'Fat') _fat = element.amount!.round();
-    }
-
-    return RecipeToNutrients(
-        calories: _calories, protein: _protein, carb: _carb, fat: _fat);
+  for (var element in nutrition.nutrients!) {
+    if (element.name == 'Calories') _calories = element.amount!.round();
+    if (element.name == 'Protein') _protein = element.amount!.round();
+    if (element.name == 'Carbohydrates') _carb = element.amount!.round();
+    if (element.name == 'Fat') _fat = element.amount!.round();
   }
+
+  return RecipeToNutrients(
+      calories: _calories, protein: _protein, carb: _carb, fat: _fat);
+}
 
 class RecipeToNutrients {
   int calories;

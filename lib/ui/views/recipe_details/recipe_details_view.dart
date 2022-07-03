@@ -84,8 +84,8 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
         ReadMoreText(
           parseHtmlString(model.recipeDetails!.summary!),
           style: theme.textTheme.bodyText2!
-              .copyWith(color: kcDarkGreyColor, wordSpacing: 1.7),
-          colorClickableText: kcPrimaryColor,
+              .copyWith(color: kcDarkGreyColorLight, wordSpacing: 1.7),
+          colorClickableText: primaryColorLight,
           trimLength: 120,
         )
       ],
@@ -95,13 +95,13 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
   _addToDiary(RecipeDetailsViewModel model) {
     final theme = Theme.of(context);
 
-   return Container(
-       decoration: BoxDecoration(
-              color: kcSecondaryColor,
-              border: Border.all(color: theme.scaffoldBackgroundColor),
-              borderRadius: const BorderRadius.all(Radius.circular(8))),
-          margin: const EdgeInsets.symmetric(vertical: 3),
-          padding: const EdgeInsets.all(horizontalViewPading),
+    return Container(
+      decoration: BoxDecoration(
+          color: secondaryColorLight,
+          border: Border.all(color: theme.scaffoldBackgroundColor),
+          borderRadius: const BorderRadius.all(Radius.circular(8))),
+      margin: const EdgeInsets.symmetric(vertical: 3),
+      padding: const EdgeInsets.all(horizontalViewPading),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         Column(children: [
           const Icon(Icons.add_alarm_outlined),
@@ -123,10 +123,10 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
           behavior: HitTestBehavior.translucent,
           onTap: () =>
               model.navigateToRecipeStepsInstructions(model.recipeDetails!.id),
-          child: Column(children:  [
+          child: Column(children: [
             const Icon(
               UniconsLine.notes,
-              color: kcPrimaryColor,
+              color: primaryColorLight,
             ),
             verticalSpaceSmall,
             Text(
@@ -138,10 +138,10 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
         GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: () => model.selectMealType(),
-          child: Column(children:  [
+          child: Column(children: [
             const Icon(
               Icons.add,
-              color: kcPrimaryColor,
+              color: primaryColorLight,
             ),
             verticalSpaceSmall,
             Text(
@@ -162,14 +162,12 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
         Expanded(
           child: Column(
             children: [
-               Text('calories'
-                  , style: theme.textTheme.caption
-                  ),
+              Text('calories', style: theme.textTheme.caption),
               verticalSpaceSmall,
               Text(
                   '${model.recipeDetails!.recipeToNutrients!.calories.toString()} kcal',
                   style: theme.textTheme.headline4!
-                      .copyWith(color: kcPrimaryColor)),
+                      .copyWith(color: primaryColorLight)),
               const Text('')
             ],
           ),
@@ -177,74 +175,61 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
         Expanded(
           child: Column(
             children: [
-               Text(
+              Text(
                 'protien',
                 style: theme.textTheme.caption,
               ),
               verticalSpaceSmall,
               Text(
-                model.recipeDetails!.nutrition!.caloricBreakdown!
-                        .percentProtein!
-                        .round()
-                        .toString() +
-                    ' %',
-                style: theme.textTheme.caption
-              ),
+                  model.recipeDetails!.nutrition!.caloricBreakdown!
+                          .percentProtein!
+                          .round()
+                          .toString() +
+                      ' %',
+                  style: theme.textTheme.caption),
               verticalSpaceTiny,
-
               Text(
-                model.recipeDetails!.recipeToNutrients!.protein.toString() +
-                    ' g',
-                style: theme.textTheme.bodyText2
-              )
+                  model.recipeDetails!.recipeToNutrients!.protein.toString() +
+                      ' g',
+                  style: theme.textTheme.bodyText2)
             ],
           ),
         ),
         Expanded(
           child: Column(
             children: [
-               Text(
-                'carb',
-
-                 style: theme.textTheme.caption
-              ),
+              Text('carb', style: theme.textTheme.caption),
               verticalSpaceSmall,
               Text(
-                model.recipeDetails!.nutrition!.caloricBreakdown!.percentCarbs!
-                        .round()
-                        .toString() +
-                    ' %',
-                style: theme.textTheme.caption
-              ),
+                  model.recipeDetails!.nutrition!.caloricBreakdown!
+                          .percentCarbs!
+                          .round()
+                          .toString() +
+                      ' %',
+                  style: theme.textTheme.caption),
               verticalSpaceTiny,
-
               Text(
-                model.recipeDetails!.recipeToNutrients!.carb.toString() + ' g',
-                style: theme.textTheme.bodyText2
-              )
+                  model.recipeDetails!.recipeToNutrients!.carb.toString() +
+                      ' g',
+                  style: theme.textTheme.bodyText2)
             ],
           ),
         ),
         Expanded(
           child: Column(
             children: [
-               Text(
-                'fat',
-                 style: theme.textTheme.caption
-              ),
+              Text('fat', style: theme.textTheme.caption),
               verticalSpaceSmall,
               Text(
-                model.recipeDetails!.nutrition!.caloricBreakdown!.percentFat!
-                        .round()
-                        .toString() +
-                    ' %',
-                style: theme.textTheme.caption
-              ),
+                  model.recipeDetails!.nutrition!.caloricBreakdown!.percentFat!
+                          .round()
+                          .toString() +
+                      ' %',
+                  style: theme.textTheme.caption),
               verticalSpaceTiny,
               Text(
-                model.recipeDetails!.recipeToNutrients!.fat.toString() + ' g',
-                style: theme.textTheme.bodyText2
-              )
+                  model.recipeDetails!.recipeToNutrients!.fat.toString() + ' g',
+                  style: theme.textTheme.bodyText2)
             ],
           ),
         ),
@@ -271,7 +256,7 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
               children: [
                 TabBar(
                   labelColor: theme.textTheme.bodyText2!.color,
-                  indicatorColor: kcSecondaryColor,
+                  indicatorColor: secondaryColorLight,
                   tabs: const [
                     Tab(
                       text: 'ingredients',
@@ -308,7 +293,7 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
         var ingredient = model.recipeDetails!.extendedIngredients![index];
         return Container(
           decoration: BoxDecoration(
-              color: kcBackgroundColor,
+              color: backgroundColorLight,
               border: Border.all(color: theme.scaffoldBackgroundColor),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
           margin: const EdgeInsets.symmetric(vertical: 3),
@@ -325,10 +310,10 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
             ),
             title: Text(ingredient.name!),
             subtitle: Text(
-                ingredient.amount!.toStringAsFixed(2) +
-                    ' ' +
-                    ingredient.measures!.metric!.unitShort!,
-                ),
+              ingredient.amount!.toStringAsFixed(2) +
+                  ' ' +
+                  ingredient.measures!.metric!.unitShort!,
+            ),
           ),
         );
       },
@@ -342,17 +327,17 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => Container(
         decoration: BoxDecoration(
-            color: kcBackgroundColor,
+            color: backgroundColorLight,
             border: Border.all(color: theme.scaffoldBackgroundColor),
             borderRadius: const BorderRadius.all(Radius.circular(8))),
         margin: const EdgeInsets.all(3),
         child: ListTile(
-          title: Text(model.recipeDetails!.nutrition!.nutrients![index].name!,
-             ),
+          title: Text(
+            model.recipeDetails!.nutrition!.nutrients![index].name!,
+          ),
           trailing: Text(
-              model.recipeDetails!.nutrition!.nutrients![index].amount
-                  .toString(),
-             ),
+            model.recipeDetails!.nutrition!.nutrients![index].amount.toString(),
+          ),
         ),
       ),
       itemCount: model.recipeDetails!.extendedIngredients!.length,
@@ -365,7 +350,7 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => Container(
         decoration: BoxDecoration(
-            color: kcBackgroundColor,
+            color: backgroundColorLight,
             border: Border.all(color: theme.scaffoldBackgroundColor),
             borderRadius: const BorderRadius.all(Radius.circular(15))),
         margin: const EdgeInsets.all(3),

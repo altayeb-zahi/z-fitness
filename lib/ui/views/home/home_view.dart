@@ -41,18 +41,26 @@ class _HomeViewState extends State<HomeView> {
                   children: screens,
                 ),
                 bottomNavigationBar: BottomNavigationBar(
-                  backgroundColor: kcPrimaryColor,
+                  backgroundColor: primaryColorLight,
                   onTap: model.setIndex,
                   currentIndex: model.currentIndex,
                   showSelectedLabels: false,
                   showUnselectedLabels: false,
                   items: const [
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.restaurant,color: kcScafoldBackgroundColor,), label: 'Diary'),
+                        icon: Icon(
+                          Icons.restaurant,
+                          color: scafoldBackgroundColorLight,
+                        ),
+                        label: 'Diary'),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.restaurant_menu,color: kcScafoldBackgroundColor), label: 'Recipes'),
+                        icon: Icon(Icons.restaurant_menu,
+                            color: scafoldBackgroundColorLight),
+                        label: 'Recipes'),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.home,color: kcScafoldBackgroundColor), label: 'Me'),
+                        icon: Icon(Icons.home,
+                            color: scafoldBackgroundColorLight),
+                        label: 'Me'),
                   ],
                 ),
               )),

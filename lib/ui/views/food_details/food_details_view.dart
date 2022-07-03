@@ -40,7 +40,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
             appBar: AppBar(
               elevation: 0,
               title: (Text(
-               'Food Details',
+                'Food Details',
                 style: theme.textTheme.headline3,
               )),
             ),
@@ -98,7 +98,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
               )),
               Text(model.nutritienstDetail!.foods![0]!.servingQty.toString(),
                   style: theme.textTheme.headline4!
-                      .copyWith(color: kcPrimaryColor)),
+                      .copyWith(color: primaryColorLight)),
               const SizedBox(
                 width: 10,
               )
@@ -132,7 +132,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                       model.nutritienstDetail!.foods![0]!.servingUnit
                           .toString(),
                   style: theme.textTheme.headline4!
-                      .copyWith(color: kcPrimaryColor)),
+                      .copyWith(color: primaryColorLight)),
               const SizedBox(
                 width: 10,
               )
@@ -161,7 +161,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                       ' ' +
                       'kcal',
                   style: theme.textTheme.headline4!
-                      .copyWith(color: kcPrimaryColor))
+                      .copyWith(color: primaryColorLight))
             ],
           ),
         ),
@@ -246,8 +246,8 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
                 model.nutritienstDetail!.foods![0]!.servingWeightGrams
                         .toString() +
                     ' g',
-                style:
-                    theme.textTheme.headline4!.copyWith(color: kcPrimaryColor),
+                style: theme.textTheme.headline4!
+                    .copyWith(color: primaryColorLight),
               ),
               const SizedBox(
                 width: 10,
@@ -267,12 +267,12 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
         margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.symmetric(horizontal: 8),
         decoration: const BoxDecoration(
-            color: kcPrimaryColor,
+            color: primaryColorLight,
             borderRadius: BorderRadius.all(Radius.circular(8))),
         child: Text(
           ' Add',
           style: theme.textTheme.headline4!
-              .copyWith(color: kcScafoldBackgroundColor),
+              .copyWith(color: scafoldBackgroundColorLight),
         ),
       ),
     );
@@ -281,7 +281,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
   _title(FoodDetailsViewModel model, BuildContext context) {
     var theme = Theme.of(context);
 
-  return  Text(
+    return Text(
       model.nutritienstDetail!.foods![0]!.foodName ?? '',
       style: theme.textTheme.headline3,
     );

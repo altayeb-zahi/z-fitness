@@ -19,12 +19,15 @@ class SearchedFoodHistory extends StatelessWidget {
 
     return // history
         Container(
-            color: kcScafoldBackgroundColor,
+            color: scafoldBackgroundColorLight,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Text('History',style: theme.textTheme.headline3,),
-                 verticalSpaceRegular,
+                Text(
+                  'History',
+                  style: theme.textTheme.headline3,
+                ),
+                verticalSpaceRegular,
                 ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

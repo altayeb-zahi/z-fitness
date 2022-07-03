@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'package:z_fitness/ui/smart_widgets/height_selector/height_selector_view_model.dart';
 
 import '../../shared/ui_helpers.dart';
@@ -26,12 +27,15 @@ class HeightSelector extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                             Text('Height',style: theme.textTheme.caption,),
+                            Text(
+                              'Height',
+                              style: theme.textTheme.caption,
+                            ),
                             horizontalSpaceTiny,
                             Text(
                               model.height.round().toString(),
                             ),
-                             const Text(' cm'),
+                            const Text(' cm'),
                           ],
                         ),
                       ),
@@ -39,8 +43,8 @@ class HeightSelector extends StatelessWidget {
                         child: RotatedBox(
                             quarterTurns: 3,
                             child: Slider(
-                              activeColor: theme.primaryColor,
-                              inactiveColor: theme.colorScheme.secondary,
+                              activeColor: theme.colorScheme.primary,
+                              inactiveColor: backgroundColorLight,
                               value: model.height.toDouble(),
                               onChanged: (height) {
                                 model.setHeight(height);

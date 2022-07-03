@@ -28,7 +28,13 @@ class StartupViewModel extends BaseViewModel {
       final currentUser = _userService.currentUser;
       log.v('User sync complete. User profile: $currentUser');
 
-      _navigationService.replaceWith(Routes.homeView);
+      if (currentUser!.hasWeightInfo) {
+        _navigationService.replaceWith(Routes.homeView);
+      } else {
+        log.v('user did not add his weight informations');
+
+        _navigationService.replaceWith(Routes.userInfoView);
+      }
     } else {
       log.v('No user on disk, navigate to the LoginView');
       _navigationService.replaceWith(Routes.loginView);

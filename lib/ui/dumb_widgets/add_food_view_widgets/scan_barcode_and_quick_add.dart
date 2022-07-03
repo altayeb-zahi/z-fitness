@@ -24,20 +24,22 @@ class BarcodeScannerAndQuickAdd extends StatelessWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Expanded(
             child: Container(
-          color: kcBackgroundColor,
+          color: backgroundColorLight,
           child: GestureDetector(
             onTap: onScanBarcode,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
+              children: [
                 const Icon(
                   UniconsLine.qrcode_scan,
-                  color: kcPrimaryColor,
+                  color: primaryColorLight,
                   size: 60,
                 ),
                 verticalSpaceSmall,
-
-                Text('Scan a Barcode',style: theme.textTheme.headline4,)
+                Text(
+                  'Scan a Barcode',
+                  style: theme.textTheme.headline4,
+                )
               ],
             ),
           ),
@@ -45,21 +47,21 @@ class BarcodeScannerAndQuickAdd extends StatelessWidget {
         horizontalSpaceSmall,
         Expanded(
             child: Container(
-          color: kcSecondaryColor,
+          color: secondaryColorLight,
           child: GestureDetector(
             onTap: onQuickAdd,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
+              children: [
                 const Icon(
                   UniconsLine.fire,
-                  color: kcPrimaryColor,
+                  color: primaryColorLight,
                   size: 60,
                 ),
                 verticalSpaceSmall,
                 Text(
                   'Quick Add',
-                 style: theme.textTheme.headline4,
+                  style: theme.textTheme.headline4,
                 )
               ],
             ),

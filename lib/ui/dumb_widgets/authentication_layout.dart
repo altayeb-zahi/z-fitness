@@ -6,8 +6,6 @@ import 'package:z_fitness/ui/shared/app_colors.dart';
 import '../shared/styles.dart';
 import '../shared/ui_helpers.dart';
 
-
-
 class AuthenticationLayout extends StatelessWidget {
   final String? title;
   final String? subtitle;
@@ -106,7 +104,7 @@ class AuthenticationLayout extends StatelessWidget {
               height: 50,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: kcPrimaryColor,
+                color: primaryColorLight,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: busy
@@ -134,7 +132,7 @@ class AuthenticationLayout extends StatelessWidget {
                   Text(
                     'Create an account',
                     style: TextStyle(
-                      color: kcPrimaryColor,
+                      color: primaryColorLight,
                     ),
                   )
                 ],
@@ -170,8 +168,7 @@ class AuthenticationLayout extends StatelessWidget {
           GoogleAuthButton(
             onPressed: onSignInWithGoogle ?? () {},
             text: 'CONTINUE WITH GOOGLE',
-            style:  AuthButtonStyle(
-              buttonColor: theme.primaryColor,
+            style: const AuthButtonStyle(
               iconSize: 24,
               iconBackground: Colors.white,
               buttonType: AuthButtonType.secondary,

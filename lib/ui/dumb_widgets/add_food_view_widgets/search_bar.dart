@@ -45,37 +45,37 @@ class _SearchBarState extends State<SearchBar> {
                 });
               },
               decoration: InputDecoration(
-                prefixIcon:  GestureDetector(
-                      onTap: () {
-                        if (searchFoodController.text.isNotEmpty) {
-                          widget.onSearch(searchFoodController.text);
-                        }
-                      },
-                      child: const Icon(Icons.search),
-                    ),
+                prefixIcon: GestureDetector(
+                  onTap: () {
+                    if (searchFoodController.text.isNotEmpty) {
+                      widget.onSearch(searchFoodController.text);
+                    }
+                  },
+                  child: const Icon(Icons.search),
+                ),
                 hintText: 'Search for a food',
                 hintStyle: const TextStyle(color: Colors.grey),
                 filled: true,
-                fillColor: kcBackgroundColor,
+                fillColor: backgroundColorLight,
                 enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  borderSide: BorderSide(color: kcBackgroundColor, width: 2),
+                  borderSide: BorderSide(color: backgroundColorLight, width: 2),
                 ),
                 focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  borderSide: BorderSide(color: kcBackgroundColor),
+                  borderSide: BorderSide(color: backgroundColorLight),
                 ),
-                
-                suffixIcon: showClearIcon?
-                  GestureDetector(
-                    onTap: () {
-                      if (searchFoodController.text.isNotEmpty) {
-                        widget.onClear();
-                        searchFoodController.clear();
-                      }
-                    },
-                    child: const Icon(Icons.clear),
-                  ):null,
+                suffixIcon: showClearIcon
+                    ? GestureDetector(
+                        onTap: () {
+                          if (searchFoodController.text.isNotEmpty) {
+                            widget.onClear();
+                            searchFoodController.clear();
+                          }
+                        },
+                        child: const Icon(Icons.clear),
+                      )
+                    : null,
               ),
             ),
           ),

@@ -35,7 +35,7 @@ class _RecipesViewState extends State<RecipesView> {
       child: Consumer<RecipesViewModel>(
         builder: (context, model, child) => Scaffold(
             appBar: AppBar(
-              title:  Text(
+              title: Text(
                 'Recipes',
                 style: theme.textTheme.headline3,
               ),
@@ -45,13 +45,14 @@ class _RecipesViewState extends State<RecipesView> {
                     onTap: () => model.showBottomSheet(),
                     child: const Icon(
                       Icons.tune_outlined,
-                      color: kcPrimaryColor,
+                      color: primaryColorLight,
                     )),
                 const SizedBox(width: 15)
               ],
             ),
             body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: horizontalViewPading),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: horizontalViewPading),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,18 +95,17 @@ class _RecipesViewState extends State<RecipesView> {
               hintText: 'Search Recipes...',
               hintStyle: const TextStyle(color: Colors.grey),
               filled: true,
-              fillColor: kcBackgroundColor,
+              fillColor: backgroundColorLight,
               enabledBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                borderSide: BorderSide(color: kcBackgroundColor, width: 2),
+                borderSide: BorderSide(color: backgroundColorLight, width: 2),
               ),
               focusedBorder: const OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide(color: kcBackgroundColor),
+                borderSide: BorderSide(color: backgroundColorLight),
               ),
             )));
   }
-
 
   searchedRecipesBody(RecipesViewModel model, BuildContext context,
       TextEditingController? searchRecipeTex) {
@@ -193,7 +193,9 @@ class _RecipesViewState extends State<RecipesView> {
                 // to maintain the listview position
                 key: const PageStorageKey('storage-key'),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisSpacing: horizontalViewPading, mainAxisSpacing: 0, crossAxisCount: 2),
+                    crossAxisSpacing: horizontalViewPading,
+                    mainAxisSpacing: 0,
+                    crossAxisCount: 2),
                 itemCount: model.recipesLis!.length,
                 itemBuilder: (BuildContext ctx, index) {
                   return CreationAwareListItem(
@@ -216,6 +218,7 @@ class _RecipesViewState extends State<RecipesView> {
                                       imageUrl: model.recipesLis![index].image!,
                                       fit: BoxFit.fill,
                                     ),
+                                    verticalSpaceTiny,
                                     Text(
                                       model.recipesLis![index].title!,
                                       maxLines: 2,

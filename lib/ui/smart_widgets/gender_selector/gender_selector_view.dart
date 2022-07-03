@@ -24,7 +24,6 @@ class _GenderSelectorState extends State<GenderSelector> {
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
       create: (context) => model,
       child: Consumer<GenderSelectorViewModel>(
@@ -65,33 +64,38 @@ class _GenderSelectorState extends State<GenderSelector> {
   }
 
   Widget _genderLayout(
-          {required String title,
-          required IconData icon,
-          required bool isSelected}) {
+      {required String title,
+      required IconData icon,
+      required bool isSelected}) {
     final theme = Theme.of(context);
 
-   return  Card(
-          color: isSelected ? theme.primaryColor : theme.backgroundColor,
-          child: Container(
-            width: screenWidthPercentage(context, percentage: 0.7 / 2.1),
-            alignment: Alignment.center,
-            // margin: EdgeInsets.all(5.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  icon,
-                  color: isSelected ? theme.scaffoldBackgroundColor : kcDarkGreyColor,
-                  size: 40,
-                ),
-                verticalSpaceSmall,
-                Text(
-                  title,
-                  style:
-                      theme.textTheme.bodyText2!.copyWith(color: isSelected ? theme.scaffoldBackgroundColor : kcDarkGreyColor),
-                )
-              ],
-            ),
-          ));}
+    return Card(
+        color: isSelected ? theme.primaryColor : theme.backgroundColor,
+        child: Container(
+          width: screenWidthPercentage(context, percentage: 0.7 / 2.1),
+          alignment: Alignment.center,
+          // margin: EdgeInsets.all(5.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                icon,
+                color: isSelected
+                    ? theme.scaffoldBackgroundColor
+                    : kcDarkGreyColorLight,
+                size: 40,
+              ),
+              verticalSpaceSmall,
+              Text(
+                title,
+                style: theme.textTheme.bodyText2!.copyWith(
+                    color: isSelected
+                        ? theme.scaffoldBackgroundColor
+                        : kcDarkGreyColorLight),
+              )
+            ],
+          ),
+        ));
+  }
 }
