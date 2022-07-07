@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/app/router.dart';
@@ -53,6 +54,24 @@ class DiaryViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  Future pickDate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+        context: context,
+        initialDate: initialDate,
+        firstDate: DateTime(DateTime.now().year - 120),
+        lastDate: DateTime(DateTime.now().year + 120));
+
+    if (newDate == null) return;
+
+    _formattedDate = DateFormat('dd-MM-yyyy').format(newDate);
+
+    getCaloriesDetails();
+    _getTheFoodConsumedInSpecificDay();
+
+    notifyListeners();
+  }
+
   void getCaloriesDetails() {
     //TODO find the best way to cancel the stream
     _firestoreApi
@@ -93,7 +112,7 @@ class DiaryViewModel extends BaseViewModel {
     } else {
       _navigationService.navigateTo(Routes.foodDetailsView,
           arguments: FoodDetailsArgument(
-            databaseId: foodConsumed.databaseId,
+              databaseId: foodConsumed.databaseId,
               userIsEditingNutrition: true,
               date: _formattedDate,
               foodType: foodConsumed.foodType!,

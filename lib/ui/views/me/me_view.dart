@@ -44,26 +44,24 @@ class _MeViewState extends State<MeView> {
                 child: Container(
                   decoration: const BoxDecoration(boxShadow: [
                     BoxShadow(
-                      color: primaryColorLight,
+                      color: scafoldBackgroundColorLight,
                       offset: Offset(0, 5.0),
                     )
                   ]),
                   child: AppBar(
-                    backgroundColor: primaryColorLight,
+                    backgroundColor: scafoldBackgroundColorLight,
                     actions: [
                       TextButton(
                         onPressed: () => model.navigateToEditGoal(),
                         child: Text(
                           'Edit',
-                          style: theme.textTheme.headline3!
-                              .copyWith(color: scafoldBackgroundColorLight),
+                          style: theme.textTheme.headline3!,
                         ),
                       ),
                       IconButton(
                           onPressed: () => model.logout(),
                           icon: const Icon(
-                            (Icons.menu),
-                            color: Colors.white,
+                            (Icons.more_vert_outlined),
                           )),
                     ],
                     centerTitle: true,
@@ -72,12 +70,12 @@ class _MeViewState extends State<MeView> {
                 ),
               ),
               body: Container(
-                color: primaryColorLight,
+                color: scafoldBackgroundColorLight,
                 child: Column(
                   children: [
                     Container(
-                        width: 110,
-                        height: 110,
+                        width: 90,
+                        height: 90,
                         margin: const EdgeInsets.all(10.0),
                         decoration: const BoxDecoration(
                             color: backgroundColorLight,
@@ -86,8 +84,7 @@ class _MeViewState extends State<MeView> {
                             size: 60, color: Colors.grey[400])),
                     Text(
                       model.currentUser.name ?? model.userNameFromGoogleSign,
-                      style: theme.textTheme.headline3!
-                          .copyWith(color: scafoldBackgroundColorLight),
+                      style: theme.textTheme.headline3!,
                     ),
                     verticalSpaceMedium,
                     Expanded(
@@ -95,15 +92,7 @@ class _MeViewState extends State<MeView> {
                         alignment: Alignment.topCenter,
                         children: <Widget>[
                           Container(
-                            color: backgroundColorLight,
-                          ),
-                          Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                                color: primaryColorLight,
-                                borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(60),
-                                    bottomRight: Radius.circular(60))),
+                            color: scafoldBackgroundColorLight,
                           ),
                           Positioned(
                             top: 110,
@@ -194,8 +183,8 @@ class _MeViewState extends State<MeView> {
                                 ),
                                 Container(
                                   height: 40,
-                                  width: 2,
-                                  color: secondaryColorLight,
+                                  width: 4,
+                                  color: backgroundColorLight,
                                 ),
                                 Expanded(
                                   child: Container(
@@ -220,8 +209,8 @@ class _MeViewState extends State<MeView> {
                                 ),
                                 Container(
                                   height: 40,
-                                  width: 2,
-                                  color: secondaryColorLight,
+                                  width: 4,
+                                  color: backgroundColorLight,
                                 ),
                                 Expanded(
                                   child: Container(

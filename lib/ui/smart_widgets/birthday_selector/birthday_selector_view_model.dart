@@ -10,14 +10,13 @@ class BirthdaySelectorViewModel extends BaseViewModel {
   String? _dateOfBirth = locator<UserService>().currentUser!.dateOfBirth;
   String? get dateOfBirth => _dateOfBirth;
 
-  
   Future pickDate(BuildContext context) async {
     final initialDate = DateTime.now();
     final newDate = await showDatePicker(
         context: context,
         initialDate: initialDate,
         firstDate: DateTime(DateTime.now().year - 120),
-        lastDate: DateTime.now());
+        lastDate: DateTime(DateTime.now().year + 120));
 
     if (newDate == null) return;
 

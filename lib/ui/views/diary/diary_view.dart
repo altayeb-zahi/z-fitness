@@ -36,7 +36,9 @@ class _DiaryViewState extends State<DiaryView> {
               color: primaryColorLight,
             ),
             Expanded(child: Container()),
-            const Text('Today'),
+            GestureDetector(
+                onTap: () => model.pickDate(context),
+                child: const Text('Today')),
             Expanded(child: Container()),
             const Icon(
               Icons.keyboard_arrow_right,
