@@ -1,18 +1,16 @@
-import 'package:sqlbrite/sqlbrite.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import '../app/logger.dart';
 import '../constants/database_constants.dart';
 
 class DatabaseService {
   Database? _database;
-  BriteDatabase? _briteDatabase;
 
   Future initialise() async {
     if (_database == null) {
       log.i('DatabaseService - initialise');
 
       _database = await openDatabase(databaseName, version: 1);
-      _briteDatabase = BriteDatabase(_database!, logger: null);
 
 // stores food and recipes when user search it, it doesnt matter if user add it to the diary or no
 // the goal is next time user needs nutrion details no need to call the api and fetch it from databse
@@ -52,7 +50,7 @@ CREATE TABLE IF NOT EXISTS foodConsumed(
     log.i('DatabaseService - addFoodToDatabase');
 
     try {
-      await _briteDatabase!.insert(foodTableName, food.toMap());
+      await _database!.insert(foodTableName, food.toMap());
       log.v('food added to database successfully');
     } catch (e) {
       return 'coulnt add Food to database $e';
@@ -63,7 +61,7 @@ CREATE TABLE IF NOT EXISTS foodConsumed(
     log.i('DatabaseService - addFoodToDatabase');
 
     try {
-      await _briteDatabase!.insert(foodConsumedTableName, food.toMap());
+      await _database!.insert(foodConsumedTableName, food.toMap());
       log.v('food added to database successfully');
     } catch (e) {
       return 'coulnt add Food to database $e';
@@ -74,10 +72,9 @@ CREATE TABLE IF NOT EXISTS foodConsumed(
     log.i('DatabaseService - updateFoodInDiary');
 
     try {
-      await _briteDatabase!.update(foodConsumedTableName, food.toMap(),
+      await _database!.update(foodConsumedTableName, food.toMap(),
           where: 'databaseId = ?', whereArgs: [food.databaseId]);
       log.v('food in database updated successfully');
-      log.i(food.databaseId);
     } catch (e) {
       return 'couldnt update Food in database $e';
     }
@@ -87,7 +84,7 @@ CREATE TABLE IF NOT EXISTS foodConsumed(
     log.i('DatabaseService - deleteFoodFromDatabase');
 
     try {
-      await _briteDatabase!.delete(foodConsumedTableName,
+      await _database!.delete(foodConsumedTableName,
           where: 'databaseId = ?', whereArgs: [foodId]);
       log.v('food in database is deleted successfully');
     } catch (e) {
@@ -149,33 +146,40 @@ CREATE TABLE IF NOT EXISTS foodConsumed(
     return FoodConsumed.fromMap(_result.first as Map<String, dynamic>);
   }
 
-  Stream<List<FoodConsumed>> getFoodConsumedForSpecificMeal(
-      String mealType, String date) {
+  Future<List<FoodConsumed>> getFoodConsumedForSpecificDay(
+      String mealType, String date) async {
     log.i('DatabaseService - getFoodConsumedForSpecificMeal');
 
-    final Stream<List<FoodConsumed>> _foodConsumedResult =
-        _briteDatabase!.createQuery(
+    final List<Map> _foodsResult = await _database!.query(
       foodConsumedTableName,
       where: '"mealType" =? and "date" =?',
       whereArgs: [mealType, date],
-    ).mapToList((row) => FoodConsumed.fromMap(row));
+    );
 
-    return _foodConsumedResult;
+    if (_foodsResult.isEmpty) {
+      return [];
+    }
+
+    List<FoodConsumed> _foods = _foodsResult
+        .map((food) => FoodConsumed.fromMap(food as Map<String, dynamic>))
+        .toList();
+
+    return _foods;
   }
 
-  Stream<int> getFoodTotalCaloriesForOneMeal(String mealType, String date) {
+  Future<int> getFoodTotalCaloriesForOneMealTest(
+      String mealType, String date) async {
     log.i(
         'DatabaseService - getFoodConsumedForSpecificMeal for $mealType on $date');
 
-    return _briteDatabase!
-        .createRawQuery(
-            [foodConsumedTableName],
-            'SELECT SUM(calories) FROM $foodConsumedTableName  WHERE "mealType" =? and "date" =?',
-            [mealType, date])
-        .mapToOne((row) {
-      if (row.values.first == null) return 0;
-      var calories = row.values.first as double;
-      return calories.round();
-    });
+    final mealCaloriesResult = await _database!.rawQuery(
+        'SELECT SUM(calories) FROM $foodConsumedTableName  WHERE "mealType" =? and "date" =?',
+        [mealType, date]);
+
+    final mealTotalCalories = mealCaloriesResult.first.values.first;
+    if (mealTotalCalories == null) return 0;
+
+    mealTotalCalories as double;
+    return mealTotalCalories.round();
   }
 }

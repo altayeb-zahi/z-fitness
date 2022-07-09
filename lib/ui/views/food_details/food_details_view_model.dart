@@ -10,6 +10,7 @@ import 'package:z_fitness/managers/food_manager.dart';
 import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/services/database_service.dart';
+import 'package:z_fitness/services/diary_service.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
 import '../../../app/logger.dart';
 import '../../../enums/dialog_type.dart';
@@ -56,7 +57,7 @@ class FoodDetailsViewModel extends BaseViewModel {
       _foodConsumed.nutritientsDetail = _nutritientsDetail;
       await _foodManager.updateFoodInDiary(_foodConsumed);
     } else {
-      await _foodManager.addFoodToDiary(_foodConsumed);
+      _foodManager.addFoodToDiary(_foodConsumed);
     }
 
     //TODO handle exeption

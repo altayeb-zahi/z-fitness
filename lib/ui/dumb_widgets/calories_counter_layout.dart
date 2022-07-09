@@ -24,7 +24,7 @@ class CaloriesCounterLayout extends StatelessWidget {
             model.getLunchtotalCalories(),
             model.getDinnerTotalCalories(),
             model.getSnacksTotalCalories(),
-            model.getExerciseTotalCalories()
+            // model.getExerciseTotalCalories()
           ]),
           builder: (context, snapshot) {
             int _caloriesGoal = model.currentUser.dailyCaloriesGoal!.round();
@@ -41,7 +41,7 @@ class CaloriesCounterLayout extends StatelessWidget {
               final _lunchCalories = data[1];
               final _dinnerCalories = data[2];
               final _snacksCalories = data[3];
-              final _totalCaloriesBurned = data[4];
+              // final _totalCaloriesBurned = data[4];
 
               _totalCaloiresConsumed = _breakfastCalories +
                   _lunchCalories +

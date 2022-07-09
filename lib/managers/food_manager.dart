@@ -5,6 +5,7 @@ import 'package:z_fitness/enums/meal_type.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/models/food_models/food_details.dart';
 import 'package:z_fitness/services/database_service.dart';
+import 'package:z_fitness/services/diary_service.dart';
 import '../app/logger.dart';
 import '../enums/food_type.dart';
 import '../models/arguments_models.dart';
@@ -15,6 +16,7 @@ class FoodManager {
   final _foodApi = locator<FoodApi>();
   final _firestoreApi = locator<FirestoreApi>();
   final _currentUser = locator<UserService>().currentUser;
+  final _diaryService = locator<DiaryService>();
 
   Future<void> addFoodToDiary(FoodConsumed foodConsumed) async {
     String firestoreId = await _firestoreApi.addFoodToDiary(
@@ -25,7 +27,7 @@ class FoodManager {
 
     foodConsumed.id = firestoreId;
 
-    await _databaseService.addFoodToDiary(foodConsumed);
+    _diaryService.addFoodToDiary.add(foodConsumed);
   }
 
   Future<void> updateFoodInDiary(FoodConsumed foodConsumed) async {
@@ -35,17 +37,17 @@ class FoodManager {
         date: foodConsumed.date!,
         mealType: mealTypeToString[foodConsumed.mealType]!);
 
-    await _databaseService.updateFoodInDiary(foodConsumed);
+    _diaryService.updateFoodInDiary.add(foodConsumed);
   }
 
   Future<void> deleteFoodFromDiary(FoodConsumed foodConsumed) async {
     await _firestoreApi.deleteFoodFromDiary(
         userId: _currentUser!.id!,
-        foodId: foodConsumed.id!,
+        foodId: foodConsumed.id ?? '', //TODO remove the ??
         date: foodConsumed.date!,
         mealType: mealTypeToString[foodConsumed.mealType]!);
 
-    await _databaseService.deleteFoodFromDiary(foodConsumed.databaseId!);
+    _diaryService.deleteFoodFromDiary.add(foodConsumed);
   }
 
   Future<NutritientsDetail?> getFoodNutritionDetails(
@@ -113,5 +115,4 @@ class FoodManager {
 
     _databaseService.addFoodToDatabase(_foodConsumed);
   }
-
 }

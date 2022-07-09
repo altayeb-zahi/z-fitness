@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:universal_io/io.dart';
 import 'package:z_fitness/ui/shared/app_colors.dart';
 
 import '../shared/styles.dart';

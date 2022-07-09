@@ -5,6 +5,7 @@ import 'package:z_fitness/api/recipes_api.dart';
 import 'package:z_fitness/managers/food_manager.dart';
 import 'package:z_fitness/services/calories_service.dart';
 import 'package:z_fitness/services/database_service.dart';
+import 'package:z_fitness/services/diary_service.dart';
 import 'package:z_fitness/services/shared_prefrences_service.dart';
 import '../api/firestore_api.dart';
 import '../services/firebase_authentication_service.dart';
@@ -34,6 +35,5 @@ void setupLocator() {
       () => SharedPreferencesService());
   locator.registerLazySingleton<DatabaseService>(() => DatabaseService());
   locator.registerLazySingleton<FoodManager>(() => FoodManager());
-
-
+  locator.registerLazySingleton<DiaryService>(() => DiaryService());
 }

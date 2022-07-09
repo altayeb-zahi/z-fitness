@@ -53,10 +53,11 @@ dependencies:
   rxdart: ^0.27.3
   shared_preferences: ^2.0.13
   sign_in_with_apple: ^3.3.0
-  sqlbrite: ^2.2.0
+  sqflite: ^2.0.2+1
   stacked_services: ^0.8.17
   table_calendar: ^3.0.4
   unicons: ^2.1.0
+  universal_io: ^2.0.4
 
 dev_dependencies:
   flutter_lints: ^1.0.0

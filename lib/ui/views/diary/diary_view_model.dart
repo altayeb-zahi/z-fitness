@@ -12,6 +12,7 @@ import 'package:z_fitness/models/calories_details.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/services/calories_service.dart';
 import 'package:z_fitness/services/database_service.dart';
+import 'package:z_fitness/services/diary_service.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
 import '../../../../../api/firestore_api.dart';
 import '../../../../../app/locator.dart';
@@ -28,30 +29,18 @@ class DiaryViewModel extends BaseViewModel {
   final _caloresService = locator<CaloriesService>();
   final _databaseService = locator<DatabaseService>();
   final _foodManager = locator<FoodManager>();
+  final _diaryService = locator<DiaryService>();
 
   String _formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
-
-  DateTime? _selectedDay = DateTime.now();
-  DateTime? get selectedDay => _selectedDay;
-
-  DateTime _focusedDay = DateTime.now();
-  DateTime get focusedDay => _focusedDay;
 
   CaloriesDetails _caloriesDetails = CaloriesDetails();
   CaloriesDetails get caloriesDetails => _caloriesDetails;
 
   User get currentUser => locator<UserService>().currentUser!;
 
-  void onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    _selectedDay = selectedDay;
-    _focusedDay = focusedDay;
-
-    _formattedDate = DateFormat('dd-MM-yyyy').format(_selectedDay!);
-
+  void onModelReady() {
+    _diaryService.getFoodConsumedForSpecificDay(_formattedDate);
     getCaloriesDetails();
-    _getTheFoodConsumedInSpecificDay();
-
-    notifyListeners();
   }
 
   Future pickDate(BuildContext context) async {
@@ -66,10 +55,7 @@ class DiaryViewModel extends BaseViewModel {
 
     _formattedDate = DateFormat('dd-MM-yyyy').format(newDate);
 
-    getCaloriesDetails();
-    _getTheFoodConsumedInSpecificDay();
-
-    notifyListeners();
+    _diaryService.getFoodConsumedForSpecificDay(_formattedDate);
   }
 
   void getCaloriesDetails() {
@@ -128,59 +114,35 @@ class DiaryViewModel extends BaseViewModel {
   }
 
   Stream<List<FoodConsumed>> getBreakfastMeals() =>
-      _databaseService.getFoodConsumedForSpecificMeal(
-          mealTypeToString[MealType.breakfast]!, _formattedDate);
+      _diaryService.getBreakfastStream;
 
-  Stream<List<FoodConsumed>> getLunchMeals() =>
-      _databaseService.getFoodConsumedForSpecificMeal(
-          mealTypeToString[MealType.lunch]!, _formattedDate);
+  Stream<List<FoodConsumed>> getLunchMeals() => _diaryService.getLunchStream;
 
-  Stream<List<FoodConsumed>> getDinnerMeals() =>
-      _databaseService.getFoodConsumedForSpecificMeal(
-          mealTypeToString[MealType.dinner]!, _formattedDate);
+  Stream<List<FoodConsumed>> getDinnerMeals() => _diaryService.getdinnerStream;
 
-  Stream<List<FoodConsumed>> getSnacks() =>
-      _databaseService.getFoodConsumedForSpecificMeal(
-          mealTypeToString[MealType.snacks]!, _formattedDate);
-
-  Stream<List<FoodConsumed>> getExercises() => _databaseService
-      .getFoodConsumedForSpecificMeal('exercise', _formattedDate);
-
-  Stream<List<FoodConsumed>> getWater() =>
-      _databaseService.getFoodConsumedForSpecificMeal('water', _formattedDate);
+  Stream<List<FoodConsumed>> getSnacks() => _diaryService.getSnacksStream;
 
   Stream<int> getBreaktotalCalories() =>
-      _databaseService.getFoodTotalCaloriesForOneMeal(
-          mealTypeToString[MealType.breakfast]!, _formattedDate);
+      _diaryService.getBreakfastTotalCaloriesStream;
 
   Stream<int> getLunchtotalCalories() =>
-      _databaseService.getFoodTotalCaloriesForOneMeal(
-          mealTypeToString[MealType.lunch]!, _formattedDate);
+      _diaryService.getLunchTotalCaloriesStream;
 
   Stream<int> getDinnerTotalCalories() =>
-      _databaseService.getFoodTotalCaloriesForOneMeal(
-          mealTypeToString[MealType.dinner]!, _formattedDate);
+      _diaryService.getDinnerTotalCaloriesStream;
 
   Stream<int> getSnacksTotalCalories() =>
-      _databaseService.getFoodTotalCaloriesForOneMeal(
-          mealTypeToString[MealType.snacks]!, _formattedDate);
+      _diaryService.getSnacksTotalCaloriesStream;
 
-  Stream<int> getExerciseTotalCalories() => _databaseService
-      .getFoodTotalCaloriesForOneMeal('exercise', _formattedDate);
+  // Stream<int> getExerciseTotalCalories() => _databaseService
+  //     .getFoodTotalCaloriesForOneMeal('exercise', _formattedDate);
 
-  Stream<int> getWaterTotal() =>
-      _databaseService.getFoodTotalCaloriesForOneMeal('water', _formattedDate);
+  // Stream<int> getWaterTotal() =>
+  //     _databaseService.getFoodTotalCaloriesForOneMeal('water', _formattedDate);
 
-  void _getTheFoodConsumedInSpecificDay() {
-    getBreakfastMeals();
-    getLunchMeals();
-    getDinnerMeals();
-    getSnacks();
-    getExercises();
-    getWater();
-    getBreaktotalCalories();
-    getLunchtotalCalories();
-    getDinnerTotalCalories();
-    getSnacksTotalCalories();
-  }
+  //      Stream<List<FoodConsumed>> getExercises() => _databaseService
+  //     .getFoodConsumedForSpecificMeal('exercise', _formattedDate);
+
+  // Stream<List<FoodConsumed>> getWater() =>
+  //     _databaseService.getFoodConsumedForSpecificMeal('water', _formattedDate);
 }

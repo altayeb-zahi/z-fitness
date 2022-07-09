@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:z_fitness/enums/meal_type.dart';
 import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'diary_view_model.dart';
@@ -20,7 +19,7 @@ class _DiaryViewState extends State<DiaryView> {
 
   @override
   void initState() {
-    model.getCaloriesDetails();
+    model.onModelReady();
     super.initState();
   }
 
@@ -55,9 +54,6 @@ class _DiaryViewState extends State<DiaryView> {
             physics: const ScrollPhysics(),
             child: Column(
               children: [
-                _tableCalender(),
-                divider,
-                verticalSpaceRegular,
                 _caloriesRemaining(),
                 divider,
                 verticalSpaceRegular,
@@ -68,11 +64,11 @@ class _DiaryViewState extends State<DiaryView> {
                 _dinner(),
                 divider,
                 _snaks(),
-                divider,
-                _exercises(),
-                divider,
-                _water(),
-                divider
+                // divider,
+                // _exercises(),
+                // divider,
+                // _water(),
+                // divider
               ],
             ),
           ),
@@ -80,30 +76,6 @@ class _DiaryViewState extends State<DiaryView> {
       ),
     );
   }
-
-  Widget _tableCalender() => Consumer<DiaryViewModel>(
-        builder: (context, model, child) => TableCalendar(
-          // calendarStyle: CalendarStyle(
-          //     selectedDecoration: BoxDecoration(
-          //         shape: BoxShape.circle,
-          //          color: theme.accentColor
-          //          )
-          //          ),
-          firstDay: DateTime.utc(DateTime.now().year, 1, 1),
-          headerVisible: false,
-          // 0 to get last day from previous month
-          lastDay: DateTime.utc(DateTime.now().year + 1, 1, 0),
-          focusedDay: model.focusedDay,
-          calendarFormat: CalendarFormat.week,
-          rowHeight: 0,
-          daysOfWeekVisible: false,
-          selectedDayPredicate: (day) {
-            return isSameDay(model.selectedDay, day);
-          },
-          onDaySelected: (selectedDay, focusedDay) =>
-              model.onDaySelected(selectedDay, focusedDay),
-        ),
-      );
 
   Widget _caloriesRemaining() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: horizontalViewPading),
@@ -153,23 +125,23 @@ class _DiaryViewState extends State<DiaryView> {
         onFoodPressed: (foodConsumed) => model.onFoodPressed(foodConsumed),
       );
 
-  Widget _exercises() => FoodLayout(
-        title: 'Exercise',
-        addButtonTitle: 'add exercise',
-        mealTotalCaloriesStream: model.getExerciseTotalCalories(),
-        mealsConsumedStream: model.getExercises(),
-        onAddPressed: () {},
-        onFoodLongPressed: (foodConsumed) {},
-        onFoodPressed: (foodConsumed) {},
-      );
+  // Widget _exercises() => FoodLayout(
+  //       title: 'Exercise',
+  //       addButtonTitle: 'add exercise',
+  //       mealTotalCaloriesStream: model.getExerciseTotalCalories(),
+  //       mealsConsumedStream: model.getExercises(),
+  //       onAddPressed: () {},
+  //       onFoodLongPressed: (foodConsumed) {},
+  //       onFoodPressed: (foodConsumed) {},
+  //     );
 
-  Widget _water() => FoodLayout(
-        title: 'Water',
-        addButtonTitle: 'add water',
-        mealTotalCaloriesStream: model.getWaterTotal(),
-        mealsConsumedStream: model.getWater(),
-        onAddPressed: () {},
-        onFoodLongPressed: (foodConsumed) {},
-        onFoodPressed: (foodConsumed) {},
-      );
+  // Widget _water() => FoodLayout(
+  //       title: 'Water',
+  //       addButtonTitle: 'add water',
+  //       mealTotalCaloriesStream: model.getWaterTotal(),
+  //       mealsConsumedStream: model.getWater(),
+  //       onAddPressed: () {},
+  //       onFoodLongPressed: (foodConsumed) {},
+  //       onFoodPressed: (foodConsumed) {},
+  //     );
 }
