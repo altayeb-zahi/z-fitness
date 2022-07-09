@@ -24,6 +24,12 @@ class _DiaryViewState extends State<DiaryView> {
   }
 
   @override
+  void dispose() {
+    model.closeStreamsControllers();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

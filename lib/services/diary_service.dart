@@ -8,72 +8,82 @@ import '../models/food_models/food_consumed.dart';
 
 class DiaryService {
   final _databaseService = locator<DatabaseService>();
+
   late String _date;
 
+  // Create a broadcast controller that allows this stream to be listened to multiple times.
   final _addFoodController = StreamController<FoodConsumed>.broadcast();
-  StreamSink<FoodConsumed> get addFoodToDiary => _addFoodController.sink;
 
   final _updateFoodController = StreamController<FoodConsumed>.broadcast();
-  StreamSink<FoodConsumed> get updateFoodInDiary => _updateFoodController.sink;
 
   final _deleteFoodController = StreamController<FoodConsumed>.broadcast();
+
+  final _breakfastController = StreamController<List<FoodConsumed>>.broadcast();
+
+  final _breakfastTotalCaloriesController = StreamController<int>.broadcast();
+
+  final _lunchController = StreamController<List<FoodConsumed>>.broadcast();
+
+  final _lunchTotalCaloriesController = StreamController<int>.broadcast();
+
+  final _dinnerController = StreamController<List<FoodConsumed>>.broadcast();
+
+  final _dinnerTotalCaloriesController = StreamController<int>.broadcast();
+
+  final _snacksController = StreamController<List<FoodConsumed>>.broadcast();
+
+  final _snacksTotalCaloriesController = StreamController<int>.broadcast();
+
+  // Input stream. We add our meal food to the stream using these variables.
+  StreamSink<FoodConsumed> get addFoodToDiary => _addFoodController.sink;
+
+  StreamSink<FoodConsumed> get updateFoodInDiary => _updateFoodController.sink;
+
   StreamSink<FoodConsumed> get deleteFoodFromDiary =>
       _deleteFoodController.sink;
 
-  // breakfast
-  // Create a broadcast controller that allows this stream to be listened to multiple times.
-  final _breakfastController = StreamController<List<FoodConsumed>>.broadcast();
-  final _breakfastTotalCaloriesController = StreamController<int>.broadcast();
-
-  // Input stream. We add our breakfast food to the stream using this variable.
   StreamSink<List<FoodConsumed>> get _breakfastSink =>
       _breakfastController.sink;
+
   StreamSink<int> get _breakfastTotalCaloriesSink =>
       _breakfastTotalCaloriesController.sink;
-
-  // Output stream. This one will be used within our pages to display the users.
-  Stream<List<FoodConsumed>> get getBreakfastStream =>
-      _breakfastController.stream;
-  Stream<int> get getBreakfastTotalCaloriesStream =>
-      _breakfastTotalCaloriesController.stream;
-
-  // lunch
-  final _lunchController = StreamController<List<FoodConsumed>>.broadcast();
-  final _lunchTotalCaloriesController = StreamController<int>.broadcast();
 
   StreamSink<List<FoodConsumed>> get _lunchSink => _lunchController.sink;
   StreamSink<int> get _lunchTotalCaloriesSink =>
       _lunchTotalCaloriesController.sink;
 
-  Stream<List<FoodConsumed>> get getLunchStream => _lunchController.stream;
-  Stream<int> get getLunchTotalCaloriesStream =>
-      _lunchTotalCaloriesController.stream;
-
-  // dinner
-  final _dinnerController = StreamController<List<FoodConsumed>>.broadcast();
-  final _dinnerTotalCaloriesController = StreamController<int>.broadcast();
-
   StreamSink<List<FoodConsumed>> get _dinnerSink => _dinnerController.sink;
   StreamSink<int> get _dinnerTotalCaloriesSink =>
       _dinnerTotalCaloriesController.sink;
 
-  Stream<List<FoodConsumed>> get getdinnerStream => _dinnerController.stream;
-  Stream<int> get getDinnerTotalCaloriesStream =>
-      _dinnerTotalCaloriesController.stream;
-
-  // snacks
-  final _snacksController = StreamController<List<FoodConsumed>>.broadcast();
-  final _snacksTotalCaloriesController = StreamController<int>.broadcast();
-
   StreamSink<List<FoodConsumed>> get _snacksSink => _snacksController.sink;
+
   StreamSink<int> get _snacksTotalCaloriesSink =>
       _snacksTotalCaloriesController.sink;
 
+  // Output stream. This one will be used within our pages to display the users.
+  Stream<List<FoodConsumed>> get getBreakfastStream =>
+      _breakfastController.stream;
+
+  Stream<int> get getBreakfastTotalCaloriesStream =>
+      _breakfastTotalCaloriesController.stream;
+
+  Stream<List<FoodConsumed>> get getLunchStream => _lunchController.stream;
+
+  Stream<int> get getLunchTotalCaloriesStream =>
+      _lunchTotalCaloriesController.stream;
+
+  Stream<List<FoodConsumed>> get getdinnerStream => _dinnerController.stream;
+
+  Stream<int> get getDinnerTotalCaloriesStream =>
+      _dinnerTotalCaloriesController.stream;
+
   Stream<List<FoodConsumed>> get getSnacksStream => _snacksController.stream;
+
   Stream<int> get getSnacksTotalCaloriesStream =>
       _snacksTotalCaloriesController.stream;
 
-  // We'll call this from our page when page is initialize and when the date change.
+  // We'll call this from our page when page is initialize and when the date changes.
   void getFoodConsumedForSpecificDay(String date) {
     _date = date;
 
@@ -154,6 +164,7 @@ class DiaryService {
     _snacksTotalCaloriesSink.add(_snacksTotalCalories);
   }
 
+  /// to prevent rebuilding the entire ui this function updates only the needed stream
   void _refreshSpecificMealStream(MealType mealType) {
     switch (mealType) {
       case MealType.breakfast:
@@ -172,5 +183,19 @@ class DiaryService {
         break;
       default:
     }
+  }
+
+  void closeStreamsControllers() {
+    _addFoodController.close();
+    _updateFoodController.close();
+    _deleteFoodController.close();
+    _breakfastController.close();
+    _breakfastTotalCaloriesController.close();
+    _lunchController.close();
+    _lunchTotalCaloriesController.close();
+    _dinnerController.close();
+    _dinnerTotalCaloriesController.close();
+    _snacksController.close();
+    _snacksTotalCaloriesController.close();
   }
 }

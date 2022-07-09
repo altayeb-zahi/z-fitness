@@ -145,4 +145,6 @@ class DiaryViewModel extends BaseViewModel {
 
   // Stream<List<FoodConsumed>> getWater() =>
   //     _databaseService.getFoodConsumedForSpecificMeal('water', _formattedDate);
+
+  void closeStreamsControllers() => _diaryService.closeStreamsControllers();
 }
