@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:725086250534:android:9512881a21e5a8386828e7",
+        "mobilesdk_app_id": "1:725086250534:android:3920e8318c6e81676828e7",
         "android_client_info": {
           "package_name": "com.example.z_fitness"
         }
@@ -29,6 +29,13 @@
             {
               "client_id": "725086250534-6j4tf9l1dj9b3f7op0eeerc7arqkbsoc.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "725086250534-5lqqk21o7m23sim3eu9l4b9dbrj7kr4a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.zF"
+              }
             }
           ]
         }

@@ -27,7 +27,6 @@ class DiaryViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   final _dialogService = locator<DialogService>();
   final _caloresService = locator<CaloriesService>();
-  final _databaseService = locator<DatabaseService>();
   final _foodManager = locator<FoodManager>();
   final _diaryService = locator<DiaryService>();
 

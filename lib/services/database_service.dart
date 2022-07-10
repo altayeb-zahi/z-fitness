@@ -1,3 +1,4 @@
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import '../app/logger.dart';
@@ -10,7 +11,12 @@ class DatabaseService {
     if (_database == null) {
       log.i('DatabaseService - initialise');
 
-      _database = await openDatabase(databaseName, version: 1);
+      _database = await openDatabase(
+        // Set the path to the database. Note: Using the `join` function from the
+        // `path` package is best practice to ensure the path is correctly
+        // constructed for each platform.
+        join(await getDatabasesPath(), 'fittness_database.db'),
+      );
 
 // stores food and recipes when user search it, it doesnt matter if user add it to the diary or no
 // the goal is next time user needs nutrion details no need to call the api and fetch it from databse

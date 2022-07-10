@@ -55,7 +55,6 @@ dependencies:
   sign_in_with_apple: ^3.3.0
   sqflite: ^2.0.2+1
   stacked_services: ^0.8.17
-  table_calendar: ^3.0.4
   unicons: ^2.1.0
   universal_io: ^2.0.4
 

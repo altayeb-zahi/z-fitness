@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:universal_io/io.dart';
 import '../app/locator.dart';
 import '../app/logger.dart';
 import 'local_notifications_service.dart';
