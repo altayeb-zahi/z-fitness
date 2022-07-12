@@ -14,7 +14,7 @@ class _StartupViewState extends State<StartupView> {
 
   @override
   void initState() {
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       model.runStartupLogic();
     });
     super.initState();

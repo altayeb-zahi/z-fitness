@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
+import 'package:unicons/unicons.dart';
 import 'package:z_fitness/ui/views/diary/diary_view.dart';
 import 'package:z_fitness/ui/views/me/me_view.dart';
 import 'package:z_fitness/ui/views/recipes/recipes_view.dart';
@@ -21,7 +21,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       model.onModelReady();
     });
     super.initState();
@@ -29,6 +29,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ChangeNotifierProvider(
       create: (
         BuildContext context,
@@ -41,7 +42,6 @@ class _HomeViewState extends State<HomeView> {
                   children: screens,
                 ),
                 bottomNavigationBar: BottomNavigationBar(
-                  backgroundColor: primaryColorLight,
                   onTap: model.setIndex,
                   currentIndex: model.currentIndex,
                   showSelectedLabels: false,
@@ -49,17 +49,23 @@ class _HomeViewState extends State<HomeView> {
                   items: const [
                     BottomNavigationBarItem(
                         icon: Icon(
-                          Icons.restaurant,
-                          color: scafoldBackgroundColorLight,
+                          UniconsLine.restaurant,
+                        ),
+                        activeIcon: Icon(
+                          UniconsLine.restaurant,
                         ),
                         label: 'Diary'),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.restaurant_menu,
-                            color: scafoldBackgroundColorLight),
+                        icon: Icon(
+                          UniconsLine.receipt,
+                        ),
+                        activeIcon: Icon(
+                          UniconsLine.receipt,
+                        ),
                         label: 'Recipes'),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.home,
-                            color: scafoldBackgroundColorLight),
+                        icon: Icon(UniconsLine.home),
+                        activeIcon: Icon(UniconsLine.home),
                         label: 'Me'),
                   ],
                 ),

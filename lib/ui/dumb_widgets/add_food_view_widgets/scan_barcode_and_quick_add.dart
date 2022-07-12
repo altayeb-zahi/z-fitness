@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
 
 import '../../shared/ui_helpers.dart';
 
@@ -24,22 +23,19 @@ class BarcodeScannerAndQuickAdd extends StatelessWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Expanded(
             child: Container(
-          color: backgroundColorLight,
+          color: theme.colorScheme.surfaceVariant.withOpacity(0.3),
           child: GestureDetector(
             onTap: onScanBarcode,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
+                Icon(
                   UniconsLine.qrcode_scan,
-                  color: primaryColorLight,
+                  color: theme.colorScheme.primary,
                   size: 60,
                 ),
                 verticalSpaceSmall,
-                Text(
-                  'Scan a Barcode',
-                  style: theme.textTheme.headline4,
-                )
+                Text('Scan a Barcode', style: theme.textTheme.titleSmall),
               ],
             ),
           ),
@@ -47,22 +43,19 @@ class BarcodeScannerAndQuickAdd extends StatelessWidget {
         horizontalSpaceSmall,
         Expanded(
             child: Container(
-          color: secondaryColorLight,
+          color: theme.colorScheme.surfaceVariant,
           child: GestureDetector(
             onTap: onQuickAdd,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
+                Icon(
                   UniconsLine.fire,
-                  color: primaryColorLight,
+                  color: theme.colorScheme.primary,
                   size: 60,
                 ),
                 verticalSpaceSmall,
-                Text(
-                  'Quick Add',
-                  style: theme.textTheme.headline4,
-                )
+                Text('Quick Add', style: theme.textTheme.titleSmall)
               ],
             ),
           ),

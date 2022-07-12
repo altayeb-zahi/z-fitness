@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/ui/dumb_widgets/food_list_tile.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
 import '../shared/ui_helpers.dart';
 
 class FoodLayout extends StatelessWidget {
@@ -11,8 +10,8 @@ class FoodLayout extends StatelessWidget {
   final void Function() onAddPressed;
   final void Function(FoodConsumed foodConsumed) onFoodPressed;
   final void Function(FoodConsumed foodConsumed) onFoodLongPressed;
-  final Stream<List<FoodConsumed>> mealsConsumedStream;
-  final Stream<int> mealTotalCaloriesStream;
+  final Stream<List<FoodConsumed>>? mealsConsumedStream;
+  final Stream<int>? mealTotalCaloriesStream;
 
   const FoodLayout(
       {Key? key,
@@ -23,15 +22,16 @@ class FoodLayout extends StatelessWidget {
       required this.onAddPressed,
       required this.onFoodPressed,
       required this.onFoodLongPressed,
-      required this.mealsConsumedStream,
-      required this.mealTotalCaloriesStream})
+      this.mealsConsumedStream,
+      this.mealTotalCaloriesStream})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Padding(
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.symmetric(horizontal: horizontalViewPading),
       child: Column(
         children: [
@@ -39,7 +39,9 @@ class FoodLayout extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: theme.textTheme.headline3,
+                style: theme.textTheme.titleSmall!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: theme.textTheme.bodyText2!.color),
               ),
               Expanded(child: Container()),
               StreamBuilder<int>(
@@ -60,12 +62,16 @@ class FoodLayout extends StatelessWidget {
                   }
 
                   return Text(_totalCaloires.toString(),
-                      style: theme.textTheme.headline4);
+                      style: theme.textTheme.titleSmall);
                 },
               )
             ],
           ),
-          verticalSpaceRegular,
+
+          verticalSpaceTiny,
+          dividerTiny,
+
+          // verticalSpaceRegular,
           StreamBuilder<List<FoodConsumed>>(
               stream: mealsConsumedStream,
               builder: (BuildContext context, snapshot) {
@@ -106,9 +112,8 @@ class FoodLayout extends StatelessWidget {
                   verticalSpaceSmall,
                   Text(
                     addButtonTitle,
-                    style: theme.textTheme.headline3!.copyWith(
-                        color: primaryColorLight,
-                        fontSize: 16,
+                    style: theme.textTheme.titleSmall!.copyWith(
+                        color: theme.colorScheme.primary,
                         fontWeight: FontWeight.bold),
                   ),
                   Expanded(child: Container()),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:z_fitness/enums/food_type.dart';
 
 import 'package:z_fitness/models/food_models/food_consumed.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
 
 class FoodListTile extends StatelessWidget {
   final FoodConsumed food;
@@ -14,20 +13,22 @@ class FoodListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     if (foodTypeToString[food.foodType] == foodTypeToString[FoodType.recipe]) {
       // recipe
       return Container(
-        margin: const EdgeInsets.symmetric(vertical: 5),
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        decoration: const BoxDecoration(
-            color: backgroundColorLight,
-            borderRadius: BorderRadius.all(Radius.circular(8))),
+        decoration: BoxDecoration(
+            border: Border.all(),
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            color: theme.colorScheme.surfaceVariant.withOpacity(1)),
         child: ListTile(
-          contentPadding: const EdgeInsets.all(0),
+          contentPadding: EdgeInsets.zero,
           title: Text(food.recipeDetails!.title ?? ''),
           subtitle: Text(food.recipeDetails!.servings.toString() + ' servings'),
-          trailing: Text(food.calories!.round().toString(),
-              style: const TextStyle(color: Colors.black54)),
+          trailing: Text(
+            food.calories!.round().toString(),
+            style: theme.textTheme.caption,
+          ),
         ),
       );
     }
@@ -35,19 +36,21 @@ class FoodListTile extends StatelessWidget {
     // branded or common food
     final _foodDetail = food.nutritientsDetail!.foods![0];
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       margin: const EdgeInsets.symmetric(vertical: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: const BoxDecoration(
-          color: backgroundColorLight,
-          borderRadius: BorderRadius.all(Radius.circular(8))),
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          color: theme.colorScheme.surfaceVariant.withOpacity(0.3)),
       child: ListTile(
-        contentPadding: const EdgeInsets.all(0),
+        contentPadding: EdgeInsets.zero,
         title: Text(_foodDetail!.foodName ?? ''),
         subtitle: Text(
           _foodDetail.servingQty.toString() + ' ' + _foodDetail.servingUnit!,
         ),
-        trailing: Text(food.calories!.round().toString(),
-            style: const TextStyle(color: Colors.black54)),
+        trailing: Text(
+          food.calories!.round().toString(),
+          style: theme.textTheme.caption,
+        ),
       ),
     );
   }

@@ -5,7 +5,6 @@ import 'package:z_fitness/app/router.dart';
 import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/models/food_models/food_consumed.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
-
 import '../../../app/locator.dart';
 import '../../../enums/food_type.dart';
 import '../../../models/food_models/food_search.dart';
@@ -14,34 +13,45 @@ import '../../../services/user_service.dart';
 
 class AddFoodViewModel extends BaseViewModel {
   final _foodApi = locator<FoodApi>();
+
   final _navigationService = locator<NavigationService>();
+
   final _databaseService = locator<DatabaseService>();
+
   final _firestoreApi = locator<FirestoreApi>();
+
   final _currentUser = locator<UserService>().currentUser;
 
   List<FoodConsumed> _foodHistory = [];
-  List<FoodConsumed> get foodHistory => _foodHistory;
 
   final List<dynamic> _searchedFood = [];
+
+  List<FoodConsumed> get foodHistory => _foodHistory;
+
   List<dynamic> get searchedFood => _searchedFood;
 
   late AddFoodArgument addFoodArgument;
 
-  Future getSearchedFood(String searchText) async {
+  Future<void> getSearchedFood(String searchText) async {
     setBusy(true);
     var _foodResult = await _foodApi.getSearchedFood(searchText: searchText);
     setBusy(false);
     if (_foodResult is SearchedFood) {
       _searchedFood.clear();
+
       _searchedFood.add('branded title');
       _searchedFood.addAll(_foodResult.branded!);
+
       _searchedFood.add(0);
       _searchedFood.addAll(_foodResult.common!);
 
       notifyListeners();
-    } else {
-      //TODO  handle the error
     }
+  }
+
+  void clearSearchResult() {
+    _searchedFood.clear();
+    notifyListeners();
   }
 
   Future<void> getFoodHistory() async {
@@ -58,11 +68,6 @@ class AddFoodViewModel extends BaseViewModel {
         notifyListeners();
       }
     }
-  }
-
-  void clearSearchResult() {
-    _searchedFood.clear();
-    notifyListeners();
   }
 
   navigateToFoodDetails(FoodDetailsArgument foodDetailsArgument) {
@@ -84,13 +89,13 @@ class AddFoodViewModel extends BaseViewModel {
     } else {
       _navigationService.navigateTo(Routes.foodDetailsView,
           arguments: FoodDetailsArgument(
-              userNavigatedFromHistory: true,
-              date: addFoodArgument.date,
-              foodType: foodConsumed.foodType!,
-              mealType: addFoodArgument.mealType,
-              selectedFoodId: foodConsumed.foodApiId,
-              nutritientsDetail: foodConsumed.nutritientsDetail,
-              ));
+            userNavigatedFromHistory: true,
+            date: addFoodArgument.date,
+            foodType: foodConsumed.foodType!,
+            mealType: addFoodArgument.mealType,
+            selectedFoodId: foodConsumed.foodApiId,
+            nutritientsDetail: foodConsumed.nutritientsDetail,
+          ));
     }
   }
 }

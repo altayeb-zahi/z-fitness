@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
-
+import 'package:unicons/unicons.dart';
 import '../../../models/food_models/food_consumed.dart';
 import '../../shared/ui_helpers.dart';
 import '../food_list_tile.dart';
@@ -18,33 +17,47 @@ class SearchedFoodHistory extends StatelessWidget {
     final theme = Theme.of(context);
 
     return // history
-        Container(
-            color: scafoldBackgroundColorLight,
+        Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (foodHistory.isNotEmpty)
+          Text(
+            'History',
+            style: theme.textTheme.titleMedium!
+                .copyWith(color: theme.colorScheme.secondary),
+          ),
+        verticalSpaceRegular,
+        ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: foodHistory.length,
+            itemBuilder: (context, index) {
+              final _food = foodHistory[index];
+              return GestureDetector(
+                  onTap: () => onHistoryItemPressed(foodHistory[index]),
+                  child: FoodListTile(food: _food));
+            }),
+        if (foodHistory.isEmpty)
+          SizedBox(
+            width: double.infinity,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'History',
-                  style: theme.textTheme.headline3,
+                Icon(
+                  UniconsLine.history,
+                  size: 60,
+                  color: theme.colorScheme.secondary,
                 ),
-                verticalSpaceRegular,
-                ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: foodHistory.length,
-                    itemBuilder: (context, index) {
-                      final _food = foodHistory[index];
-                      return GestureDetector(
-                          onTap: () => onHistoryItemPressed(foodHistory[index]),
-                          child: FoodListTile(food: _food));
-                    }),
-                if (foodHistory.isEmpty)
-                  SizedBox(
-                      height: screenHeightPercentage(context, percentage: 0.6),
-                      child: const Center(
-                        child: Text("No History Yet"),
-                      ))
+                verticalSpaceMedium,
+                Text("No History",
+                    style: theme.textTheme.titleMedium!
+                        .copyWith(fontWeight: FontWeight.bold)),
+                verticalSpaceSmall,
+                const Text("Yout History will appear here"),
               ],
-            ));
+            ),
+          )
+      ],
+    );
   }
 }

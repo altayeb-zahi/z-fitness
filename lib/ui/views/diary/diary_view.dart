@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:z_fitness/enums/meal_type.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
+import '../../dumb_widgets/food_layout_temporary.dart';
 import 'diary_view_model.dart';
 import '../../dumb_widgets/calories_counter_layout.dart';
 import '../../dumb_widgets/food_layout.dart';
@@ -31,56 +31,65 @@ class _DiaryViewState extends State<DiaryView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.keyboard_arrow_left,
-              color: primaryColorLight,
-            ),
-            Expanded(child: Container()),
-            GestureDetector(
-                onTap: () => model.pickDate(context),
-                child: const Text('Today')),
-            Expanded(child: Container()),
-            const Icon(
-              Icons.keyboard_arrow_right,
-              color: primaryColorLight,
-            )
-          ],
-        ),
-        elevation: 0,
-      ),
-      body: ChangeNotifierProvider(
+    final theme = Theme.of(context);
+    return ChangeNotifierProvider(
         create: (BuildContext context) => model,
-        child: SafeArea(
-          child: SingleChildScrollView(
-            physics: const ScrollPhysics(),
-            child: Column(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _caloriesRemaining(),
-                divider,
-                verticalSpaceRegular,
-                _breakfast(),
-                divider,
-                _lunch(),
-                divider,
-                _dinner(),
-                divider,
-                _snaks(),
-                // divider,
-                // _exercises(),
-                // divider,
-                // _water(),
-                // divider
+                GestureDetector(
+                  onTap: (() => model.onDateArrowPressed(isForoward: false)),
+                  child: Icon(
+                    Icons.keyboard_arrow_left,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+                Expanded(child: Container()),
+                GestureDetector(
+                    onTap: () => model.pickDate(context),
+                    child: Consumer<DiaryViewModel>(
+                        builder: (context, model, child) => Text(
+                              model.dateTitle,
+                              style: theme.textTheme.titleMedium,
+                            ))),
+                Expanded(child: Container()),
+                GestureDetector(
+                  onTap: (() => model.onDateArrowPressed()),
+                  child: Icon(
+                    Icons.keyboard_arrow_right,
+                    color: theme.colorScheme.primary,
+                  ),
+                )
               ],
             ),
+            elevation: 0,
           ),
-        ),
-      ),
-    );
+          body: SafeArea(
+            child: SingleChildScrollView(
+              physics: const ScrollPhysics(),
+              child: Column(
+                children: [
+                  _caloriesRemaining(),
+                  divider,
+                  _breakfast(),
+                  divider,
+                  _lunch(),
+                  divider,
+                  _dinner(),
+                  divider,
+                  _snaks(),
+                  divider,
+                  _exercises(),
+                  divider,
+                  _water(),
+                  divider
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 
   Widget _caloriesRemaining() => Padding(
@@ -91,7 +100,7 @@ class _DiaryViewState extends State<DiaryView> {
       );
 
   Widget _breakfast() => FoodLayout(
-        title: 'Breakfast',
+        title: 'BREAKFAST',
         mealsConsumedStream: model.getBreakfastMeals(),
         mealTotalCaloriesStream: model.getBreaktotalCalories(),
         onAddPressed: () =>
@@ -102,7 +111,7 @@ class _DiaryViewState extends State<DiaryView> {
       );
 
   Widget _lunch() => FoodLayout(
-        title: 'Lunch',
+        title: 'LUNCH',
         mealsConsumedStream: model.getLunchMeals(),
         mealTotalCaloriesStream: model.getLunchtotalCalories(),
         onAddPressed: () => model.navigateToAddFood(mealType: MealType.lunch),
@@ -112,7 +121,7 @@ class _DiaryViewState extends State<DiaryView> {
       );
 
   Widget _dinner() => FoodLayout(
-        title: 'Dinner',
+        title: 'DINNER',
         mealsConsumedStream: model.getDinnerMeals(),
         mealTotalCaloriesStream: model.getDinnerTotalCalories(),
         onAddPressed: () => model.navigateToAddFood(mealType: MealType.dinner),
@@ -122,7 +131,7 @@ class _DiaryViewState extends State<DiaryView> {
       );
 
   Widget _snaks() => FoodLayout(
-        title: 'Snacks',
+        title: 'SNACKS',
         mealsConsumedStream: model.getSnacks(),
         mealTotalCaloriesStream: model.getSnacksTotalCalories(),
         onAddPressed: () => model.navigateToAddFood(mealType: MealType.snacks),
@@ -131,23 +140,19 @@ class _DiaryViewState extends State<DiaryView> {
         onFoodPressed: (foodConsumed) => model.onFoodPressed(foodConsumed),
       );
 
-  // Widget _exercises() => FoodLayout(
-  //       title: 'Exercise',
-  //       addButtonTitle: 'add exercise',
-  //       mealTotalCaloriesStream: model.getExerciseTotalCalories(),
-  //       mealsConsumedStream: model.getExercises(),
-  //       onAddPressed: () {},
-  //       onFoodLongPressed: (foodConsumed) {},
-  //       onFoodPressed: (foodConsumed) {},
-  //     );
+  Widget _exercises() => FoodLayout2(
+        title: 'EXERCISE',
+        addButtonTitle: 'ADD EXERCISE',
+        onAddPressed: () {},
+        onFoodLongPressed: (foodConsumed) {},
+        onFoodPressed: (foodConsumed) {},
+      );
 
-  // Widget _water() => FoodLayout(
-  //       title: 'Water',
-  //       addButtonTitle: 'add water',
-  //       mealTotalCaloriesStream: model.getWaterTotal(),
-  //       mealsConsumedStream: model.getWater(),
-  //       onAddPressed: () {},
-  //       onFoodLongPressed: (foodConsumed) {},
-  //       onFoodPressed: (foodConsumed) {},
-  //     );
+  Widget _water() => FoodLayout2(
+        title: 'WATER',
+        addButtonTitle: 'ADD WATER',
+        onAddPressed: () {},
+        onFoodLongPressed: (foodConsumed) {},
+        onFoodPressed: (foodConsumed) {},
+      );
 }

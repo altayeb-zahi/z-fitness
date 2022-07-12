@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:z_fitness/ui/shared/ui_helpers.dart';
 import 'package:z_fitness/ui/smart_widgets/custom_form_dialog/custom_form_dialog_view_model.dart';
 
 import '../../../models/food_models/food_details.dart';
@@ -35,6 +36,8 @@ class _FormDialogState extends State<FormDialog> {
       create: (BuildContext context) => model,
       child: Consumer<CustomFormDialogViewModel>(
         builder: (context, model, child) => Dialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8))),
             child: _formDialogBody(servingSiseController, _customData, model)),
       ),
     );
@@ -43,31 +46,22 @@ class _FormDialogState extends State<FormDialog> {
   Widget _formDialogBody(TextEditingController? servingSiseController,
       CustomData customData, CustomFormDialogViewModel model) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 20,
-          ),
           _title(),
           Row(
             children: [
               _numberOfServings(servingSiseController),
-              const SizedBox(
-                width: 20,
-              ),
+              horizontalSpaceRegular,
               _availableMeasures(customData, model),
             ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          verticalSpaceRegular,
           _servingUnit(model),
-          const SizedBox(
-            height: 20,
-          ),
+          verticalSpaceRegular,
           _saveAndCancelButtons(servingSiseController, model),
         ],
       ),
@@ -75,12 +69,13 @@ class _FormDialogState extends State<FormDialog> {
   }
 
   _title() {
-    return Text(widget.request!.title!);
+    return Text(widget.request!.title!,
+        style: Theme.of(context).textTheme.titleMedium);
   }
 
   _numberOfServings(TextEditingController? servingSiseController) {
     return SizedBox(
-        width: 150,
+        width: 60,
         child: TextField(
           keyboardType: TextInputType.number,
           controller: servingSiseController,
@@ -93,8 +88,7 @@ class _FormDialogState extends State<FormDialog> {
       child: Container(
         alignment: Alignment.center,
         child: DropdownButton(
-          focusColor: Colors.red,
-          hint: const Text('show all measures '),
+          hint: const Text('Servin(s)'),
           isExpanded: true,
           items: customData.allMeasures == null
               ? []
@@ -131,6 +125,7 @@ class _FormDialogState extends State<FormDialog> {
 
   _saveAndCancelButtons(TextEditingController? servingSiseController,
       CustomFormDialogViewModel model) {
+    final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -146,26 +141,20 @@ class _FormDialogState extends State<FormDialog> {
                 borderRadius: BorderRadius.circular(5)),
           ),
         ),
-        const SizedBox(
-          width: 10,
-        ),
+        horizontalSpaceSmall,
         GestureDetector(
           onTap: () => widget.completer!(DialogResponse(
               data: DialogResponseData(
                   numberOfServings: double.parse(servingSiseController!.text),
                   servingWeight: model.servingWight,
                   servingUnit: model.servingUnit.toString()))),
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            child: widget.request!.showIconInMainButton!
-                ? const Icon(Icons.check)
-                : Text(widget.request!.mainButtonTitle!),
-            decoration: BoxDecoration(
-                color: Colors.blue, borderRadius: BorderRadius.circular(5)),
-          ),
-        ),
-        const SizedBox(
-          width: 10,
+          child: widget.request!.showIconInMainButton!
+              ? const Icon(Icons.check)
+              : Text(
+                  widget.request!.mainButtonTitle!,
+                  style: theme.textTheme.bodyText2!
+                      .copyWith(color: theme.colorScheme.primary),
+                ),
         ),
       ],
     );

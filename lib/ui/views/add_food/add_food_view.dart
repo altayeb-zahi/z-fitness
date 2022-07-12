@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'package:z_fitness/models/arguments_models.dart';
 import 'package:z_fitness/ui/dumb_widgets/add_food_view_widgets/searched_food_history.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'package:z_fitness/ui/views/add_food/add_food_view_model.dart';
 
 import '../../../enums/meal_type.dart';
@@ -36,19 +35,13 @@ class _AddFoodViewState extends State<AddFoodView> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return ChangeNotifierProvider(
         create: (BuildContext context) => model,
         child: Consumer<AddFoodViewModel>(
           builder: (context, model, child) => Scaffold(
-            backgroundColor: scafoldBackgroundColorLight,
             appBar: AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
               title: Text(
                 mealTypeToString[widget.addFoodArgument.mealType]!,
-                style: theme.textTheme.headline3,
               ),
             ),
             body: Padding(

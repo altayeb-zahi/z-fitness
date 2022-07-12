@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:unicons/unicons.dart';
 import 'package:z_fitness/models/arguments_models.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
 
 import 'package:z_fitness/ui/views/recipe_details/recipe_details_view_model.dart';
 
@@ -52,12 +51,13 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                verticalSpaceTiny,
                                 _titleAndSummary(model),
-                                verticalSpaceRegular,
+                                verticalSpaceMedium,
                                 _addToDiary(model),
-                                verticalSpaceRegular,
+                                verticalSpaceMedium,
                                 _calories(model),
-                                verticalSpaceRegular,
+                                verticalSpaceMedium,
                                 tabBar(model, context)
                               ],
                             ),
@@ -78,15 +78,16 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
       children: [
         Text(
           model.recipeDetails!.title!,
-          style: theme.textTheme.headline3,
+          style: theme.textTheme.titleLarge!
+              .copyWith(color: theme.colorScheme.secondary),
         ),
-        verticalSpaceRegular,
+        verticalSpaceSmall,
         ReadMoreText(
           parseHtmlString(model.recipeDetails!.summary!),
-          style: theme.textTheme.bodyText2!
-              .copyWith(color: kcDarkGreyColorLight, wordSpacing: 1.7),
-          colorClickableText: primaryColorLight,
-          trimLength: 120,
+          style: theme.textTheme.bodyText2!.copyWith(
+              wordSpacing: 1.7, color: theme.textTheme.caption!.color),
+          colorClickableText: theme.colorScheme.primary,
+          trimLength: 110,
         )
       ],
     );
@@ -97,25 +98,19 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
 
     return Container(
       decoration: BoxDecoration(
-          color: secondaryColorLight,
-          border: Border.all(color: theme.scaffoldBackgroundColor),
+          color: theme.colorScheme.surfaceVariant,
           borderRadius: const BorderRadius.all(Radius.circular(8))),
       margin: const EdgeInsets.symmetric(vertical: 3),
       padding: const EdgeInsets.all(horizontalViewPading),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         Column(children: [
-          const Icon(Icons.add_alarm_outlined),
+          Icon(
+            Icons.add_alarm_outlined,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
           verticalSpaceSmall,
           Text(
             model.recipeDetails!.readyInMinutes.toString() + ' min',
-            style: theme.textTheme.caption,
-          )
-        ]),
-        Column(children: [
-          const Icon(Icons.favorite_border_outlined),
-          verticalSpaceSmall,
-          Text(
-            model.recipeDetails!.spoonacularScore.toString(),
             style: theme.textTheme.caption,
           )
         ]),
@@ -124,9 +119,9 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
           onTap: () =>
               model.navigateToRecipeStepsInstructions(model.recipeDetails!.id),
           child: Column(children: [
-            const Icon(
+            Icon(
               UniconsLine.notes,
-              color: primaryColorLight,
+              color: theme.colorScheme.onSurfaceVariant,
             ),
             verticalSpaceSmall,
             Text(
@@ -139,10 +134,7 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
           behavior: HitTestBehavior.translucent,
           onTap: () => model.selectMealType(),
           child: Column(children: [
-            const Icon(
-              Icons.add,
-              color: primaryColorLight,
-            ),
+            Icon(Icons.add, color: theme.colorScheme.onSurfaceVariant),
             verticalSpaceSmall,
             Text(
               'add to Diary',
@@ -166,8 +158,8 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
               verticalSpaceSmall,
               Text(
                   '${model.recipeDetails!.recipeToNutrients!.calories.toString()} kcal',
-                  style: theme.textTheme.headline4!
-                      .copyWith(color: primaryColorLight)),
+                  style: theme.textTheme.titleMedium!
+                      .copyWith(color: theme.colorScheme.primary)),
               const Text('')
             ],
           ),
@@ -186,12 +178,13 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                           .round()
                           .toString() +
                       ' %',
-                  style: theme.textTheme.caption),
+                  style: theme.textTheme.caption!
+                      .copyWith(color: theme.colorScheme.tertiary)),
               verticalSpaceTiny,
               Text(
-                  model.recipeDetails!.recipeToNutrients!.protein.toString() +
-                      ' g',
-                  style: theme.textTheme.bodyText2)
+                model.recipeDetails!.recipeToNutrients!.protein.toString() +
+                    ' g',
+              )
             ],
           ),
         ),
@@ -206,12 +199,12 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                           .round()
                           .toString() +
                       ' %',
-                  style: theme.textTheme.caption),
+                  style: theme.textTheme.caption!
+                      .copyWith(color: theme.colorScheme.tertiary)),
               verticalSpaceTiny,
               Text(
-                  model.recipeDetails!.recipeToNutrients!.carb.toString() +
-                      ' g',
-                  style: theme.textTheme.bodyText2)
+                model.recipeDetails!.recipeToNutrients!.carb.toString() + ' g',
+              )
             ],
           ),
         ),
@@ -225,11 +218,12 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
                           .round()
                           .toString() +
                       ' %',
-                  style: theme.textTheme.caption),
+                  style: theme.textTheme.caption!
+                      .copyWith(color: theme.colorScheme.tertiary)),
               verticalSpaceTiny,
               Text(
-                  model.recipeDetails!.recipeToNutrients!.fat.toString() + ' g',
-                  style: theme.textTheme.bodyText2)
+                model.recipeDetails!.recipeToNutrients!.fat.toString() + ' g',
+              )
             ],
           ),
         ),
@@ -243,29 +237,23 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
       );
 
   tabBar(RecipeDetailsViewModel model, BuildContext context) {
-    var theme = Theme.of(context);
     return SizedBox(
       height: 500,
       child: DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,
             automaticallyImplyLeading: false,
             flexibleSpace: Column(
-              children: [
+              children: const [
                 TabBar(
-                  labelColor: theme.textTheme.bodyText2!.color,
-                  indicatorColor: secondaryColorLight,
-                  tabs: const [
+                  tabs: [
                     Tab(
-                      text: 'ingredients',
+                      text: 'Ingredients',
                     ),
                     Tab(
-                      text: 'nutrients',
-                    ),
-                    Tab(
-                      text: 'prices',
+                      text: 'Nutrients',
                     ),
                   ],
                 ),
@@ -276,7 +264,6 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
             children: [
               showIngredients(model, context),
               showNutrients(model, context),
-              showPrices(model, context)
             ],
           ),
         ),
@@ -291,29 +278,22 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
       itemBuilder: (context, index) {
         var url = 'https://spoonacular.com/cdn/ingredients_100x100/';
         var ingredient = model.recipeDetails!.extendedIngredients![index];
-        return Container(
-          decoration: BoxDecoration(
-              color: backgroundColorLight,
-              border: Border.all(color: theme.scaffoldBackgroundColor),
-              borderRadius: const BorderRadius.all(Radius.circular(8))),
-          margin: const EdgeInsets.symmetric(vertical: 3),
-          child: ListTile(
-            leading: CachedNetworkImage(
-              height: 50,
-              width: 50,
-              imageUrl: url + ingredient.image!,
-              placeholder: (context, url) =>
-                  const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) {
-                return const Icon(Icons.error);
-              },
-            ),
-            title: Text(ingredient.name!),
-            subtitle: Text(
-              ingredient.amount!.toStringAsFixed(2) +
-                  ' ' +
-                  ingredient.measures!.metric!.unitShort!,
-            ),
+        return ListTile(
+          leading: CachedNetworkImage(
+            height: 50,
+            width: 50,
+            imageUrl: url + ingredient.image!,
+            placeholder: (context, url) =>
+                const Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) {
+              return const Icon(Icons.error);
+            },
+          ),
+          title: Text(ingredient.name!),
+          subtitle: Text(
+            ingredient.amount!.toStringAsFixed(2) +
+                ' ' +
+                ingredient.measures!.metric!.unitShort!,
           ),
         );
       },
@@ -325,40 +305,12 @@ class _RecipeDetailsViewState extends State<RecipeDetailsView> {
     var theme = Theme.of(context);
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) => Container(
-        decoration: BoxDecoration(
-            color: backgroundColorLight,
-            border: Border.all(color: theme.scaffoldBackgroundColor),
-            borderRadius: const BorderRadius.all(Radius.circular(8))),
-        margin: const EdgeInsets.all(3),
-        child: ListTile(
-          title: Text(
-            model.recipeDetails!.nutrition!.nutrients![index].name!,
-          ),
-          trailing: Text(
-            model.recipeDetails!.nutrition!.nutrients![index].amount.toString(),
-          ),
+      itemBuilder: (context, index) => ListTile(
+        title: Text(
+          model.recipeDetails!.nutrition!.nutrients![index].name!,
         ),
-      ),
-      itemCount: model.recipeDetails!.extendedIngredients!.length,
-    );
-  }
-
-  showPrices(RecipeDetailsViewModel model, BuildContext context) {
-    var theme = Theme.of(context);
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) => Container(
-        decoration: BoxDecoration(
-            color: backgroundColorLight,
-            border: Border.all(color: theme.scaffoldBackgroundColor),
-            borderRadius: const BorderRadius.all(Radius.circular(15))),
-        margin: const EdgeInsets.all(3),
-        child: ListTile(
-          title: Text(
-            model.recipeDetails!.extendedIngredients![index].name!,
-            style: theme.textTheme.bodyText1,
-          ),
+        trailing: Text(
+          model.recipeDetails!.nutrition!.nutrients![index].amount.toString(),
         ),
       ),
       itemCount: model.recipeDetails!.extendedIngredients!.length,

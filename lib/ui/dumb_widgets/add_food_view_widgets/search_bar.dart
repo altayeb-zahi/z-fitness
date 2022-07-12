@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
 
 class SearchBar extends StatefulWidget {
   final void Function(String text) onSearch;
   final void Function() onClear;
+  final String? hint;
 
   const SearchBar({
     Key? key,
     required this.onSearch,
     required this.onClear,
+    this.hint,
   }) : super(key: key);
 
   @override
@@ -23,7 +24,6 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -53,18 +53,9 @@ class _SearchBarState extends State<SearchBar> {
                   },
                   child: const Icon(Icons.search),
                 ),
-                hintText: 'Search for a food',
-                hintStyle: const TextStyle(color: Colors.grey),
+                hintText: widget.hint ?? 'Search for a food',
                 filled: true,
-                fillColor: backgroundColorLight,
-                enabledBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  borderSide: BorderSide(color: backgroundColorLight, width: 2),
-                ),
-                focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  borderSide: BorderSide(color: backgroundColorLight),
-                ),
+                border: InputBorder.none,
                 suffixIcon: showClearIcon
                     ? GestureDetector(
                         onTap: () {

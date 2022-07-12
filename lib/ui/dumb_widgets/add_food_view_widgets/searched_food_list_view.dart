@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:z_fitness/enums/food_type.dart';
 
 import '../../../models/food_models/food_search.dart';
-import '../../shared/app_colors.dart';
 
 class SearchedFoodListView extends StatelessWidget {
   final List<dynamic> searchedFood;
@@ -25,34 +24,29 @@ class SearchedFoodListView extends StatelessWidget {
           itemBuilder: (context, index) {
             // Branded food title
             if (searchedFood[index] is String) {
-              return Container(
-                color: Colors.white,
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    'Branded',
-                    style: theme.textTheme.headline3,
-                  ),
-                  trailing: const Icon(
-                    Icons.verified,
-                    color: Colors.green,
-                  ),
+              return ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text('Branded',
+                    style: theme.textTheme.titleLarge!
+                        .copyWith(color: theme.colorScheme.secondary)),
+                trailing: const Icon(
+                  Icons.verified,
+                  color: Colors.green,
                 ),
               );
             }
 
             if (searchedFood[index] is int) {
-              return Container(
-                color: Colors.white,
-                child: ListTile(
-                  title: Text(
-                    'Common',
-                    style: theme.textTheme.headline3,
-                  ),
-                  trailing: const Icon(
-                    Icons.verified,
-                    color: Colors.grey,
-                  ),
+              return ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  'Common',
+                  style: theme.textTheme.titleLarge!
+                      .copyWith(color: theme.colorScheme.secondary),
+                ),
+                trailing: const Icon(
+                  Icons.verified,
+                  color: Colors.grey,
                 ),
               );
             }
@@ -64,10 +58,6 @@ class SearchedFoodListView extends StatelessWidget {
                     FoodType.brandedFood, searchedFood[index].nixItemId),
                 child: Container(
                   margin: const EdgeInsets.symmetric(vertical: 5),
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  decoration: const BoxDecoration(
-                      color: backgroundColorLight,
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
                   child: ListTile(
                     contentPadding: EdgeInsets.zero,
                     leading: CachedNetworkImage(
@@ -82,8 +72,9 @@ class SearchedFoodListView extends StatelessWidget {
                     subtitle: Text(searchedFood[index].servingQty.toString() +
                         " " +
                         searchedFood[index].servingUnit.toString()),
-                    trailing:
-                        Text(searchedFood[index].nfCalories.round().toString()),
+                    trailing: Text(
+                        searchedFood[index].nfCalories.round().toString(),
+                        style: theme.textTheme.caption),
                   ),
                 ),
               );
@@ -95,10 +86,6 @@ class SearchedFoodListView extends StatelessWidget {
                   FoodType.commonFood, searchedFood[index].foodName),
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                decoration: const BoxDecoration(
-                    color: backgroundColorLight,
-                    borderRadius: BorderRadius.all(Radius.circular(8))),
                 child: ListTile(
                   leading: CachedNetworkImage(
                     width: 50,

@@ -23,10 +23,13 @@ import '../../../utils/calculate_food_serving_values.dart';
 
 class FoodDetailsViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
+
   final _navigationService = locator<NavigationService>();
+
   final _foodManager = locator<FoodManager>();
 
   NutritientsDetail? _nutritientsDetail;
+
   NutritientsDetail? get nutritienstDetail => _nutritientsDetail;
 
   late FoodDetailsArgument foodDetailsArgument;
@@ -60,7 +63,6 @@ class FoodDetailsViewModel extends BaseViewModel {
       _foodManager.addFoodToDiary(_foodConsumed);
     }
 
-    //TODO handle exeption
     _navigationService.popUntil((route) => route.isFirst);
   }
 

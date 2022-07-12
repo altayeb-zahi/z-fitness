@@ -6,16 +6,16 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/services/push_notifications_service.dart';
 import 'package:z_fitness/app/router.dart' as router;
-import 'package:z_fitness/ui/shared/app_colors.dart';
+import 'package:z_fitness/ui/shared/themes_setup.dart';
 import 'app/locator.dart';
 import 'app/router.dart';
 import 'app/setup_bottom_sheet.dart';
 import 'app/setup_dialog.dart';
 import 'firebase_options.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 
 // to shut down emulator
 // taskkill /f /im java.exe
@@ -39,11 +39,10 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
   runApp(
-    // DevicePreview(
-    //   enabled: !kReleaseMode,
-    //   builder: (context) =>
-    const MyApp(), // Wrap your app
-    // ),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(), // Wrap your app
+    ),
   );
 }
 
@@ -68,66 +67,55 @@ Future _connectToFirebaseEmulator() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // useInheritedMediaQuery: true,
-      // locale: DevicePreview.locale(context),
-      // builder: DevicePreview.appBuilder,
+    final settings = ValueNotifier(ThemeSettings(
+      sourceColor: const Color(0xff3E978B),
+      themeMode: ThemeMode.system,
+    ));
 
-      //
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      navigatorKey: StackedService.navigatorKey,
-      onGenerateRoute: router.generateRoute,
-      initialRoute: Routes.startupView,
-      darkTheme: ThemeData(
-          scaffoldBackgroundColor: Colors.green[900],
-          primaryColor: primaryColorLight,
-          backgroundColor: Colors.black87,
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: primaryColorLight,
-            secondary: secondaryColorLight,
-          ),
-          fontFamily: GoogleFonts.montserrat().fontFamily,
-          appBarTheme: const AppBarTheme(
-              backgroundColor: scafoldBackgroundColorLight,
-              titleTextStyle: TextStyle(color: Colors.black, fontSize: 16),
-              iconTheme: IconThemeData(color: primaryColorLight)),
-          textTheme: const TextTheme(
-              bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
-              headline3: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
-              headline4: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black))),
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) => ThemeProvider(
+          lightDynamic: lightDynamic,
+          darkDynamic: darkDynamic,
+          settings: settings,
+          child: NotificationListener<ThemeSettingChange>(
+            onNotification: (notification) {
+              settings.value = notification.settings;
+              return true;
+            },
+            child: ValueListenableBuilder<ThemeSettings>(
+              valueListenable: settings,
+              builder: (context, value, _) {
+                final theme = ThemeProvider.of(context);
+                return MaterialApp(
+                  navigatorKey: StackedService.navigatorKey,
+                  onGenerateRoute: router.generateRoute,
+                  initialRoute: Routes.startupView,
+                  useInheritedMediaQuery: true,
+                  locale: DevicePreview.locale(context),
+                  builder: DevicePreview.appBuilder,
+                  debugShowCheckedModeBanner: false,
+                  title: 'Flutter Demo',
 
-      theme: ThemeData(
-          scaffoldBackgroundColor: scafoldBackgroundColorLight,
-          primaryColor: primaryColorLight,
-          backgroundColor: backgroundColorLight,
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: primaryColorLight,
-            secondary: secondaryColorLight,
-          ),
-          fontFamily: GoogleFonts.montserrat().fontFamily,
-          appBarTheme: const AppBarTheme(
-              backgroundColor: scafoldBackgroundColorLight,
-              titleTextStyle: TextStyle(color: Colors.black, fontSize: 16),
-              iconTheme: IconThemeData(color: primaryColorLight)),
-          textTheme: const TextTheme(
-              bodyText2: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
-              headline3: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
-              headline4: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black))),
+                  theme: theme.light(settings.value.sourceColor),
+                  darkTheme: theme.dark(settings.value.sourceColor),
+                  themeMode: theme.themeMode(),
+                  // home: NewJobViewMobile(),
+                );
+              },
+            ),
+          )),
     );
   }
 }
+
+//  return ChangeNotifierProvider(
+//       create: (BuildContext context) => model,
+//       child: Consumer<LoginViewModel>(
+//         builder: (context, model, child) => Scaffold(
+//             body: Container()
+//       ),
+//     ));
+

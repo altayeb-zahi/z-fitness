@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:z_fitness/models/arguments_models.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'package:z_fitness/ui/views/food_details/food_details_view_model.dart';
-
 import '../../../enums/food_type.dart';
 import '../../shared/ui_helpers.dart';
+
+double _padding = 15;
 
 class FoodDetailsView extends StatefulWidget {
   final FoodDetailsArgument foodDetailsArgument;
@@ -31,17 +30,14 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-
     return ChangeNotifierProvider(
       create: (BuildContext context) => model,
       child: Consumer<FoodDetailsViewModel>(
         builder: (context, model, child) => Scaffold(
             appBar: AppBar(
               elevation: 0,
-              title: (Text(
+              title: (const Text(
                 'Food Details',
-                style: theme.textTheme.headline3,
               )),
             ),
             body: model.isBusy
@@ -51,7 +47,7 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
     );
   }
 
-  _body(
+  Widget _body(
     FoodDetailsViewModel model,
     FoodType foodType,
     BuildContext context,
@@ -61,15 +57,14 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
       child: ListView(
         children: [
           _title(model, context),
-          verticalSpaceMedium,
+          dividerSmall,
           _numberOfServing(model, context),
-          verticalSpaceMedium,
+          dividerSmall,
           _servingQty(model, context),
-          verticalSpaceMedium,
+          dividerSmall,
           _servingWeight(model, context),
-          verticalSpaceMedium,
+          dividerSmall,
           _caloriesProtienCarbFat(model, context),
-          verticalSpaceLarge,
           verticalSpaceLarge,
           _addButton(model, context)
         ],
@@ -77,213 +72,188 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
     );
   }
 
-  _numberOfServing(FoodDetailsViewModel model, BuildContext context) {
+  Widget _title(FoodDetailsViewModel model, BuildContext context) {
     var theme = Theme.of(context);
-    return GestureDetector(
-      onTap: () => model.setNumberOfServing(),
-      child: Container(
-          height: 40,
-          margin: const EdgeInsets.all(5),
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              Text(
-                'number of seving',
-                style: theme.textTheme.bodyText2,
-              ),
-              const Expanded(
-                  child: SizedBox(
-                height: 5,
-                width: 5,
-              )),
-              Text(model.nutritienstDetail!.foods![0]!.servingQty.toString(),
-                  style: theme.textTheme.headline4!
-                      .copyWith(color: primaryColorLight)),
-              const SizedBox(
-                width: 10,
-              )
-            ],
-          )),
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: _padding),
+      child: Text(
+        model.nutritienstDetail!.foods![0]!.foodName ?? '',
+        style: theme.textTheme.titleMedium,
+      ),
     );
   }
 
-  _servingQty(FoodDetailsViewModel model, BuildContext context) {
+  Widget _numberOfServing(FoodDetailsViewModel model, BuildContext context) {
     var theme = Theme.of(context);
-    return GestureDetector(
-      onTap: () => model.setNumberOfServing(),
-      child: Container(
-          height: 40,
-          margin: const EdgeInsets.all(5),
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              Text(
-                'serving Qty  ',
-                style: theme.textTheme.bodyText2,
-              ),
-              const Expanded(
-                  child: SizedBox(
-                height: 5,
-                width: 5,
-              )),
-              Text(
-                  model.nutritienstDetail!.foods![0]!.servingQty.toString() +
-                      ' ' +
-                      model.nutritienstDetail!.foods![0]!.servingUnit
-                          .toString(),
-                  style: theme.textTheme.headline4!
-                      .copyWith(color: primaryColorLight)),
-              const SizedBox(
-                width: 10,
-              )
-            ],
-          )),
-    );
-  }
-
-  _caloriesProtienCarbFat(FoodDetailsViewModel model, BuildContext context) {
-    var theme = Theme.of(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Column(
-            children: [
-              Text(
-                'calories',
-                style: theme.textTheme.bodyText2,
-              ),
-              verticalSpaceRegular,
-              Text(
-                  model.nutritienstDetail!.foods![0]!.nfCalories!
-                          .round()
-                          .toString() +
-                      ' ' +
-                      'kcal',
-                  style: theme.textTheme.headline4!
-                      .copyWith(color: primaryColorLight))
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              Text(
-                'protien',
-                style: theme.textTheme.bodyText2,
-              ),
-              verticalSpaceRegular,
-              Text(
-                model.nutritienstDetail!.foods![0]!.nfProtein!
-                        .round()
-                        .toString() +
-                    '',
-                // style: theme.textTheme.headline2,
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              Text(
-                'carb',
-                style: theme.textTheme.bodyText2,
-              ),
-              verticalSpaceRegular,
-              Text(
-                model.nutritienstDetail!.foods![0]!.nfTotalCarbohydrate!
-                        .round()
-                        .toString() +
-                    '',
-                // style: theme.textTheme.headline2,
-              )
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              Text(
-                'fat',
-                style: theme.textTheme.bodyText2,
-              ),
-              verticalSpaceRegular,
-              Text(
-                model.nutritienstDetail!.foods![0]!.nfTotalFat!
-                        .round()
-                        .toString() +
-                    '',
-                // style: theme.textTheme.headline2,
-              )
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  _servingWeight(FoodDetailsViewModel model, BuildContext context) {
-    var theme = Theme.of(context);
-    return GestureDetector(
-      onTap: () => model.setNumberOfServing(),
-      child: Container(
-          height: 40,
-          margin: const EdgeInsets.all(5),
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: [
-              Text(
-                'serving weight  ',
-                style: theme.textTheme.bodyText2,
-              ),
-              const Expanded(
-                  child: SizedBox(
-                height: 5,
-                width: 5,
-              )),
-              Text(
-                model.nutritienstDetail!.foods![0]!.servingWeightGrams
-                        .toString() +
-                    ' g',
-                style: theme.textTheme.headline4!
-                    .copyWith(color: primaryColorLight),
-              ),
-              const SizedBox(
-                width: 10,
-              )
-            ],
-          )),
-    );
-  }
-
-  _addButton(FoodDetailsViewModel model, BuildContext context) {
-    var theme = Theme.of(context);
-    return GestureDetector(
-      onTap: () => model.onMainButtonPressed(),
-      child: Container(
-        height: 50,
-        alignment: Alignment.center,
-        margin: const EdgeInsets.symmetric(vertical: 5),
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        decoration: const BoxDecoration(
-            color: primaryColorLight,
-            borderRadius: BorderRadius.all(Radius.circular(8))),
-        child: Text(
-          ' Add',
-          style: theme.textTheme.headline4!
-              .copyWith(color: scafoldBackgroundColorLight),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: _padding),
+      child: GestureDetector(
+        onTap: () => model.setNumberOfServing(),
+        child: Row(
+          children: [
+            const Text(
+              'Number of servings',
+            ),
+            const Spacer(),
+            Text(model.nutritienstDetail!.foods![0]!.servingQty.toString(),
+                style: theme.textTheme.titleMedium!
+                    .copyWith(color: theme.colorScheme.primary)),
+          ],
         ),
       ),
     );
   }
 
-  _title(FoodDetailsViewModel model, BuildContext context) {
+  Widget _servingQty(FoodDetailsViewModel model, BuildContext context) {
     var theme = Theme.of(context);
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: _padding),
+      child: GestureDetector(
+        onTap: () => model.setNumberOfServing(),
+        child: Row(
+          children: [
+            const Text(
+              'Serving Qty  ',
+            ),
+            const Spacer(),
+            Text(
+                model.nutritienstDetail!.foods![0]!.servingQty.toString() +
+                    ' ' +
+                    model.nutritienstDetail!.foods![0]!.servingUnit.toString(),
+                style: theme.textTheme.titleMedium!
+                    .copyWith(color: theme.colorScheme.primary)),
+          ],
+        ),
+      ),
+    );
+  }
 
-    return Text(
-      model.nutritienstDetail!.foods![0]!.foodName ?? '',
-      style: theme.textTheme.headline3,
+  Widget _servingWeight(FoodDetailsViewModel model, BuildContext context) {
+    var theme = Theme.of(context);
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: _padding),
+      child: GestureDetector(
+        onTap: () => model.setNumberOfServing(),
+        child: Row(
+          children: [
+            const Text(
+              'Serving weight  ',
+            ),
+            const Spacer(),
+            Text(
+              model.nutritienstDetail!.foods![0]!.servingWeightGrams
+                      .toString() +
+                  ' g',
+              style: theme.textTheme.titleMedium!
+                  .copyWith(color: theme.colorScheme.primary),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _caloriesProtienCarbFat(
+      FoodDetailsViewModel model, BuildContext context) {
+    var theme = Theme.of(context);
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: _padding),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                const Text(
+                  'Calories',
+                ),
+                verticalSpaceSmall,
+                Text(
+                    model.nutritienstDetail!.foods![0]!.nfCalories!
+                            .round()
+                            .toString() +
+                        ' ' +
+                        'kcal',
+                    style: theme.textTheme.titleMedium!
+                        .copyWith(color: theme.colorScheme.primary))
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                const Text(
+                  'Protien',
+                ),
+                verticalSpaceSmall,
+                Text(
+                  model.nutritienstDetail!.foods![0]!.nfProtein!
+                          .round()
+                          .toString() +
+                      '',
+                  // style: theme.textTheme.headline2,
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                const Text(
+                  'Carb',
+                ),
+                verticalSpaceSmall,
+                Text(
+                  model.nutritienstDetail!.foods![0]!.nfTotalCarbohydrate!
+                          .round()
+                          .toString() +
+                      '',
+                  // style: theme.textTheme.headline2,
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                const Text(
+                  'Fat',
+                ),
+                verticalSpaceSmall,
+                Text(
+                  model.nutritienstDetail!.foods![0]!.nfTotalFat!
+                          .round()
+                          .toString() +
+                      '',
+                  // style: theme.textTheme.headline2,
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _addButton(FoodDetailsViewModel model, BuildContext context) {
+    var theme = Theme.of(context);
+    return GestureDetector(
+      onTap: () => model.onMainButtonPressed(),
+      child: Container(
+        height: 45,
+        alignment: Alignment.center,
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+            color: theme.colorScheme.primary,
+            borderRadius: const BorderRadius.all(Radius.circular(8))),
+        child: Text(
+          ' ADD',
+          style: theme.textTheme.titleMedium!.copyWith(
+              color: theme.colorScheme.onPrimary, fontWeight: FontWeight.bold),
+        ),
+      ),
     );
   }
 }
