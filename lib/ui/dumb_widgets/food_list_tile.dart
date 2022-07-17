@@ -17,10 +17,11 @@ class FoodListTile extends StatelessWidget {
     if (foodTypeToString[food.foodType] == foodTypeToString[FoodType.recipe]) {
       // recipe
       return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
-            border: Border.all(),
             borderRadius: const BorderRadius.all(Radius.circular(8)),
-            color: theme.colorScheme.surfaceVariant.withOpacity(1)),
+            color: theme.colorScheme.surfaceVariant.withOpacity(0.3)),
         child: ListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(food.recipeDetails!.title ?? ''),

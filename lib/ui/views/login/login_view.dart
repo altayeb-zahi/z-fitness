@@ -31,7 +31,8 @@ class _LoginViewState extends State<LoginView> {
         builder: (context, model, child) => Scaffold(
             body: AuthenticationLayout(
           busy: model.isBusy,
-          onMainButtonTapped: ()=> model.loginWithEmail(email: emailController.text, passowrd: passwordController.text),
+          onMainButtonTapped: () => model.loginWithEmail(
+              email: emailController.text, passowrd: passwordController.text),
           onCreateAccountTapped: model.navigateToCreateAccount,
           validationMessage: model.validationMessage,
           title: 'Welcome',
@@ -45,6 +46,9 @@ class _LoginViewState extends State<LoginView> {
               ),
               TextField(
                 decoration: const InputDecoration(labelText: 'Password'),
+                obscureText: true,
+                autocorrect: false,
+                enableSuggestions: false,
                 controller: passwordController,
               ),
             ],

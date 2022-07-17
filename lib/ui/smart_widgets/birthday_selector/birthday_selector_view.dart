@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'package:z_fitness/ui/smart_widgets/birthday_selector/birthday_selector_view_model.dart';
 import '../../shared/ui_helpers.dart';
 
@@ -19,7 +18,7 @@ class BirthdaySelector extends StatelessWidget {
         create: (context) => model,
         child: Consumer<BirthdaySelectorViewModel>(
             builder: (context, value, child) => Container(
-                  color: backgroundColorLight,
+                  color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: () async {

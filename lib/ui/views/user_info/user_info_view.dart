@@ -60,14 +60,13 @@ class _UserInfoViewState extends State<UserInfoView> {
                                           model.setGender('female'),
                                     )),
                                     Expanded(
-                                      
                                         child: Container(
-                                          margin: const EdgeInsets.only(top: 8),
-                                          child: BirthdaySelector(
-                                      onBirthdaySelected: (dateOfBirth) =>
+                                      margin: const EdgeInsets.only(top: 8),
+                                      child: BirthdaySelector(
+                                        onBirthdaySelected: (dateOfBirth) =>
                                             model.setDateOfBirth(dateOfBirth),
-                                    ),
-                                        ))
+                                      ),
+                                    ))
                                   ],
                                 )),
 
@@ -103,7 +102,6 @@ class _UserInfoViewState extends State<UserInfoView> {
 
                       // height
                       Flexible(
-                       
                         child: HeightSelector(
                           onHeightChange: (height) => model.setHeight(height!),
                         ),
@@ -148,13 +146,13 @@ class _UserInfoViewState extends State<UserInfoView> {
       height: 60,
       alignment: Alignment.center,
       color: (model.dateOfBirth != null && model.selectedGender != null)
-          ? theme.primaryColor
+          ? theme.colorScheme.primary
           : Colors.grey,
       child: model.isBusy
-          ? const Center(
-              child: CircularProgressIndicator(color: Colors.white),
-            )
-          : const Text('Save', style: TextStyle(color: Colors.white)),
+          ? Center(
+              child:
+                  CircularProgressIndicator(color: theme.colorScheme.onPrimary))
+          : Text('Save', style: TextStyle(color: theme.colorScheme.onPrimary)),
     );
   }
 }

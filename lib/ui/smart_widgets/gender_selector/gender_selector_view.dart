@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
 import 'package:z_fitness/ui/smart_widgets/gender_selector/gender_selector_view_model.dart';
 import '../../shared/ui_helpers.dart';
 
@@ -24,6 +23,8 @@ class _GenderSelectorState extends State<GenderSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return ChangeNotifierProvider(
       create: (context) => model,
       child: Consumer<GenderSelectorViewModel>(
@@ -70,7 +71,8 @@ class _GenderSelectorState extends State<GenderSelector> {
     final theme = Theme.of(context);
 
     return Card(
-        color: isSelected ? theme.primaryColor : theme.backgroundColor,
+        color:
+            isSelected ? theme.colorScheme.primary : theme.colorScheme.surface,
         child: Container(
           width: screenWidthPercentage(context, percentage: 0.7 / 2.1),
           alignment: Alignment.center,
@@ -82,8 +84,8 @@ class _GenderSelectorState extends State<GenderSelector> {
               Icon(
                 icon,
                 color: isSelected
-                    ? theme.scaffoldBackgroundColor
-                    : kcDarkGreyColorLight,
+                    ? theme.colorScheme.onPrimary
+                    : theme.colorScheme.onSurface,
                 size: 40,
               ),
               verticalSpaceSmall,
@@ -91,8 +93,8 @@ class _GenderSelectorState extends State<GenderSelector> {
                 title,
                 style: theme.textTheme.bodyText2!.copyWith(
                     color: isSelected
-                        ? theme.scaffoldBackgroundColor
-                        : kcDarkGreyColorLight),
+                        ? theme.colorScheme.onPrimary
+                        : theme.colorScheme.onSurface),
               )
             ],
           ),

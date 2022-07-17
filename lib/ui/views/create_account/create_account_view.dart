@@ -58,6 +58,9 @@ class _CreateAccountViewState extends State<CreateAccountView> {
               ),
               TextField(
                 decoration: const InputDecoration(labelText: 'Password'),
+                obscureText: true,
+                autocorrect: false,
+                enableSuggestions: false,
                 controller: passwordController,
               ),
             ],

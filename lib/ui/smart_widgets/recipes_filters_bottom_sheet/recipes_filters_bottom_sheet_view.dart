@@ -9,7 +9,7 @@ import '../../../models/recipes_models/recipe_filters_settings.dart';
 import '../../shared/ui_helpers.dart';
 
 class RecipeBottomSheet extends StatefulWidget {
-   final SheetRequest? request;
+  final SheetRequest? request;
   final Function(SheetResponse)? completer;
   const RecipeBottomSheet({
     Key? key,
@@ -26,54 +26,51 @@ class _RecipeBottomSheetState extends State<RecipeBottomSheet> {
 
   @override
   void initState() {
-    model
-          .initilizeFiltersValues(widget.request!.data as RecipeFiltersSettings);
+    model.initilizeFiltersValues(widget.request!.data as RecipeFiltersSettings);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return
-   ChangeNotifierProvider(
+    final theme = Theme.of(context);
+    return ChangeNotifierProvider(
       create: (BuildContext context) => model,
       child: Consumer<RecipeBottomSheetModel>(
-        builder: (context, model, child) => 
-         Container(
-        margin: const EdgeInsets.all(25),
-        padding: const EdgeInsets.all(25),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
+        builder: (context, model, child) => Container(
+          padding: const EdgeInsets.all(25),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.background,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Filter Recipes Results'),
+              verticalSpaceTiny,
+              mealType(model),
+              cuisineType(model),
+              dietType(model),
+              sortBy(model),
+              intolerance(model),
+              verticalSpaceMedium,
+              saveAndCancelButtons(model, context),
+            ],
+          ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Filter Recipes Results'),
-            verticalSpaceTiny,
-            mealType(model),
-            cuisineType(model),
-            dietType(model),
-            sortBy(model),
-            intolerance(model),
-            verticalSpaceMedium,
-            saveAndCancelButtons(model),
-          ],
-        ),
-      ),
       ),
     );
   }
-  
+
   mealType(RecipeBottomSheetModel model) {
     return Expanded(
       child: Row(
         children: [
           const Text('Meal-Type'),
-          Expanded(child: Container()),
+          const Spacer(),
           Container(
             alignment: Alignment.center,
             child: DropdownButton(
               value: model.mealType,
-              focusColor: Colors.red,
               hint: const Text('show all measures '),
               isExpanded: false,
               items: model.mealTypesList
@@ -103,16 +100,15 @@ class _RecipeBottomSheetState extends State<RecipeBottomSheet> {
       child: Row(
         children: [
           const Text('Cuisine'),
-          Expanded(child: Container()),
+          const Spacer(),
           Container(
             alignment: Alignment.center,
             child: DropdownButton(
               value: model.cuisine,
-              focusColor: Colors.red,
               isExpanded: false,
               items: model.cuisinesTypeList
                   .map((e) => DropdownMenuItem(
-                        onTap: (){},
+                        onTap: () {},
                         value: e,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -137,16 +133,15 @@ class _RecipeBottomSheetState extends State<RecipeBottomSheet> {
       child: Row(
         children: [
           const Text('Diet'),
-          Expanded(child: Container()),
+          const Spacer(),
           Container(
             alignment: Alignment.center,
             child: DropdownButton(
               value: model.diet,
-              focusColor: Colors.red,
               isExpanded: false,
               items: model.dietTypesList
                   .map((e) => DropdownMenuItem(
-                        onTap: (){},
+                        onTap: () {},
                         value: e,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -169,14 +164,14 @@ class _RecipeBottomSheetState extends State<RecipeBottomSheet> {
   sortBy(RecipeBottomSheetModel model) {
     return Expanded(
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('Sort By'),
-          Expanded(child: Container()),
+          const Text('Sort By '),
+          const Spacer(),
           Container(
             alignment: Alignment.center,
             child: DropdownButton(
               value: model.sortBy,
-              focusColor: Colors.red,
               isExpanded: false,
               items: model.sortByList
                   .map((e) => DropdownMenuItem(
@@ -208,13 +203,15 @@ class _RecipeBottomSheetState extends State<RecipeBottomSheet> {
           Expanded(child: Container()),
           GestureDetector(
               onTap: () => model.showIntoleranceDialog(),
-              child: const Icon(Icons.double_arrow_rounded))
+              child: const Icon(
+                Icons.arrow_drop_down,
+              ))
         ],
       ),
     );
   }
 
-  saveAndCancelButtons(RecipeBottomSheetModel model) {
+  saveAndCancelButtons(RecipeBottomSheetModel model, BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -231,7 +228,10 @@ class _RecipeBottomSheetState extends State<RecipeBottomSheet> {
                   dietTypeToString[model.diet!],
                   recipeSortByToString[model.sortBy!],
                   model.intolerances))),
-          child: const Text('Save'),
+          child: Text(
+            'Save',
+            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+          ),
         ),
       ],
     );

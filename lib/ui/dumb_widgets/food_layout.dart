@@ -35,6 +35,7 @@ class FoodLayout extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: horizontalViewPading),
       child: Column(
         children: [
+          verticalSpaceTiny,
           Row(
             children: [
               Text(

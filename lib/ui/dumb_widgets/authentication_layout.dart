@@ -1,7 +1,6 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:universal_io/io.dart';
-import 'package:z_fitness/ui/shared/app_colors.dart';
 
 import '../shared/styles.dart';
 import '../shared/ui_helpers.dart';
@@ -68,7 +67,8 @@ class AuthenticationLayout extends StatelessWidget {
               width: screenWidthPercentage(context, percentage: 0.7),
               child: Text(
                 subtitle!,
-                style: ktsMediumGreyBodyText,
+                style: theme.textTheme.titleMedium!
+                    .copyWith(color: theme.textTheme.caption!.color),
               ),
             ),
           ),
@@ -82,17 +82,17 @@ class AuthenticationLayout extends StatelessWidget {
                   onTap: onForgotPassword,
                   child: Text(
                     'Forget Password?',
-                    style: ktsMediumGreyBodyText.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: theme.textTheme.bodyText2!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.tertiary),
                   )),
             ),
-          verticalSpaceRegular,
+          verticalSpaceMedium,
           if (validationMessage != null)
             Text(
               validationMessage!,
-              style: const TextStyle(
-                color: Colors.red,
+              style: TextStyle(
+                color: theme.colorScheme.error,
                 fontSize: kBodyTextSize,
               ),
             ),
@@ -104,7 +104,7 @@ class AuthenticationLayout extends StatelessWidget {
               height: 50,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: primaryColorLight,
+                color: theme.colorScheme.primary,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: busy
@@ -113,8 +113,8 @@ class AuthenticationLayout extends StatelessWidget {
                     )
                   : Text(
                       mainButtonTitle!,
-                      style: const TextStyle(
-                          color: Colors.white,
+                      style: TextStyle(
+                          color: theme.colorScheme.onPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 14),
                     ),
@@ -126,22 +126,20 @@ class AuthenticationLayout extends StatelessWidget {
               onTap: onCreateAccountTapped,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text('Don\'t have an account?'),
+                children: [
+                  const Text('Don\'t have an account?'),
                   horizontalSpaceTiny,
                   Text(
                     'Create an account',
-                    style: TextStyle(
-                      color: primaryColorLight,
-                    ),
+                    style: TextStyle(color: theme.colorScheme.secondary),
                   )
                 ],
               ),
             ),
           if (showTermsText)
-            const Text(
+            Text(
               'By signing up you agree to our terms, conditions and privacy policy.',
-              style: ktsMediumGreyBodyText,
+              style: theme.textTheme.caption,
               textAlign: TextAlign.center,
             ),
           verticalSpaceRegular,

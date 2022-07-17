@@ -23,7 +23,10 @@ class ActivityLevelSelector extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(5),
-                      child:  Text('Activity Level',style: theme.textTheme.headline3,),
+                      child: Text(
+                        'Activity Level',
+                        style: theme.textTheme.titleLarge,
+                      ),
                     ),
                     verticalSpaceSmall,
                     Row(
@@ -34,7 +37,7 @@ class ActivityLevelSelector extends StatelessWidget {
                             children: model.activityLevels
                                 .map((level) => RadioListTile<String>(
                                     dense: true,
-                                    activeColor: theme.primaryColor,
+                                    activeColor: theme.colorScheme.primary,
                                     title: Text(
                                       level,
                                     ),
