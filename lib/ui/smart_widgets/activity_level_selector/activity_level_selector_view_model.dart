@@ -4,15 +4,15 @@ import 'package:z_fitness/ui/base/base_view_model.dart';
 
 class ActivityLevelSelectorViewModel extends BaseViewModel {
   String _activityLevel =
-      locator<UserService>().currentUser!.activityLevel ?? 'not active';
-      
+      locator<UserService>().currentUser!.activityLevel ?? 'notActive';
+
   String get activityLevel => _activityLevel;
 
   List<String> activityLevels = [
-    'not active',
-    'lightly active',
+    'notActive',
+    'lightlyActive',
     'active',
-    'very active',
+    'veryActive',
   ];
 
   void setActitvityLevel(String activityLevel) {

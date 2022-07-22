@@ -18,7 +18,9 @@ class BirthdaySelector extends StatelessWidget {
         create: (context) => model,
         child: Consumer<BirthdaySelectorViewModel>(
             builder: (context, value, child) => Container(
-                  color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+                  decoration: BoxDecoration(
+                      color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+                      borderRadius: const BorderRadius.all(Radius.circular(8))),
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: () async {

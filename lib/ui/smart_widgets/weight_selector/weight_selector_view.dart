@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:z_fitness/ui/shared/ui_helpers.dart';
 
 import 'package:z_fitness/ui/smart_widgets/weight_selector/weight_selector_view_model.dart';
 
@@ -39,7 +40,7 @@ class _WeightSelectorState extends State<WeightSelector> {
         child: Consumer<WeightSelectorViewModel>(
             builder: (context, value, child) => Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -69,6 +70,7 @@ class _WeightSelectorState extends State<WeightSelector> {
                             }),
                       ],
                     ),
+                    verticalSpaceTiny,
                     Text(
                       widget.title,
                       style: theme.textTheme.caption,

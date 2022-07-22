@@ -6,6 +6,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:lottie/lottie.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/services/push_notifications_service.dart';
 import 'package:z_fitness/app/router.dart' as router;
@@ -16,6 +18,8 @@ import 'app/setup_bottom_sheet.dart';
 import 'app/setup_dialog.dart';
 import 'firebase_options.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+
+import 'ui/shared/ui_helpers.dart';
 
 // to shut down emulator
 // taskkill /f /im java.exe
@@ -102,7 +106,7 @@ class MyApp extends StatelessWidget {
                   theme: theme.light(settings.value.sourceColor),
                   darkTheme: theme.dark(settings.value.sourceColor),
                   themeMode: theme.themeMode(),
-                  // home: NewJobViewMobile(),
+                  // home: SplashWidget(),
                 );
               },
             ),

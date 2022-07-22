@@ -40,7 +40,7 @@ class _UserInfoViewState extends State<UserInfoView> {
               children: [
                 // uper part
                 SizedBox(
-                  height: screenHeightPercentage(context, percentage: 0.5),
+                  height: screenHeightPercentage(context, percentage: 0.45),
                   width: screenWidth(context),
                   child: Row(
                     children: [
@@ -61,7 +61,7 @@ class _UserInfoViewState extends State<UserInfoView> {
                                     )),
                                     Expanded(
                                         child: Container(
-                                      margin: const EdgeInsets.only(top: 8),
+                                      margin: const EdgeInsets.only(top: 10),
                                       child: BirthdaySelector(
                                         onBirthdaySelected: (dateOfBirth) =>
                                             model.setDateOfBirth(dateOfBirth),
@@ -144,15 +144,20 @@ class _UserInfoViewState extends State<UserInfoView> {
     return Container(
       width: double.infinity,
       height: 60,
+      decoration: BoxDecoration(
+          color: (model.dateOfBirth != null && model.selectedGender != null)
+              ? theme.colorScheme.primary
+              : Colors.grey,
+          borderRadius: const BorderRadius.all(Radius.circular(8))),
       alignment: Alignment.center,
-      color: (model.dateOfBirth != null && model.selectedGender != null)
-          ? theme.colorScheme.primary
-          : Colors.grey,
       child: model.isBusy
           ? Center(
               child:
                   CircularProgressIndicator(color: theme.colorScheme.onPrimary))
-          : Text('Save', style: TextStyle(color: theme.colorScheme.onPrimary)),
+          : Text('Save',
+              style: TextStyle(
+                  color: theme.colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold)),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:z_fitness/ui/dumb_widgets/splash_widget.dart';
 import 'package:z_fitness/ui/views/startup/startup_view_model.dart';
 
 class StartupView extends StatefulWidget {
@@ -22,8 +23,6 @@ class _StartupViewState extends State<StartupView> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
-    );
+    return const Scaffold(body: SplashWidget());
   }
 }

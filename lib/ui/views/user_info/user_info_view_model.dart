@@ -1,4 +1,3 @@
-
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../../app/locator.dart';
@@ -48,11 +47,11 @@ class UserInfoViewModel extends BaseViewModel {
     bool _canSave = dateOfBirth != null && selectedGender != null;
 
     if (_canSave) {
-      updateUserInfo();
+      saveUserInfo();
     }
   }
 
-  Future<void> updateUserInfo() async {
+  Future<void> saveUserInfo() async {
     final _isEditing = currentUser!.hasWeightInfo;
 
     setBusy(true);
@@ -75,20 +74,21 @@ class UserInfoViewModel extends BaseViewModel {
     var _caloriesDetails = _caloriesService.caloriesDetails;
 
     var _user = User(
-        id: currentUser!.id,
-        name: currentUser!.name,
-        email: currentUser!.email,
-        gender: _selectedGender,
-        activityLevel: _activityLevel.toString(),
-        height: _height,
-        currentWeight: _currentWeight,
-        desiredWeight: _desiredWeight,
-        dateOfBirth: _dateOfBirth,
-        );
+      id: currentUser!.id,
+      name: currentUser!.name,
+      email: currentUser!.email,
+      gender: _selectedGender,
+      activityLevel: _activityLevel.toString(),
+      height: _height,
+      currentWeight: _currentWeight,
+      desiredWeight: _desiredWeight,
+      dateOfBirth: _dateOfBirth,
+    );
 
     await _caloriesService.syncCaloriesGoal(_user);
 
-    _caloriesDetails.dailyCaloriesGoal = _caloriesService.dailyCaloriesGoal.toInt();
+    _caloriesDetails.dailyCaloriesGoal =
+        _caloriesService.dailyCaloriesGoal.toInt();
     _user.dailyCaloriesGoal = _caloriesService.dailyCaloriesGoal;
     _user.bmr = _caloriesService.bmr;
     _user.age = _caloriesService.age;

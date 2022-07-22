@@ -37,6 +37,7 @@ class StartupViewModel extends BaseViewModel {
       }
     } else {
       log.v('No user on disk, navigate to the LoginView');
+      await Future.delayed(Duration(seconds: 3));
       _navigationService.replaceWith(Routes.loginView);
     }
   }

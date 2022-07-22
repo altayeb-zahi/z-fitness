@@ -53,7 +53,7 @@ class SearchedFoodHistory extends StatelessWidget {
                     style: theme.textTheme.titleMedium!
                         .copyWith(fontWeight: FontWeight.bold)),
                 verticalSpaceSmall,
-                const Text("Yout History will appear here"),
+                const Text("Your History will appear here"),
               ],
             ),
           )
