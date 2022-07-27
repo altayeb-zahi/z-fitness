@@ -200,12 +200,19 @@ class _RecipeBottomSheetState extends State<RecipeBottomSheet> {
       child: Row(
         children: [
           const Text('intolerance'),
-          Expanded(child: Container()),
-          GestureDetector(
-              onTap: () => model.showIntoleranceDialog(),
-              child: const Icon(
-                Icons.arrow_drop_down,
-              ))
+          const Spacer(),
+          Row(
+            children: [
+              if (model.intolerances!.isNotEmpty)
+                Text(model.intolerances!.length.toString()),
+              horizontalSpaceTiny,
+              GestureDetector(
+                  onTap: () => model.showIntoleranceDialog(),
+                  child: const Icon(
+                    Icons.arrow_drop_down,
+                  )),
+            ],
+          )
         ],
       ),
     );

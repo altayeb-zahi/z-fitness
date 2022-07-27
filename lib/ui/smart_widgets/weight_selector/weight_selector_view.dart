@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:z_fitness/ui/shared/ui_helpers.dart';
-
 import 'package:z_fitness/ui/smart_widgets/weight_selector/weight_selector_view_model.dart';
 
 class WeightSelector extends StatefulWidget {

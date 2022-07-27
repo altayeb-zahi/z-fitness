@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:z_fitness/services/calories_service.dart';
 import 'package:z_fitness/ui/base/base_view_model.dart';
 
 import '../../../api/firestore_api.dart';

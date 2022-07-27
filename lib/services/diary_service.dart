@@ -87,7 +87,7 @@ class DiaryService {
   void getFoodConsumedForSpecificDay(String date) {
     _date = date;
 
-    updateScreenData();
+    updateDiaryViewData();
 
     _addFoodController.stream.listen(_handleAddFood);
     _updateFoodController.stream.listen(_handleUpdateFood);
@@ -109,7 +109,7 @@ class DiaryService {
     _refreshSpecificMealStream(foodConsumed.mealType!);
   }
 
-  void updateScreenData() async {
+  void updateDiaryViewData() async {
     _updateBreakfastData();
     _updateLunchData();
     _updateDinnerData();

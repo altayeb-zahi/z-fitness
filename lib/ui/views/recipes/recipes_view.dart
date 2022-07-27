@@ -56,12 +56,20 @@ class _RecipesViewState extends State<RecipesView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SearchBar(
-                    onSearch: (String text) => model.searchedRecipes,
+                    onSearch: (String text) {
+                      if (text.isNotEmpty && text != '') {
+                        model.getRecipes(searchTex: text);
+                      }
+                    },
                     onClear: () => model.clearSearchedRecipes(),
                     hint: 'Search for Recipes',
                   ),
                   model.isBusy
-                      ? const Center(child: CircularProgressIndicator())
+                      ? const Center(
+                          child: Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                          child: CircularProgressIndicator(),
+                        ))
                       : (model.searchedRecipes!.isNotEmpty ||
                               _searchRecipeTex.text != '')
                           ? searchedRecipesBody(
@@ -77,16 +85,14 @@ class _RecipesViewState extends State<RecipesView> {
 
 Widget searchedRecipesBody(RecipesViewModel model, BuildContext context,
     TextEditingController? searchRecipeTex) {
-  // var theme = Theme.of(context);
+  final theme = Theme.of(context);
   return Expanded(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         verticalSpaceSmall,
         model.searchedRecipes!.isNotEmpty
-            ? Text(
-                ' search results Sorted By: ${recipeSortByToString[model.sortBy]}',
-              )
+            ? Container()
             : const Text('no result found'),
         verticalSpaceSmall,
         Expanded(
@@ -115,16 +121,16 @@ Widget searchedRecipesBody(RecipesViewModel model, BuildContext context,
                                 CachedNetworkImage(
                                   imageUrl:
                                       model.searchedRecipes![index].image!,
-                                  width: 200,
-                                  height: 130,
-                                  fit: BoxFit.fill,
+                                  fit: BoxFit.cover,
                                 ),
                                 verticalSpaceTiny,
-                                Text(
-                                  model.searchedRecipes![index].title!,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.clip,
-                                  // style: theme.textTheme.bodyText1,
+                                Expanded(
+                                  child: Text(
+                                    model.searchedRecipes![index].title!,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.clip,
+                                    style: theme.textTheme.bodyText2,
+                                  ),
                                 ),
                               ]),
                         ),
@@ -143,7 +149,6 @@ Widget searchedRecipesBody(RecipesViewModel model, BuildContext context,
 
 recipesBody(RecipesViewModel model, BuildContext context) {
   final theme = Theme.of(context);
-  // var theme = Theme.of(context);
   return Expanded(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,

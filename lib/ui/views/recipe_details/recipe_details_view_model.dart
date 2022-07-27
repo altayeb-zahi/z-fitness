@@ -20,8 +20,6 @@ class RecipeDetailsViewModel extends BaseViewModel {
   final _databaseService = locator<DatabaseService>();
   final _foodManager = locator<FoodManager>();
 
-
-
   late RecipeDetailsArgument recipeDetailsArgument;
 
   RecipeDetails? _recipeDetails;
@@ -84,19 +82,16 @@ class RecipeDetailsViewModel extends BaseViewModel {
   }
 
   Future<void> _addRecipeToDailyFoodConcusmed(MealType mealType) async {
-     final _foodConsumed = FoodConsumed(
-        recipeApiId: recipeDetailsArgument.recipeId,
-        foodType: FoodType.recipe,
-        mealType:mealType,
-        calories: _recipeDetails!.recipeToNutrients!.calories.toDouble(),
-        foodConsumed: _recipeDetails!.toJson(),
-        date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+    final _foodConsumed = FoodConsumed(
+      recipeApiId: recipeDetailsArgument.recipeId,
+      foodType: FoodType.recipe,
+      mealType: mealType,
+      calories: _recipeDetails!.recipeToNutrients!.calories.toDouble(),
+      foodConsumed: _recipeDetails!.toJson(),
+      date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+    );
 
-        );
-
-
-    await _foodManager.addFoodToDiary(
-        _foodConsumed);
+    await _foodManager.addFoodToDiary(_foodConsumed);
 
     //TODO handle the execption
     _navigationService.popUntil((route) => route.isFirst);

@@ -1,4 +1,5 @@
 import 'package:stacked_services/stacked_services.dart';
+import 'package:z_fitness/services/diary_service.dart';
 
 import '../../../app/locator.dart';
 import '../../../app/router.dart';
@@ -11,6 +12,7 @@ class UserInfoViewModel extends BaseViewModel {
   final _userService = locator<UserService>();
   final _navigationService = locator<NavigationService>();
   final _caloriesService = locator<CaloriesService>();
+  final _diaryService = locator<DiaryService>();
 
   User? get currentUser => locator<UserService>().currentUser;
   String? get selectedGender => _selectedGender;
@@ -58,6 +60,9 @@ class UserInfoViewModel extends BaseViewModel {
 
     User _user = await _getUserUpdatedDetails();
     await _userService.updateUserInfo(user: _user);
+
+    // to update the calories goal consumed and remaining in diary view
+    _diaryService.updateDiaryViewData();
 
     setBusy(false);
 

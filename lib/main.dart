@@ -11,6 +11,7 @@ import 'package:lottie/lottie.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:z_fitness/services/push_notifications_service.dart';
 import 'package:z_fitness/app/router.dart' as router;
+import 'package:z_fitness/ui/dumb_widgets/main_button.dart';
 import 'package:z_fitness/ui/shared/themes_setup.dart';
 import 'app/locator.dart';
 import 'app/router.dart';
@@ -102,15 +103,38 @@ class MyApp extends StatelessWidget {
                   builder: DevicePreview.appBuilder,
                   debugShowCheckedModeBanner: false,
                   title: 'Flutter Demo',
-
                   theme: theme.light(settings.value.sourceColor),
                   darkTheme: theme.dark(settings.value.sourceColor),
                   themeMode: theme.themeMode(),
-                  // home: SplashWidget(),
+                  // home: TestButtons(),
                 );
               },
             ),
           )),
+    );
+  }
+}
+
+class TestButtons extends StatelessWidget {
+  const TestButtons({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    bool isBusy = false;
+    return Center(
+      child: Column(
+        children: [
+          verticalSpaceLarge,
+          MainButton(
+            onTap: () {},
+            title: 'Save',
+          ),
+          verticalSpaceLarge,
+          TextButton(
+              onPressed: () {},
+              child: isBusy ? CircularProgressIndicator() : const Text('Save')),
+        ],
+      ),
     );
   }
 }

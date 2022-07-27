@@ -175,9 +175,6 @@ CREATE TABLE IF NOT EXISTS foodConsumed(
 
   Future<int> getFoodTotalCaloriesForOneMealTest(
       String mealType, String date) async {
-    log.i(
-        'DatabaseService - getFoodConsumedForSpecificMeal for $mealType on $date');
-
     final mealCaloriesResult = await _database!.rawQuery(
         'SELECT SUM(calories) FROM $foodConsumedTableName  WHERE "mealType" =? and "date" =?',
         [mealType, date]);

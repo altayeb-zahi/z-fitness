@@ -27,7 +27,7 @@ class RecipeBottomSheetModel extends BaseViewModel {
   RecipeSortBy? _sortBy;
   RecipeSortBy? get sortBy => _sortBy;
 
-   final List<RecipeMealType> _mealTypesList = recipeMealTypesList;
+  final List<RecipeMealType> _mealTypesList = recipeMealTypesList;
   List<RecipeMealType> get mealTypesList => _mealTypesList;
 
   final List<CuisineType> _cuisinesTypeList = cuisineTypesList;
@@ -80,6 +80,7 @@ class RecipeBottomSheetModel extends BaseViewModel {
     if (confirmationResponse!.responseData != null &&
         confirmationResponse.responseData is List<IntoleranceModel>) {
       _intolerances = confirmationResponse.responseData;
+      notifyListeners();
     }
   }
 }

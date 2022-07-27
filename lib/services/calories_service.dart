@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:intl/intl.dart';
+import 'package:z_fitness/app/locator.dart';
 import 'package:z_fitness/models/calories_details.dart';
+import 'package:z_fitness/services/user_service.dart';
 
 import '../app/logger.dart';
 import '../enums/calories_related_enums.dart';
@@ -7,6 +11,20 @@ import '../models/user.dart';
 import '../utils/helpers.dart';
 
 class CaloriesService {
+  final _dailyCaloriesController = StreamController<int>.broadcast();
+  StreamSink<int> get updateDailyCaloriesSink => _dailyCaloriesController.sink;
+  Stream<int> get dailyCaloriesStream => _dailyCaloriesController.stream;
+
+  // void init() {
+  //   _dailyCaloriesController.stream.listen((caloriesGoal) {
+  //     int calories =
+  //         locator<UserService>().currentUser!.dailyCaloriesGoal!.round();
+  //     log.i(
+  //         '$calories #########################################################');
+  //     updateDailyCaloriesSink.add(calories);
+  //   });
+  // }
+
   CaloriesDetails _caloriesDetails = CaloriesDetails();
   CaloriesDetails get caloriesDetails => _caloriesDetails;
 

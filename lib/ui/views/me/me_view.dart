@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:unicons/unicons.dart';
-
 import 'package:z_fitness/ui/views/me/me_view_model.dart';
-
 import '../../shared/ui_helpers.dart';
 
 class MeView extends StatefulWidget {
@@ -83,15 +81,14 @@ class _MeViewState extends State<MeView> {
                           style: theme.textTheme.titleLarge!.copyWith(
                               fontWeight: FontWeight.bold,
                               color: theme.colorScheme.primary)),
-                      verticalSpaceSmall,
-                      GestureDetector(
-                        onTap: () => model.navigateToEditGoal(),
+                      TextButton(
+                        onPressed: () => model.navigateToEditGoal(),
                         child: Text('Edit',
                             style: theme.textTheme.titleSmall!.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: theme.colorScheme.onSurfaceVariant)),
                       ),
-                      verticalSpaceMedium,
+                      verticalSpaceRegular,
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 25),
                         width: MediaQuery.of(context).size.width,
@@ -126,7 +123,7 @@ class _MeViewState extends State<MeView> {
                               height: 40,
                               width: 1,
                               color: theme.colorScheme.onSurfaceVariant
-                                  .withOpacity(0.5),
+                                  .withOpacity(0.3),
                             ),
                             Expanded(
                               child: Container(

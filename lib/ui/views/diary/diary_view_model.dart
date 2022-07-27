@@ -32,13 +32,23 @@ class DiaryViewModel extends BaseViewModel {
 
   final _diaryService = locator<DiaryService>();
 
+  final _caloriesService = locator<CaloriesService>();
+
+  // final _userService = locator<UserService>();
+
   String dateTitle = 'Today';
 
   DateTime _date = DateTime.now();
 
   String _formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
 
-  User get currentUser => locator<UserService>().currentUser!;
+  int get dailyCaloriesGoal =>
+      locator<CaloriesService>().dailyCaloriesGoal.round();
+
+  int get caloriesGoal =>
+      locator<UserService>().currentUser!.dailyCaloriesGoal!.round();
+
+  Stream<int> getDailyCaloriesgoal() => _caloriesService.dailyCaloriesStream;
 
   Stream<List<FoodConsumed>> getBreakfastMeals() =>
       _diaryService.getBreakfastStream;
@@ -61,8 +71,9 @@ class DiaryViewModel extends BaseViewModel {
   Stream<int> getSnacksTotalCalories() =>
       _diaryService.getSnacksTotalCaloriesStream;
 
-  void onModelReady() =>
-      _diaryService.getFoodConsumedForSpecificDay(_formattedDate);
+  void onModelReady() {
+    _diaryService.getFoodConsumedForSpecificDay(_formattedDate);
+  }
 
   void closeStreamsControllers() => _diaryService.closeStreamsControllers();
 

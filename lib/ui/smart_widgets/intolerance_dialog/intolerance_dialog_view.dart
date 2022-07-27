@@ -30,6 +30,8 @@ class _IntoleranceDialogViewState extends State<IntoleranceDialogView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return ChangeNotifierProvider(
       create: (BuildContext context) => model,
       child: Consumer<IntoleranceDialogViewModel>(
@@ -40,8 +42,8 @@ class _IntoleranceDialogViewState extends State<IntoleranceDialogView> {
               height: screenHeightPercentage(context, percentage: 0.8),
               margin: const EdgeInsets.all(25),
               padding: const EdgeInsets.all(25),
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(15)),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
               child: Card(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -51,6 +53,8 @@ class _IntoleranceDialogViewState extends State<IntoleranceDialogView> {
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         itemBuilder: (contex, index) => CheckboxListTile(
+                          checkColor: theme.colorScheme.onPrimary,
+                          activeColor: theme.colorScheme.primary,
                           title: Text(model
                               .intoleranceTypeList![index].intoleranceType!),
                           onChanged: (bool? value) => model
@@ -67,14 +71,20 @@ class _IntoleranceDialogViewState extends State<IntoleranceDialogView> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          const Spacer(),
                           GestureDetector(
-                              onTap: () => widget. completer!(DialogResponse()),
+                              onTap: () => widget.completer!(DialogResponse()),
                               child: const Text('Cancel')),
-                          horizontalSpaceSmall,
+                          horizontalSpaceRegular,
                           GestureDetector(
                               onTap: () => widget.completer!(DialogResponse(
                                   data: model.intoleranceTypeList)),
-                              child: const Text('Save')),
+                              child: Text(
+                                'Save',
+                                style:
+                                    TextStyle(color: theme.colorScheme.primary),
+                              )),
+                          horizontalSpaceSmall
                         ],
                       ),
                     )

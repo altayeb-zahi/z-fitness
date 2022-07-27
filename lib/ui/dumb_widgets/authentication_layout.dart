@@ -1,6 +1,7 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:universal_io/io.dart';
+import 'package:z_fitness/ui/dumb_widgets/main_button.dart';
 
 import '../shared/styles.dart';
 import '../shared/ui_helpers.dart';
@@ -97,28 +98,10 @@ class AuthenticationLayout extends StatelessWidget {
               ),
             ),
           if (validationMessage != null) verticalSpaceRegular,
-          GestureDetector(
-            onTap: onMainButtonTapped,
-            child: Container(
-              width: double.infinity,
-              height: 50,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: busy
-                  ? const CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(Colors.white),
-                    )
-                  : Text(
-                      mainButtonTitle!,
-                      style: TextStyle(
-                          color: theme.colorScheme.onPrimary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14),
-                    ),
-            ),
+          MainButton(
+            onTap: onMainButtonTapped!,
+            title: mainButtonTitle!,
+            busy: busy,
           ),
           verticalSpaceRegular,
           if (onCreateAccountTapped != null)
@@ -157,7 +140,7 @@ class AuthenticationLayout extends StatelessWidget {
               text: 'CONTINUE WITH APPLE',
               style: const AuthButtonStyle(
                 iconSize: 24,
-                height: 50,
+                height: 45,
                 // textStyle: TextStyle(color: Colors.black),
                 buttonType: AuthButtonType.secondary,
               ),
@@ -170,7 +153,7 @@ class AuthenticationLayout extends StatelessWidget {
               iconSize: 24,
               iconBackground: Colors.white,
               buttonType: AuthButtonType.secondary,
-              height: 50,
+              height: 45,
               textStyle: TextStyle(color: Colors.white),
             ),
           )

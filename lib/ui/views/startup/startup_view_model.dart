@@ -1,4 +1,5 @@
 import 'package:stacked_services/stacked_services.dart';
+import 'package:z_fitness/services/calories_service.dart';
 import 'package:z_fitness/services/database_service.dart';
 
 import '../../../app/locator.dart';

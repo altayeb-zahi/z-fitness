@@ -39,11 +39,11 @@ class AddFoodViewModel extends BaseViewModel {
     if (_foodResult is SearchedFood) {
       _searchedFood.clear();
 
-      _searchedFood.add('branded title');
-      _searchedFood.addAll(_foodResult.branded!);
-
       _searchedFood.add(0);
       _searchedFood.addAll(_foodResult.common!);
+
+      _searchedFood.add('branded title');
+      _searchedFood.addAll(_foodResult.branded!);
 
       notifyListeners();
     }

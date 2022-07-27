@@ -28,6 +28,8 @@ class _FormDialogState extends State<FormDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     final _customData = widget.request!.data as CustomData;
     final TextEditingController? servingSiseController =
         TextEditingController(text: _customData.numberOfServing.toString());
@@ -56,7 +58,7 @@ class _FormDialogState extends State<FormDialog> {
             children: [
               _numberOfServings(servingSiseController),
               horizontalSpaceRegular,
-              _availableMeasures(customData, model),
+              _availableMeasures(customData, model, context),
             ],
           ),
           verticalSpaceRegular,
@@ -83,12 +85,19 @@ class _FormDialogState extends State<FormDialog> {
         ));
   }
 
-  _availableMeasures(CustomData customData, CustomFormDialogViewModel model) {
+  _availableMeasures(CustomData customData, CustomFormDialogViewModel model,
+      BuildContext context) {
+    final theme = Theme.of(context);
+
     return Expanded(
       child: Container(
         alignment: Alignment.center,
         child: DropdownButton(
-          hint: const Text('Servin(s)'),
+          hint: Text('Serving(s)',
+              style: TextStyle(
+                  color: customData.allMeasures != null
+                      ? theme.textTheme.bodyText2!.color
+                      : theme.disabledColor)),
           isExpanded: true,
           items: customData.allMeasures == null
               ? []

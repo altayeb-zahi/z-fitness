@@ -5,6 +5,9 @@ import 'package:z_fitness/ui/shared/ui_helpers.dart';
 
 import 'package:z_fitness/ui/views/diary/diary_view_model.dart';
 
+import '../../app/logger.dart';
+import '../../models/user.dart';
+
 class CaloriesCounterLayout extends StatelessWidget {
   const CaloriesCounterLayout({
     Key? key,
@@ -23,24 +26,29 @@ class CaloriesCounterLayout extends StatelessWidget {
             model.getLunchtotalCalories(),
             model.getDinnerTotalCalories(),
             model.getSnacksTotalCalories(),
+            // model.getDailyCaloriesgoal(),
+
             // model.getExerciseTotalCalories()
           ]),
           builder: (context, snapshot) {
-            int _caloriesGoal = model.currentUser.dailyCaloriesGoal!.round();
+            int _caloriesGoal = model.caloriesGoal;
             int _totalCaloiresConsumed = 0;
             int _totalCaloriesBurned = 0;
-            int _caloriesRemaining = 0;
+            int _caloriesRemaining = model.caloriesGoal;
+
             if (snapshot.hasError) {
               throw (Exception(snapshot.error));
             }
 
             if (snapshot.hasData) {
+              log.i('snapshot has data');
+
               final data = snapshot.data! as List<int>;
               final _breakfastCalories = data[0];
               final _lunchCalories = data[1];
               final _dinnerCalories = data[2];
               final _snacksCalories = data[3];
-              // final _totalCaloriesBurned = data[4];
+              // _caloriesGoal = data[4];
 
               _totalCaloiresConsumed = _breakfastCalories +
                   _lunchCalories +
@@ -49,6 +57,8 @@ class CaloriesCounterLayout extends StatelessWidget {
 
               _caloriesRemaining =
                   _caloriesGoal - _totalCaloiresConsumed + _totalCaloriesBurned;
+            } else {
+              log.i('snapshot does not has data');
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {

@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:z_fitness/services/calories_service.dart';
+
 import '../api/firestore_api.dart';
 import '../app/locator.dart';
 import '../app/logger.dart';
@@ -8,6 +12,12 @@ class UserService {
   final _firestoreApi = locator<FirestoreApi>();
   final _firebaseAuthenticationService =
       locator<FirebaseAuthenticationService>();
+
+  final _caloriesService = locator<CaloriesService>();
+
+  final _userController = StreamController<User>.broadcast();
+  StreamSink<User> get updateUserSink => _userController.sink;
+  Stream<User> get userStream => _userController.stream;
 
   User? _currentUser;
 
@@ -26,6 +36,9 @@ class UserService {
     if (userAccount != null) {
       log.v('User account exists. Save as _currentUser');
       _currentUser = userAccount;
+      // updateUserSink.add(_currentUser!);
+      // _caloriesService.updateDailyCaloriesSink
+      //     .add(userAccount.dailyCaloriesGoal!.round());
     }
   }
 
@@ -42,7 +55,6 @@ class UserService {
     }
   }
 
-  // TODO handle the exception
   Future<void> updateUserInfo({required User user}) async {
     await _firestoreApi.updateUser(user: user);
     await syncUserAccount();

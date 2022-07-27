@@ -44,9 +44,9 @@ class HeightSelector extends StatelessWidget {
                             value: model.height.toDouble(),
                             onChanged: (height) {
                               model.setHeight(height);
-                              onHeightChange(model.height.toInt());
+                              onHeightChange(height.toInt());
                             },
-                            max: 250,
+                            max: 210,
                             min: 60,
                           )),
                     ),

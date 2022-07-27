@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:z_fitness/models/arguments_models.dart';
+import 'package:z_fitness/ui/dumb_widgets/main_button.dart';
 import 'package:z_fitness/ui/views/food_details/food_details_view_model.dart';
 import '../../../enums/food_type.dart';
 import '../../shared/ui_helpers.dart';
@@ -237,23 +238,6 @@ class _FoodDetailsViewState extends State<FoodDetailsView> {
   }
 
   Widget _addButton(FoodDetailsViewModel model, BuildContext context) {
-    var theme = Theme.of(context);
-    return GestureDetector(
-      onTap: () => model.onMainButtonPressed(),
-      child: Container(
-        height: 45,
-        alignment: Alignment.center,
-        margin: const EdgeInsets.symmetric(vertical: 5),
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        decoration: BoxDecoration(
-            color: theme.colorScheme.primary,
-            borderRadius: const BorderRadius.all(Radius.circular(8))),
-        child: Text(
-          ' ADD',
-          style: theme.textTheme.titleMedium!.copyWith(
-              color: theme.colorScheme.onPrimary, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
+    return MainButton(onTap: () => model.onMainButtonPressed(), title: 'ADD');
   }
 }
